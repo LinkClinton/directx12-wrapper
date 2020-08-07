@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{6aa8a7b0-b1f6-42f5-ba60-af2a0d60e570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{d8cd0a7d-d55d-4631-a1f6-c6d0bf452046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="raytracings">
+      <UniqueIdentifier>{d37addf6-ebeb-477d-bc04-4c337e59866e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="signatures">
+      <UniqueIdentifier>{06216e99-a57e-4d81-a000-2c6988ed24af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commands">
+      <UniqueIdentifier>{48754dcf-e624-4d5b-a8c2-24dd35d2662e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="device.hpp" />
+    <ClInclude Include="utilities.hpp" />
+    <ClInclude Include="commands\command_allocator.hpp">
+      <Filter>commands</Filter>
+    </ClInclude>
+    <ClInclude Include="commands\command_list.hpp">
+      <Filter>commands</Filter>
+    </ClInclude>
+    <ClInclude Include="commands\command_queue.hpp">
+      <Filter>commands</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\resource.hpp">
+      <Filter>resources</Filter>
+    </ClInclude>
+    <ClInclude Include="swap_chain.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="utilities.cpp" />
+    <ClCompile Include="device.cpp" />
+    <ClCompile Include="commands\command_allocator.cpp">
+      <Filter>commands</Filter>
+    </ClCompile>
+    <ClCompile Include="commands\command_list.cpp">
+      <Filter>commands</Filter>
+    </ClCompile>
+    <ClCompile Include="commands\command_queue.cpp">
+      <Filter>commands</Filter>
+    </ClCompile>
+    <ClCompile Include="resources\resource.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="swap_chain.cpp" />
+  </ItemGroup>
+</Project>
