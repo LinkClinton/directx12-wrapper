@@ -1,6 +1,6 @@
 # directx-wrapper
 
-"directx-wrapper" is a lightweight library to wrap the DirectX Graphics API and make it easy to program with DirectX.
+"directx-wrapper" is a lightweight and independent library to wrap the DirectX Graphics API and make it easy to program with DirectX.
 
 ## Feature
 
@@ -54,3 +54,7 @@ resource.barrier(command_list, before_state, after_state);
 - Adapters.
 - Pipeline State.
 - Raytracing.
+
+## Samples
+
+See the `samples` directory.
