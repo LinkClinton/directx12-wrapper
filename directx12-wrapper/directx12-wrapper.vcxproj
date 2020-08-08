@@ -22,8 +22,18 @@
     <ClInclude Include="commands\command_allocator.hpp" />
     <ClInclude Include="commands\command_list.hpp" />
     <ClInclude Include="commands\command_queue.hpp" />
+    <ClInclude Include="descriptors\descriptor_heap.hpp" />
+    <ClInclude Include="descriptors\root_signature.hpp" />
     <ClInclude Include="device.hpp" />
+    <ClInclude Include="fence.hpp" />
+    <ClInclude Include="interfaces\wrapper.hpp" />
+    <ClInclude Include="pipelines\blend_info.hpp" />
+    <ClInclude Include="pipelines\depth_stencil_info.hpp" />
+    <ClInclude Include="pipelines\input_assembly_info.hpp" />
+    <ClInclude Include="pipelines\pipeline_state.hpp" />
+    <ClInclude Include="pipelines\rasterization_info.hpp" />
     <ClInclude Include="resources\resource.hpp" />
+    <ClInclude Include="shaders\shader_code.hpp" />
     <ClInclude Include="swap_chain.hpp" />
     <ClInclude Include="utilities.hpp" />
   </ItemGroup>
@@ -31,8 +41,17 @@
     <ClCompile Include="commands\command_allocator.cpp" />
     <ClCompile Include="commands\command_list.cpp" />
     <ClCompile Include="commands\command_queue.cpp" />
+    <ClCompile Include="descriptors\descriptor_heap.cpp" />
+    <ClCompile Include="descriptors\root_signature.cpp" />
     <ClCompile Include="device.cpp" />
+    <ClCompile Include="fence.cpp" />
+    <ClCompile Include="pipelines\blend_info.cpp" />
+    <ClCompile Include="pipelines\depth_stencil_info.cpp" />
+    <ClCompile Include="pipelines\input_assembly_info.cpp" />
+    <ClCompile Include="pipelines\pipeline_state.cpp" />
+    <ClCompile Include="pipelines\rasterization_info.cpp" />
     <ClCompile Include="resources\resource.cpp" />
+    <ClCompile Include="shaders\shader_code.cpp" />
     <ClCompile Include="swap_chain.cpp" />
     <ClCompile Include="utilities.cpp" />
   </ItemGroup>
@@ -114,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -130,7 +149,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -146,7 +165,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -162,7 +181,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

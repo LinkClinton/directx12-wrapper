@@ -1,10 +1,13 @@
 #pragma once
 
 #include "command_list.hpp"
+#include "../fence.hpp"
+
+#include <vector>
 
 namespace wrapper::directx12 {
 
-	class command_queue final {
+	class command_queue final : public wrapper_t<ID3D12CommandQueue> {
 	public:
 		command_queue() = default;
 
@@ -12,13 +15,11 @@ namespace wrapper::directx12 {
 
 		~command_queue() = default;
 
-		ID3D12CommandQueue* const* get_address_off() const;
-		ID3D12CommandQueue* operator->() const;
-		ID3D12CommandQueue* get() const;
-
+		void execute(const std::vector<graphics_command_list>& command_lists) const;
+		
+		void wait(const fence& fence) const;
+		
 		static command_queue create(const device& device);
-	private:
-		ComPtr<ID3D12CommandQueue> mQueue;
 	};
 	
 }

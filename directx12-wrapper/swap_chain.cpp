@@ -1,31 +1,21 @@
 #include "swap_chain.hpp"
 
-wrapper::directx12::swap_chain::swap_chain(const ComPtr<IDXGISwapChain4>& source) : mSwapChain(source)
+wrapper::directx12::swap_chain::swap_chain(const ComPtr<IDXGISwapChain4>& source) : wrapper_t<IDXGISwapChain4>(source)
 {
-	mSwapChain->GetDesc(&mDesc);
+	mWrapperInstance->GetDesc(&mDesc);
 
 	for (UINT index = 0; index < mDesc.BufferCount; index++) {
 		ComPtr<ID3D12Resource> buffer;
 		
-		mSwapChain->GetBuffer(index, IID_PPV_ARGS(buffer.GetAddressOf()));
+		mWrapperInstance->GetBuffer(index, IID_PPV_ARGS(buffer.GetAddressOf()));
 
 		mTextures.push_back(resource(buffer));
 	}
 }
 
-IDXGISwapChain4* const* wrapper::directx12::swap_chain::get_address_off() const
+void wrapper::directx12::swap_chain::present(bool sync) const
 {
-	return mSwapChain.GetAddressOf();
-}
-
-IDXGISwapChain4* wrapper::directx12::swap_chain::operator->() const
-{
-	return mSwapChain.Get();
-}
-
-IDXGISwapChain4* wrapper::directx12::swap_chain::get() const
-{
-	return mSwapChain.Get();
+	mWrapperInstance->Present(sync ? 1 : 0, 0);
 }
 
 wrapper::directx12::swap_chain wrapper::directx12::swap_chain::create(const command_queue& queue, int width, int height, HWND handle)

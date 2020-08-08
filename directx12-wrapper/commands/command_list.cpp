@@ -1,22 +1,8 @@
 #include "command_list.hpp"
 
-wrapper::directx12::graphics_command_list::graphics_command_list(const ComPtr<ID3D12GraphicsCommandList4>& source) : mCommandList(source)
+wrapper::directx12::graphics_command_list::graphics_command_list(const ComPtr<ID3D12GraphicsCommandList4>& source)
+	: wrapper_t<ID3D12GraphicsCommandList4>(source)
 {
-}
-
-ID3D12GraphicsCommandList4* const* wrapper::directx12::graphics_command_list::get_address_off() const
-{
-	return mCommandList.GetAddressOf();
-}
-
-ID3D12GraphicsCommandList4* wrapper::directx12::graphics_command_list::operator->() const
-{
-	return mCommandList.Get();
-}
-
-ID3D12GraphicsCommandList4* wrapper::directx12::graphics_command_list::get() const
-{
-	return mCommandList.Get();
 }
 
 wrapper::directx12::graphics_command_list wrapper::directx12::graphics_command_list::create(const device& device, const command_allocator& allocator)

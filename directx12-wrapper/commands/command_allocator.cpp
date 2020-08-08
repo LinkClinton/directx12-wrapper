@@ -1,22 +1,7 @@
 #include "command_allocator.hpp"
 
-wrapper::directx12::command_allocator::command_allocator(const ComPtr<ID3D12CommandAllocator>& source) : mAllocator(source)
+wrapper::directx12::command_allocator::command_allocator(const ComPtr<ID3D12CommandAllocator>& source) : wrapper_t<ID3D12CommandAllocator>(source)
 {
-}
-
-ID3D12CommandAllocator* const* wrapper::directx12::command_allocator::get_address_off() const
-{
-	return mAllocator.GetAddressOf();
-}
-
-ID3D12CommandAllocator* wrapper::directx12::command_allocator::operator->() const
-{
-	return mAllocator.Get();
-}
-
-ID3D12CommandAllocator* wrapper::directx12::command_allocator::get() const
-{
-	return mAllocator.Get();
 }
 
 wrapper::directx12::command_allocator wrapper::directx12::command_allocator::create(const device& device)

@@ -1,22 +1,32 @@
 #include "command_queue.hpp"
 
-wrapper::directx12::command_queue::command_queue(const ComPtr<ID3D12CommandQueue>& source) : mQueue(source) 
+wrapper::directx12::command_queue::command_queue(const ComPtr<ID3D12CommandQueue>& source) : wrapper_t<ID3D12CommandQueue>(source) 
 {
 }
 
-ID3D12CommandQueue* const* wrapper::directx12::command_queue::get_address_off() const
+void wrapper::directx12::command_queue::execute(const std::vector<graphics_command_list>& command_lists) const
 {
-	return mQueue.GetAddressOf();
+	std::vector<ID3D12CommandList*> lists;
+
+	for (auto& list : command_lists) lists.push_back(list.get());
+
+	mWrapperInstance->ExecuteCommandLists(static_cast<UINT>(lists.size()), lists.data());
 }
 
-ID3D12CommandQueue* wrapper::directx12::command_queue::operator->() const
+void wrapper::directx12::command_queue::wait(const fence& fence) const
 {
-	return mQueue.Get();
-}
+	const auto value = fence->GetCompletedValue() + 1;
 
-ID3D12CommandQueue* wrapper::directx12::command_queue::get() const
-{
-	return mQueue.Get();
+	mWrapperInstance->Signal(fence.get(), value);
+
+	if (fence->GetCompletedValue() < value) {
+		const auto event_handle = CreateEventEx(nullptr, nullptr, false, EVENT_ALL_ACCESS);
+
+		fence->SetEventOnCompletion(value, event_handle);
+
+		WaitForSingleObject(event_handle, INFINITE);
+		CloseHandle(event_handle);
+	}
 }
 
 wrapper::directx12::command_queue wrapper::directx12::command_queue::create(const device& device)

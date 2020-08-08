@@ -4,7 +4,7 @@
 
 namespace wrapper::directx12 {
 
-	class graphics_command_list final {
+	class graphics_command_list final : public wrapper_t<ID3D12GraphicsCommandList4> {
 	public:
 		graphics_command_list() = default;
 
@@ -12,13 +12,7 @@ namespace wrapper::directx12 {
 
 		~graphics_command_list() = default;
 
-		ID3D12GraphicsCommandList4* const* get_address_off() const;
-		ID3D12GraphicsCommandList4* operator->() const;
-		ID3D12GraphicsCommandList4* get() const;
-
 		static graphics_command_list create(const device& device, const command_allocator& allocator);
-	private:
-		ComPtr<ID3D12GraphicsCommandList4> mCommandList;
 	};
 	
 }

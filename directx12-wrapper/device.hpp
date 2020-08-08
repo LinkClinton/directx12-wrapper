@@ -1,10 +1,10 @@
 #pragma once
 
-#include "utilities.hpp"
+#include "interfaces/wrapper.hpp"
 
 namespace wrapper::directx12 {
 
-	class device final {
+	class device final : public wrapper_t<ID3D12Device5> {
 	public:
 		device() = default;
 
@@ -12,13 +12,7 @@ namespace wrapper::directx12 {
 		
 		~device() = default;
 
-		ID3D12Device5* const* get_address_off() const;
-		ID3D12Device5* operator->() const;
-		ID3D12Device5* get() const;
-
 		static device create(const D3D_FEATURE_LEVEL& level);
-	private:
-		ComPtr<ID3D12Device5> mDevice = nullptr;
 	};
 	
 }

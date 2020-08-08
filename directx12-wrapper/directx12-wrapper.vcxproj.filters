@@ -10,11 +10,17 @@
     <Filter Include="raytracings">
       <UniqueIdentifier>{d37addf6-ebeb-477d-bc04-4c337e59866e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="signatures">
-      <UniqueIdentifier>{06216e99-a57e-4d81-a000-2c6988ed24af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="commands">
       <UniqueIdentifier>{48754dcf-e624-4d5b-a8c2-24dd35d2662e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="descriptors">
+      <UniqueIdentifier>{d2ba6f19-0814-4069-bf21-2708eafdb6e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interfaces">
+      <UniqueIdentifier>{1611f7ad-a094-44da-b496-fef377d6ac82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pipelines">
+      <UniqueIdentifier>{327f2f58-456e-41cb-8a97-856cea12834f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +39,34 @@
       <Filter>resources</Filter>
     </ClInclude>
     <ClInclude Include="swap_chain.hpp" />
+    <ClInclude Include="descriptors\descriptor_heap.hpp">
+      <Filter>descriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="descriptors\root_signature.hpp">
+      <Filter>descriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces\wrapper.hpp">
+      <Filter>interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="pipelines\pipeline_state.hpp">
+      <Filter>pipelines</Filter>
+    </ClInclude>
+    <ClInclude Include="pipelines\input_assembly_info.hpp">
+      <Filter>pipelines</Filter>
+    </ClInclude>
+    <ClInclude Include="pipelines\rasterization_info.hpp">
+      <Filter>pipelines</Filter>
+    </ClInclude>
+    <ClInclude Include="pipelines\depth_stencil_info.hpp">
+      <Filter>pipelines</Filter>
+    </ClInclude>
+    <ClInclude Include="pipelines\blend_info.hpp">
+      <Filter>pipelines</Filter>
+    </ClInclude>
+    <ClInclude Include="shaders\shader_code.hpp">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="fence.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="utilities.cpp" />
@@ -50,5 +84,30 @@
       <Filter>resources</Filter>
     </ClCompile>
     <ClCompile Include="swap_chain.cpp" />
+    <ClCompile Include="descriptors\descriptor_heap.cpp">
+      <Filter>descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="descriptors\root_signature.cpp">
+      <Filter>descriptors</Filter>
+    </ClCompile>
+    <ClCompile Include="pipelines\pipeline_state.cpp">
+      <Filter>pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="pipelines\input_assembly_info.cpp">
+      <Filter>pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="pipelines\rasterization_info.cpp">
+      <Filter>pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="pipelines\depth_stencil_info.cpp">
+      <Filter>pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="pipelines\blend_info.cpp">
+      <Filter>pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders\shader_code.cpp">
+      <Filter>shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="fence.cpp" />
   </ItemGroup>
 </Project>

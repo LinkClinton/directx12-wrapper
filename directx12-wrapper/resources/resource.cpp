@@ -1,21 +1,78 @@
 #include "resource.hpp"
 
-wrapper::directx12::resource::resource(const ComPtr<ID3D12Resource>& source) : mResource(source)
+#include <memory>
+
+wrapper::directx12::resource::resource(const ComPtr<ID3D12Resource>& source) : wrapper_t<ID3D12Resource>(source)
 {
-	mDesc = mResource->GetDesc();
+	mDesc = mWrapperInstance->GetDesc();
+
+	mWrapperInstance->GetHeapProperties(&mHeapProperties, &mHeapFlags);
 }
 
-ID3D12Resource* const* wrapper::directx12::resource::get_address_off() const
+void wrapper::directx12::resource::copy_data_from_cpu(const graphics_command_list& command_list, void* data, size_t size) const
 {
-	return mResource.GetAddressOf();
+	assert(mDesc.Dimension == D3D12_RESOURCE_DIMENSION_BUFFER);
+	assert(mHeapProperties.Type == D3D12_HEAP_TYPE_UPLOAD);
+
+	byte* buffer_data = nullptr;
+	
+	mWrapperInstance->Map(0, nullptr, reinterpret_cast<void**>(&buffer_data));
+
+	std::memcpy(buffer_data, data, size);
+	
+	mWrapperInstance->Unmap(0, nullptr);
 }
 
-ID3D12Resource* wrapper::directx12::resource::operator->() const
+D3D12_RESOURCE_BARRIER wrapper::directx12::resource::barrier(const D3D12_RESOURCE_STATES& before, const D3D12_RESOURCE_STATES& after) const
 {
-	return mResource.Get();
+	D3D12_RESOURCE_BARRIER barrier;
+
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.StateBefore = before;
+	barrier.Transition.StateAfter = after;
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	barrier.Transition.pResource = mWrapperInstance.Get();
+
+	return barrier;
 }
 
-ID3D12Resource* wrapper::directx12::resource::get() const
+void wrapper::directx12::resource::barrier(const graphics_command_list& command_list, const D3D12_RESOURCE_STATES& before, const D3D12_RESOURCE_STATES& after) const
 {
-	return mResource.Get();
+	const auto barrier = resource::barrier(before, after);
+	
+	command_list->ResourceBarrier(1, &barrier);
+}
+
+wrapper::directx12::resource wrapper::directx12::resource::create(
+	const device& device, const D3D12_RESOURCE_STATES& state, const D3D12_RESOURCE_FLAGS& flags, const D3D12_HEAP_TYPE& type, size_t size)
+{
+	D3D12_RESOURCE_DESC desc;
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	desc.Alignment = 0;
+	desc.Width = static_cast<UINT64>(size);
+	desc.Height = 1;
+	desc.DepthOrArraySize = 1;
+	desc.MipLevels = 1;
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	desc.SampleDesc.Quality = 0;
+	desc.SampleDesc.Count = 1;
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	desc.Flags = flags;
+
+	D3D12_HEAP_PROPERTIES properties = {
+		type,
+		D3D12_CPU_PAGE_PROPERTY_UNKNOWN,
+		D3D12_MEMORY_POOL_UNKNOWN,
+		0,
+		0,
+	};
+
+	ComPtr<ID3D12Resource> buffer;
+
+	device->CreateCommittedResource(&properties, D3D12_HEAP_FLAG_NONE,
+		&desc, state, nullptr, IID_PPV_ARGS(buffer.GetAddressOf()));
+
+	return resource(buffer);
 }

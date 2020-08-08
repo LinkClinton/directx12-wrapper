@@ -7,7 +7,7 @@
 
 namespace wrapper::directx12 {
 
-	class swap_chain final {
+	class swap_chain final : public wrapper_t<IDXGISwapChain4> {
 	public:
 		swap_chain() = default;
 
@@ -15,16 +15,12 @@ namespace wrapper::directx12 {
 
 		~swap_chain() = default;
 
-		IDXGISwapChain4* const* get_address_off() const;
-		IDXGISwapChain4* operator->() const;
-		IDXGISwapChain4* get() const;
-
+		void present(bool sync = true) const;
+		
 		static swap_chain create(const command_queue& queue, int width, int height, HWND handle);
 	private:
 		std::vector<resource> mTextures;
 		
-		ComPtr<IDXGISwapChain4> mSwapChain;
-
 		DXGI_SWAP_CHAIN_DESC mDesc;
 	};
 	
