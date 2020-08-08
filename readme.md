@@ -49,6 +49,12 @@ command_queue.wait(...); //wait fence
 resource.barrier(command_list, before_state, after_state);
 ```
 
+### About "fix_resharper_error.hlsl"
+
+For the user with resharper extension. If you enable the resharper extension to work with HLSL, you can include this file to help you write HLSL with better code completion(highlight, warning and so on). 
+
+It is not a good way to support code completion with HLSL. But I think it is helpful.
+
 ## Todo
 
 - Adapters.
