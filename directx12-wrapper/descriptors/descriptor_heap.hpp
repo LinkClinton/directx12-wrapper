@@ -48,8 +48,8 @@ namespace wrapper::directx12 {
 
 		static descriptor_heap create(const device& device, const descriptor_table& table);
 	private:
-		size_t mOffset;
-		size_t mCount;
+		size_t mOffset = 0;
+		size_t mCount = 0;
 	};
 	
 }
