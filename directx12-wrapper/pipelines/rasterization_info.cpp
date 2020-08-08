@@ -15,6 +15,22 @@ wrapper::directx12::rasterization_info::rasterization_info()
 	mDesc.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
 }
 
+wrapper::directx12::rasterization_info& wrapper::directx12::rasterization_info::set_fill_mode(
+	const D3D12_FILL_MODE& mode)
+{
+	mDesc.FillMode = mode;
+
+	return *this;
+}
+
+wrapper::directx12::rasterization_info& wrapper::directx12::rasterization_info::set_cull_mode(
+	const D3D12_CULL_MODE& mode)
+{
+	mDesc.CullMode = mode;
+
+	return *this;
+}
+
 D3D12_RASTERIZER_DESC wrapper::directx12::rasterization_info::desc() const
 {
 	return mDesc;

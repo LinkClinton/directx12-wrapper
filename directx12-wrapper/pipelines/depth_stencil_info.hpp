@@ -10,6 +10,8 @@ namespace wrapper::directx12 {
 
 		~depth_stencil_info() = default;
 
+		depth_stencil_info& set_depth_state(bool state);
+		
 		D3D12_DEPTH_STENCIL_DESC desc() const;
 	private:
 		D3D12_DEPTH_STENCIL_DESC mDesc = {};

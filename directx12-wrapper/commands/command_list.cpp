@@ -12,5 +12,7 @@ wrapper::directx12::graphics_command_list wrapper::directx12::graphics_command_l
 	device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator.get(), nullptr,
 		IID_PPV_ARGS(list.GetAddressOf()));
 
+	list->Close();
+	
 	return graphics_command_list(list);
 }

@@ -1,8 +1,5 @@
 #include "utilities.hpp"
 
-#pragma comment(lib, "d3d12.lib")
-#pragma comment(lib, "dxgi.lib")
-
 size_t wrapper::directx12::size_of(const DXGI_FORMAT& format)
 {
 	// todo : support more DXGI_FORMAT

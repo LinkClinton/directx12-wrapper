@@ -18,6 +18,13 @@ wrapper::directx12::depth_stencil_info::depth_stencil_info()
 	mDesc.BackFace.StencilFunc = D3D12_COMPARISON_FUNC_ALWAYS;
 }
 
+wrapper::directx12::depth_stencil_info& wrapper::directx12::depth_stencil_info::set_depth_state(bool state)
+{
+	mDesc.DepthEnable = state;
+
+	return *this;
+}
+
 D3D12_DEPTH_STENCIL_DESC wrapper::directx12::depth_stencil_info::desc() const
 {
 	return mDesc;

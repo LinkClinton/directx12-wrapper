@@ -4,8 +4,6 @@
 
 #include <dxcapi.h>
 
-#pragma comment(lib, "dxcompiler.lib")
-
 #endif
 
 wrapper::directx12::shader_code::shader_code(const std::vector<byte>& code) : mCode(code)
@@ -29,7 +27,8 @@ wrapper::directx12::shader_code wrapper::directx12::shader_code::create(const st
 
 #ifdef __ENABLE_DIRECTX_COMPILER__
 
-wrapper::directx12::shader_code wrapper::directx12::shader_code::create(const std::wstring& filename)
+wrapper::directx12::shader_code wrapper::directx12::shader_code::create(
+	const std::wstring& filename, const std::wstring& entry, const std::wstring& version)
 {
 	ComPtr<IDxcIncludeHandler> include;
 	ComPtr<IDxcCompiler> compiler;
@@ -52,15 +51,16 @@ wrapper::directx12::shader_code wrapper::directx12::shader_code::create(const st
 
 	const wchar_t* arguments[] = {
 		L"-Od",
+		L"-Zi"
 	};
 
 #ifdef _DEBUG
-	compiler->Compile(encoding_blob.Get(), filename.c_str(), L"",
-		L"lib_6_4", arguments, 1, defines.data(), static_cast<UINT32>(defines.size()),
+	compiler->Compile(encoding_blob.Get(), filename.c_str(), entry.c_str(),
+		version.c_str(), arguments, 1, defines.data(), static_cast<UINT32>(defines.size()),
 		include.Get(), result.GetAddressOf());
 #else
-	compiler->Compile(encoding_blob.Get(), filename.c_str(), L"",
-		L"lib_6_4", nullptr, 0, defines.data(), static_cast<UINT32>(defines.size()),
+	compiler->Compile(encoding_blob.Get(), filename.c_str(), entry.c_str(),
+		version.c_str(), nullptr, 0, defines.data(), static_cast<UINT32>(defines.size()),
 		include.Get(), result.GetAddressOf());
 #endif
 

@@ -13,9 +13,7 @@ namespace wrapper::directx12 {
 
 		~resource() = default;
 
-		void copy_data_from_cpu(
-			const graphics_command_list& command_list,
-			void* data, size_t size) const;
+		void copy_data_from_cpu(void* data, size_t size) const;
 		
 		auto barrier(
 			const D3D12_RESOURCE_STATES& before,

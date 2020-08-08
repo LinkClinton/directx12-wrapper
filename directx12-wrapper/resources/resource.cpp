@@ -9,7 +9,7 @@ wrapper::directx12::resource::resource(const ComPtr<ID3D12Resource>& source) : w
 	mWrapperInstance->GetHeapProperties(&mHeapProperties, &mHeapFlags);
 }
 
-void wrapper::directx12::resource::copy_data_from_cpu(const graphics_command_list& command_list, void* data, size_t size) const
+void wrapper::directx12::resource::copy_data_from_cpu(void* data, size_t size) const
 {
 	assert(mDesc.Dimension == D3D12_RESOURCE_DIMENSION_BUFFER);
 	assert(mHeapProperties.Type == D3D12_HEAP_TYPE_UPLOAD);

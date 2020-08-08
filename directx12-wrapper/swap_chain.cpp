@@ -18,6 +18,16 @@ void wrapper::directx12::swap_chain::present(bool sync) const
 	mWrapperInstance->Present(sync ? 1 : 0, 0);
 }
 
+DXGI_FORMAT wrapper::directx12::swap_chain::format() const
+{
+	return mDesc.BufferDesc.Format;
+}
+
+const std::vector<wrapper::directx12::resource>& wrapper::directx12::swap_chain::buffers() const
+{
+	return mTextures;
+}
+
 wrapper::directx12::swap_chain wrapper::directx12::swap_chain::create(const command_queue& queue, int width, int height, HWND handle)
 {
 	DXGI_SWAP_CHAIN_DESC desc;

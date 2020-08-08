@@ -5,6 +5,9 @@ wrapper::directx12::graphics_pipeline_info::graphics_pipeline_info()
 	mDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
 	mDesc.IBStripCutValue = D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED;
 	mDesc.NodeMask = 0;
+	mDesc.SampleDesc.Count = 1;
+	mDesc.SampleDesc.Quality = 0;
+	mDesc.SampleMask = UINT_MAX;
 }
 
 wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipeline_info::set_input_assembly(const input_assembly_info& input_assembly)
@@ -73,6 +76,14 @@ wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipelin
 wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipeline_info::set_root_signature(const root_signature& signature)
 {
 	mDesc.pRootSignature = signature.get();
+
+	return *this;
+}
+
+wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipeline_info::set_primitive_type(
+	const D3D12_PRIMITIVE_TOPOLOGY_TYPE& type)
+{
+	mDesc.PrimitiveTopologyType = type;
 
 	return *this;
 }
