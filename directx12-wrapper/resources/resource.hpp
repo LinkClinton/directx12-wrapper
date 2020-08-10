@@ -14,6 +14,10 @@ namespace wrapper::directx12 {
 		~resource() = default;
 
 		void copy_data_from_cpu(void* data, size_t size) const;
+
+		auto begin_mapping(size_t index = 0) const -> void*;
+
+		void end_mapping(size_t index = 0) const;
 		
 		auto barrier(
 			const D3D12_RESOURCE_STATES& before,
@@ -25,11 +29,19 @@ namespace wrapper::directx12 {
 			const D3D12_RESOURCE_STATES& before,
 			const D3D12_RESOURCE_STATES& after) const;
 
-		static resource create(
+		static resource buffer(
 			const device& device,
 			const D3D12_RESOURCE_STATES& state, 
 			const D3D12_RESOURCE_FLAGS& flags, 
 			const D3D12_HEAP_TYPE& type, size_t size);
+
+		static resource texture2d(
+			const device& device,
+			const D3D12_RESOURCE_STATES& state,
+			const D3D12_RESOURCE_FLAGS& flags,
+			const D3D12_HEAP_TYPE& type,
+			const DXGI_FORMAT& format,
+			size_t width, size_t height);
 	private:
 		D3D12_RESOURCE_DESC mDesc;
 

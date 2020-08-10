@@ -54,25 +54,6 @@ wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipelin
 	return *this;
 }
 
-wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipeline_info::set_render_target(const std::vector<DXGI_FORMAT>& formats)
-{
-	assert(formats.size() <= 8);
-	
-	mDesc.NumRenderTargets = static_cast<UINT>(formats.size());
-
-	for (size_t index = 0; index < formats.size(); index++)
-		mDesc.RTVFormats[index] = formats.at(index);
-
-	return *this;
-}
-
-wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipeline_info::set_depth_stencil(const DXGI_FORMAT& format)
-{
-	mDesc.DSVFormat = format;
-
-	return *this;
-}
-
 wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipeline_info::set_root_signature(const root_signature& signature)
 {
 	mDesc.pRootSignature = signature.get();
@@ -85,6 +66,21 @@ wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipelin
 {
 	mDesc.PrimitiveTopologyType = type;
 
+	return *this;
+}
+
+wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipeline_info::set_format(
+	const std::vector<DXGI_FORMAT>& render_targets, const DXGI_FORMAT& depth_stencil)
+{
+	assert(render_targets.size() <= 8);
+
+	mDesc.NumRenderTargets = static_cast<UINT>(render_targets.size());
+
+	for (size_t index = 0; index < render_targets.size(); index++)
+		mDesc.RTVFormats[index] = render_targets.at(index);
+
+	mDesc.DSVFormat = depth_stencil;
+	
 	return *this;
 }
 

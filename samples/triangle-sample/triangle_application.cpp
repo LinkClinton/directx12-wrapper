@@ -51,7 +51,7 @@ wrapper::samples::triangle_application::triangle_application(const std::string& 
 
 	mGraphicsPipeline = directx12::pipeline_state::create(mDevice, mGraphicsPipelineInfo);
 
-	mVertexBuffer = directx12::resource::create(mDevice, D3D12_RESOURCE_STATE_GENERIC_READ,
+	mVertexBuffer = directx12::resource::buffer(mDevice, D3D12_RESOURCE_STATE_GENERIC_READ,
 		D3D12_RESOURCE_FLAG_NONE, D3D12_HEAP_TYPE_UPLOAD, sizeof(float) * 9);
 
 	std::vector<float> vertices = {

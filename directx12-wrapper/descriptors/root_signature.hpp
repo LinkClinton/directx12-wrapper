@@ -26,6 +26,8 @@ namespace wrapper::directx12 {
 
 		root_signature_info& add_constant_buffer_view(const std::string& name, size_t base, size_t space);
 
+		root_signature_info& add_static_sampler(const std::string& name, size_t base, size_t space);
+		
 		size_t index(const std::string& name) const;
 		
 		size_t base(const std::string& name) const;

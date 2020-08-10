@@ -29,6 +29,8 @@ namespace wrapper::directx12 {
 
 		static shader_code create(const std::vector<byte>& code);
 
+		static shader_code create_from_source(const std::string& source, const std::string& entry, const std::string& version);
+		
 #ifdef __ENABLE_DIRECTX_COMPILER__
 		static shader_code create(const std::wstring& filename, const std::wstring& entry, const std::wstring& version);
 #endif

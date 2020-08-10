@@ -25,6 +25,7 @@
     <ClInclude Include="descriptors\descriptor_heap.hpp" />
     <ClInclude Include="descriptors\root_signature.hpp" />
     <ClInclude Include="device.hpp" />
+    <ClInclude Include="extensions\imgui.hpp" />
     <ClInclude Include="fence.hpp" />
     <ClInclude Include="interfaces\wrapper.hpp" />
     <ClInclude Include="pipelines\blend_info.hpp" />

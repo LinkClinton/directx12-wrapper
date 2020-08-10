@@ -51,6 +51,25 @@ wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info
 	return add_descriptor(name, D3D12_ROOT_PARAMETER_TYPE_CBV, base, space);
 }
 
+wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info::add_static_sampler(
+	const std::string& name, size_t base, size_t space)
+{
+	D3D12_STATIC_SAMPLER_DESC desc;
+
+	desc.RegisterSpace = static_cast<UINT>(space);
+	desc.ShaderRegister = static_cast<UINT>(base);
+	desc.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	desc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	desc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	desc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	desc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	desc.ComparisonFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
+	mStaticSamplers.push_back(desc);
+
+	return *this;
+}
+
 size_t wrapper::directx12::root_signature_info::index(const std::string& name) const
 {
 	return mDescriptorIndex.at(name);

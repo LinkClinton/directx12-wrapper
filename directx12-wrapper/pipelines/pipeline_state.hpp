@@ -30,13 +30,11 @@ namespace wrapper::directx12 {
 
 		graphics_pipeline_info& set_frag_shader(const shader_code& shader);
 
-		graphics_pipeline_info& set_render_target(const std::vector<DXGI_FORMAT>& formats);
-
-		graphics_pipeline_info& set_depth_stencil(const DXGI_FORMAT& format);
-
 		graphics_pipeline_info& set_root_signature(const root_signature& signature);
 
 		graphics_pipeline_info& set_primitive_type(const D3D12_PRIMITIVE_TOPOLOGY_TYPE& type);
+
+		graphics_pipeline_info& set_format(const std::vector<DXGI_FORMAT>& render_targets, const DXGI_FORMAT& depth_stencil = DXGI_FORMAT_UNKNOWN);
 		
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC desc() const;
 	private:

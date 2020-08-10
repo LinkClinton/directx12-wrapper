@@ -16,11 +16,14 @@
     <Filter Include="descriptors">
       <UniqueIdentifier>{d2ba6f19-0814-4069-bf21-2708eafdb6e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="pipelines">
+      <UniqueIdentifier>{327f2f58-456e-41cb-8a97-856cea12834f}</UniqueIdentifier>
+    </Filter>
     <Filter Include="interfaces">
       <UniqueIdentifier>{1611f7ad-a094-44da-b496-fef377d6ac82}</UniqueIdentifier>
     </Filter>
-    <Filter Include="pipelines">
-      <UniqueIdentifier>{327f2f58-456e-41cb-8a97-856cea12834f}</UniqueIdentifier>
+    <Filter Include="extensions">
+      <UniqueIdentifier>{9c879674-ed74-44d4-b874-dbaa65c362b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +70,9 @@
       <Filter>shaders</Filter>
     </ClInclude>
     <ClInclude Include="fence.hpp" />
+    <ClInclude Include="extensions\imgui.hpp">
+      <Filter>extensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="utilities.cpp" />

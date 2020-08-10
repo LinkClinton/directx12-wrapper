@@ -10,6 +10,8 @@ namespace wrapper::directx12 {
 
 		~blend_info() = default;
 
+		blend_info& set_render_target(const D3D12_RENDER_TARGET_BLEND_DESC& desc, size_t index);
+		
 		D3D12_BLEND_DESC desc() const;
 	private:
 		D3D12_BLEND_DESC mDesc;
