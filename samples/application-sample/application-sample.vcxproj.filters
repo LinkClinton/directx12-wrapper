@@ -3,8 +3,10 @@
   <ItemGroup>
     <ClInclude Include="application.hpp" />
     <ClInclude Include="noncopyable.hpp" />
+    <ClInclude Include="imgui_impl_win32.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp" />
+    <ClCompile Include="imgui_impl_win32.cpp" />
   </ItemGroup>
 </Project>

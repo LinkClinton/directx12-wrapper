@@ -13,7 +13,7 @@ namespace wrapper::directx12 {
 
 		~input_assembly_info() = default;
 
-		input_assembly_info& add_input_element(const std::string& name, const DXGI_FORMAT& format, size_t slot = 0);
+		void add_input_element(const std::string& name, const DXGI_FORMAT& format, size_t slot = 0);
 
 		D3D12_INPUT_LAYOUT_DESC desc() const;
 	private:

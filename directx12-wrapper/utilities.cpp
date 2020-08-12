@@ -3,6 +3,12 @@
 size_t wrapper::directx12::size_of(const DXGI_FORMAT& format)
 {
 	// todo : support more DXGI_FORMAT
+	switch (format) {
+	case DXGI_FORMAT_R8G8B8A8_UNORM: return 4;
+	case DXGI_FORMAT_R32G32_FLOAT: return 8;
+	default:
+		throw "";
+	}
 	return 0;
 }
 

@@ -5,6 +5,8 @@
 #include "../../directx12-wrapper/pipelines/pipeline_state.hpp"
 #include "../../directx12-wrapper/swap_chain.hpp"
 
+#include <array>
+
 namespace wrapper::samples {
 	
 	class triangle_application final : public application {
@@ -30,19 +32,23 @@ namespace wrapper::samples {
 		directx12::root_signature_info mRootSignatureInfo;
 		directx12::root_signature mRootSignature;
 
+		directx12::descriptor_heap mImGuiDescriptorHeap;
+		
 		directx12::shader_code mVertShader;
 		directx12::shader_code mFragShader;
 		
 		directx12::graphics_pipeline_info mGraphicsPipelineInfo;
 		directx12::pipeline_state mGraphicsPipeline;
 
-		directx12::resource mVertexBuffer;
+		directx12::buffer mVertexBuffer;
 		
 		directx12::swap_chain mSwapChain;
 		directx12::device mDevice;
 		directx12::fence mFence;
 
 		directx12::descriptor_heap mRenderTargetViewHeap;
+
+		std::array<float, 4> mColor = { 1, 0, 0, 1 };
 	};
 	
 }

@@ -73,6 +73,12 @@
     <ClInclude Include="extensions\imgui.hpp">
       <Filter>extensions</Filter>
     </ClInclude>
+    <ClInclude Include="resources\buffer.hpp">
+      <Filter>resources</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\texture2d.hpp">
+      <Filter>resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="utilities.cpp" />
@@ -115,5 +121,11 @@
       <Filter>shaders</Filter>
     </ClCompile>
     <ClCompile Include="fence.cpp" />
+    <ClCompile Include="resources\buffer.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="resources\texture2d.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

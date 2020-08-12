@@ -33,7 +33,9 @@
     <ClInclude Include="pipelines\input_assembly_info.hpp" />
     <ClInclude Include="pipelines\pipeline_state.hpp" />
     <ClInclude Include="pipelines\rasterization_info.hpp" />
+    <ClInclude Include="resources\buffer.hpp" />
     <ClInclude Include="resources\resource.hpp" />
+    <ClInclude Include="resources\texture2d.hpp" />
     <ClInclude Include="shaders\shader_code.hpp" />
     <ClInclude Include="swap_chain.hpp" />
     <ClInclude Include="utilities.hpp" />
@@ -51,7 +53,9 @@
     <ClCompile Include="pipelines\input_assembly_info.cpp" />
     <ClCompile Include="pipelines\pipeline_state.cpp" />
     <ClCompile Include="pipelines\rasterization_info.cpp" />
+    <ClCompile Include="resources\buffer.cpp" />
     <ClCompile Include="resources\resource.cpp" />
+    <ClCompile Include="resources\texture2d.cpp" />
     <ClCompile Include="shaders\shader_code.cpp" />
     <ClCompile Include="swap_chain.cpp" />
     <ClCompile Include="utilities.cpp" />

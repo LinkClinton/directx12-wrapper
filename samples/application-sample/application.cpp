@@ -1,10 +1,18 @@
 #include "application.hpp"
 
+#include "imgui_impl_win32.hpp"
+
 #include <chrono>
 
 using time_point = std::chrono::high_resolution_clock;
 
-LRESULT DefaultWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+LRESULT DefaultWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+		return true;
+
 	switch (message)
 	{
 	case WM_DESTROY: {
@@ -55,6 +63,15 @@ wrapper::samples::application::application(const std::string& name, int width, i
 	mExisted = true;
 
 	ShowWindow(static_cast<HWND>(mHandle), SW_SHOW);
+
+	ImGui::CreateContext();
+	ImGui_ImplWin32_Init(mHandle);
+}
+
+wrapper::samples::application::~application()
+{
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void wrapper::samples::application::run_loop()
@@ -80,6 +97,8 @@ void wrapper::samples::application::run_loop()
 		auto duration = std::chrono::duration_cast<
 			std::chrono::duration<float>>(time_point::now() - current);
 
+		ImGui_ImplWin32_NewFrame();
+		
 		update(duration.count());
 		render(duration.count());
 		

@@ -9,7 +9,7 @@ wrapper::directx12::swap_chain::swap_chain(const ComPtr<IDXGISwapChain4>& source
 		
 		mWrapperInstance->GetBuffer(index, IID_PPV_ARGS(buffer.GetAddressOf()));
 
-		mTextures.push_back(resource(buffer));
+		mTextures.push_back(texture2d(buffer));
 	}
 }
 
@@ -23,7 +23,7 @@ DXGI_FORMAT wrapper::directx12::swap_chain::format() const
 	return mDesc.BufferDesc.Format;
 }
 
-const std::vector<wrapper::directx12::resource>& wrapper::directx12::swap_chain::buffers() const
+const std::vector<wrapper::directx12::texture2d>& wrapper::directx12::swap_chain::buffers() const
 {
 	return mTextures;
 }

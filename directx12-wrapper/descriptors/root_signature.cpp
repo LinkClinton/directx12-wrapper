@@ -62,6 +62,10 @@ wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info
 	desc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 	desc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 	desc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	desc.MipLODBias = 0;
+	desc.MinLOD = 0;
+	desc.MaxLOD = 0;
+	desc.MaxAnisotropy = 0;
 	desc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
 	desc.ComparisonFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 

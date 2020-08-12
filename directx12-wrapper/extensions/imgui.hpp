@@ -6,7 +6,9 @@
 
 #include "../descriptors/root_signature.hpp"
 #include "../pipelines/pipeline_state.hpp"
-#include "../resources/resource.hpp"
+#include "../commands/command_queue.hpp"
+#include "../resources/texture2d.hpp"
+#include "../resources/buffer.hpp"
 
 #include <imgui.h>
 
@@ -20,17 +22,17 @@ namespace wrapper::directx12::extensions {
 
 		void update(ImDrawData* draw_data);
 
-		resource vtx_buffer() const;
+		buffer vtx_buffer() const;
 
-		resource idx_buffer() const;
+		buffer idx_buffer() const;
 	private:
 		static inline const size_t VtxBufferIncrease = 500;
 		static inline const size_t IdxBufferIncrease = 5000;
 
 		device mDevice;
 
-		resource mVtxBuffer;
-		resource mIdxBuffer;
+		buffer mVtxBuffer;
+		buffer mIdxBuffer;
 
 		size_t mCurrentVtxBufferCount = 0;
 		size_t mCurrentIdxBufferCount = 0;
@@ -51,7 +53,12 @@ namespace wrapper::directx12::extensions {
 
 		static void new_frame();
 
-		static void render(ImDrawData* draw_data, const graphics_command_list& command_list);
+		static void set_render_state(
+			const graphics_command_list& command_list,
+			const imgui_frame_resources& resources, 
+			ImDrawData* draw_data);
+		
+		static void render(const graphics_command_list& command_list, ImDrawData* draw_data);
 	private:
 		static void create_pipeline_state();
 
@@ -70,7 +77,7 @@ namespace wrapper::directx12::extensions {
 		static inline shader_code VertShader;
 		static inline shader_code FragShader;
 		
-		static inline resource FontTexture;
+		static inline texture2d FontTexture;
 		
 		static inline std::vector<imgui_frame_resources> FrameResources;
 
@@ -83,18 +90,14 @@ namespace wrapper::directx12::extensions {
 
 	inline imgui_frame_resources::imgui_frame_resources(const device& device) : mDevice(device)
 	{
-		mVtxBuffer = resource::buffer(
-			mDevice, 
-			D3D12_RESOURCE_STATE_GENERIC_READ, 
-			D3D12_RESOURCE_FLAG_NONE,
-			D3D12_HEAP_TYPE_UPLOAD, 
+		mVtxBuffer = buffer::create(
+			mDevice,
+			resource_info::upload(),
 			VtxBufferIncrease * sizeof(ImDrawVert));
 
-		mIdxBuffer = resource::buffer(
+		mIdxBuffer = buffer::create(
 			mDevice,
-			D3D12_RESOURCE_STATE_GENERIC_READ,
-			D3D12_RESOURCE_FLAG_NONE,
-			D3D12_HEAP_TYPE_UPLOAD,
+			resource_info::upload(),
 			IdxBufferIncrease * sizeof(ImDrawIdx));
 
 		mCurrentVtxBufferCount = VtxBufferIncrease;
@@ -110,20 +113,16 @@ namespace wrapper::directx12::extensions {
 		while (mCurrentIdxBufferCount < draw_data->TotalIdxCount) mCurrentIdxBufferCount += IdxBufferIncrease;
 
 		if (mCurrentVtxBufferCount > old_vtx_buffer_count)
-			mVtxBuffer = resource::buffer(
+			mVtxBuffer = buffer::create(
 				mDevice,
-				D3D12_RESOURCE_STATE_GENERIC_READ,
-				D3D12_RESOURCE_FLAG_NONE,
-				D3D12_HEAP_TYPE_UPLOAD,
+				resource_info::upload(),
 				mCurrentVtxBufferCount * sizeof(ImDrawVert)
 			);
 
 		if (mCurrentIdxBufferCount > old_idx_buffer_count)
-			mIdxBuffer = resource::buffer(
+			mIdxBuffer = buffer::create(
 				mDevice,
-				D3D12_RESOURCE_STATE_GENERIC_READ,
-				D3D12_RESOURCE_FLAG_NONE,
-				D3D12_HEAP_TYPE_UPLOAD,
+				resource_info::upload(),
 				mCurrentIdxBufferCount * sizeof(ImDrawIdx)
 			);
 
@@ -144,12 +143,12 @@ namespace wrapper::directx12::extensions {
 		mIdxBuffer.end_mapping();
 	}
 
-	inline resource imgui_frame_resources::vtx_buffer() const
+	inline buffer imgui_frame_resources::vtx_buffer() const
 	{
 		return mVtxBuffer;
 	}
 
-	inline resource imgui_frame_resources::idx_buffer() const
+	inline buffer imgui_frame_resources::idx_buffer() const
 	{
 		return mIdxBuffer;
 	}
@@ -171,7 +170,7 @@ namespace wrapper::directx12::extensions {
 		FontCpuHandle = font_cpu_handle;
 		FontGpuHandle = font_gpu_handle;
 
-		CurrentFrameIndex = std::numeric_limits<size_t>::max();
+		CurrentFrameIndex = 0;
 
 		for (size_t index = 0; index < num_frames_in_flight; index++)
 			FrameResources.push_back(imgui_frame_resources(Device));
@@ -180,6 +179,117 @@ namespace wrapper::directx12::extensions {
 	inline void imgui_context::new_frame()
 	{
 		if (!GraphicsPipeline.get()) create_pipeline_state();
+	}
+
+	inline void imgui_context::set_render_state(
+		const graphics_command_list& command_list,
+		const imgui_frame_resources& resources, ImDrawData* draw_data)
+	{
+		//copy from https://github.com/ocornut/imgui/blob/master/examples/imgui_impl_dx12.cpp#L68
+		const auto L = draw_data->DisplayPos.x;
+		const auto R = draw_data->DisplayPos.x + draw_data->DisplaySize.x;
+		const auto T = draw_data->DisplayPos.y;
+		const auto B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
+
+		float mvp[4][4] =
+		{
+			{ 2.0f / (R - L),   0.0f,           0.0f,       0.0f },
+			{ 0.0f,         2.0f / (T - B),     0.0f,       0.0f },
+			{ 0.0f,         0.0f,           0.5f,       0.0f },
+			{ (R + L) / (L - R),  (T + B) / (B - T),    0.5f,       1.0f },
+		};
+
+		D3D12_VIEWPORT viewport = {
+			0, 0,
+			draw_data->DisplaySize.x,
+			draw_data->DisplaySize.y,
+			0.f, 1.0f
+		};
+
+		D3D12_VERTEX_BUFFER_VIEW vtx_view = {
+			resources.vtx_buffer()->GetGPUVirtualAddress(),
+			static_cast<UINT>(resources.vtx_buffer().size_in_bytes()),
+			static_cast<UINT>(sizeof(ImDrawVert))
+		};
+
+		D3D12_INDEX_BUFFER_VIEW idx_view = {
+			resources.idx_buffer()->GetGPUVirtualAddress(),
+			static_cast<UINT>(resources.idx_buffer().size_in_bytes()),
+			sizeof(ImDrawIdx) == 2 ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT
+		};
+		
+		command_list->RSSetViewports(1, &viewport);
+
+		command_list->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		command_list->IASetVertexBuffers(0, 1, &vtx_view);
+		command_list->IASetIndexBuffer(&idx_view);
+
+		command_list->SetPipelineState(GraphicsPipeline.get());
+		command_list->SetGraphicsRootSignature(RootSignature.get());
+		command_list->SetGraphicsRoot32BitConstants(
+			static_cast<UINT>(RootSignatureInfo.index("view")),
+			16, mvp, 0
+		);
+
+		const float blend_factor[4] = { 0.f, 0.f, 0.f, 0.f };
+		command_list->OMSetBlendFactor(blend_factor);
+	}
+
+	inline void imgui_context::render(const graphics_command_list& command_list, ImDrawData* draw_data)
+	{
+		//copy from https://github.com/ocornut/imgui/blob/master/examples/imgui_impl_dx12.cpp#L123
+		// Avoid rendering when minimized
+		if (draw_data->DisplaySize.x <= 0.0f || draw_data->DisplaySize.y <= 0.0f)
+			return;
+
+		auto& frameResources = FrameResources[CurrentFrameIndex];
+
+		frameResources.update(draw_data);
+
+		set_render_state(command_list, frameResources, draw_data);
+
+		size_t global_vtx_offset = 0;
+		size_t global_idx_offset = 0;
+
+		const auto clipOff = draw_data->DisplayPos;
+
+		for (int nCommandList = 0; nCommandList < draw_data->CmdListsCount; nCommandList++) {
+			const ImDrawList* commandList = draw_data->CmdLists[nCommandList];
+
+			for (int nCommand = 0; nCommand < commandList->CmdBuffer.Size; nCommand++) {
+				const auto command = &commandList->CmdBuffer[nCommand];
+
+				if (command->UserCallback != nullptr) {
+					if (command->UserCallback == ImDrawCallback_ResetRenderState)
+						set_render_state(command_list, frameResources, draw_data);
+					else
+						command->UserCallback(commandList, command);
+				}
+				else {
+					//draw call commands
+					D3D12_RECT rect = {
+						static_cast<LONG>(command->ClipRect.x - clipOff.x),
+						static_cast<LONG>(command->ClipRect.y - clipOff.y),
+						static_cast<LONG>(command->ClipRect.z - clipOff.x),
+						static_cast<LONG>(command->ClipRect.w - clipOff.y)
+					};
+
+					command_list->SetGraphicsRootDescriptorTable(static_cast<UINT>(RootSignatureInfo.index("table")), 
+						*(D3D12_GPU_DESCRIPTOR_HANDLE*)&command->TextureId);
+					
+					command_list->RSSetScissorRects(1, &rect);
+
+					command_list->DrawIndexedInstanced(command->ElemCount, 1,
+						static_cast<UINT>(command->IdxOffset + global_idx_offset),
+						static_cast<UINT>(command->VtxOffset + global_vtx_offset), 0);
+				}
+			}
+
+			global_idx_offset = global_idx_offset + commandList->IdxBuffer.Size;
+			global_vtx_offset = global_vtx_offset + commandList->VtxBuffer.Size;
+		}
+
+		CurrentFrameIndex = (CurrentFrameIndex + 1) % FrameResources.size();
 	}
 
 	inline void imgui_context::create_pipeline_state()
@@ -249,10 +359,9 @@ namespace wrapper::directx12::extensions {
 		depth_stencil_info depth_stencil;
 		blend_info blend;
 		
-		input_assembly
-			.add_input_element("POSITION", DXGI_FORMAT_R32G32_FLOAT)
-			.add_input_element("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT)
-			.add_input_element("COLOR", DXGI_FORMAT_R8G8B8A8_UNORM);
+		input_assembly.add_input_element("POSITION", DXGI_FORMAT_R32G32_FLOAT);
+		input_assembly.add_input_element("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+		input_assembly.add_input_element("COLOR", DXGI_FORMAT_R8G8B8A8_UNORM);
 
 		rasterization
 			.set_fill_mode(D3D12_FILL_MODE_SOLID)
@@ -293,7 +402,54 @@ namespace wrapper::directx12::extensions {
 
 	inline void imgui_context::create_font_texture()
 	{
+		ImGuiIO& io = ImGui::GetIO();
+		unsigned char* pixels;
+		int width, height;
+		io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
+
+		FontTexture = texture2d::create(Device,
+			resource_info::common(D3D12_RESOURCE_STATE_COPY_DEST),
+			DXGI_FORMAT_R8G8B8A8_UNORM, width, height);
+
+		const auto pitch = FontTexture.alignment();
+		const auto size = FontTexture.height() * pitch;
+
+		const auto upload = buffer::create(Device, resource_info::upload(), size);
+
+		const auto data = static_cast<byte*>(upload.begin_mapping());
+
+		for (size_t index = 0; index < FontTexture.height(); index++)
+			std::memcpy(data + index * pitch, pixels + index * width * 4, static_cast<size_t>(width) * 4);
 		
+		upload.end_mapping();
+
+		const auto allocator = command_allocator::create(Device);
+		const auto queue = command_queue::create(Device);
+		const auto command_list = graphics_command_list::create(Device, allocator);
+		const auto fence = fence::create(Device, 0);
+
+		allocator->Reset();
+		command_list->Reset(allocator.get(), nullptr);
+
+		FontTexture.copy_from(command_list, upload);
+		FontTexture.barrier(command_list, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ);
+
+		command_list->Close();
+		
+		queue.execute({ command_list });
+		queue.wait(fence);
+
+		D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
+
+		desc.Format = FontTexture.format();
+		desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		desc.Texture2D.MipLevels = 1;
+		desc.Texture2D.MostDetailedMip = 0;
+		desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		
+		Device->CreateShaderResourceView(FontTexture.get(), &desc, FontCpuHandle);
+
+		io.Fonts->TexID = reinterpret_cast<ImTextureID>(FontGpuHandle.ptr);
 	}
 
 }

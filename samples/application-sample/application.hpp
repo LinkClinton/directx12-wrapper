@@ -11,7 +11,7 @@ namespace wrapper::samples {
 	public:
 		explicit application(const std::string& name, int width, int height);
 
-		~application() = default;
+		~application();
 
 		void run_loop();
 	protected:

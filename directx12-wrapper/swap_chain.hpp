@@ -1,7 +1,7 @@
 #pragma once
 
 #include "commands/command_queue.hpp"
-#include "resources/resource.hpp"
+#include "resources/texture2d.hpp"
 
 #include <vector>
 
@@ -19,11 +19,11 @@ namespace wrapper::directx12 {
 
 		DXGI_FORMAT format() const;
 		
-		const std::vector<resource>& buffers() const;
+		const std::vector<texture2d>& buffers() const;
 		
 		static swap_chain create(const command_queue& queue, int width, int height, HWND handle);
 	private:
-		std::vector<resource> mTextures;
+		std::vector<texture2d> mTextures;
 		
 		DXGI_SWAP_CHAIN_DESC mDesc = {};
 	};

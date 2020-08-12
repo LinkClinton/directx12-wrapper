@@ -1,5 +1,7 @@
 #include "triangle_application.hpp"
 
+#include "../../directx12-wrapper/extensions/imgui.hpp"
+
 wrapper::samples::triangle_application::triangle_application(const std::string& name, int width, int height) :
 	application(name, width, height)
 {
@@ -35,8 +37,8 @@ wrapper::samples::triangle_application::triangle_application(const std::string& 
 	
 	mRootSignature = directx12::root_signature::create(mDevice, mRootSignatureInfo);
 
-	mVertShader = directx12::shader_code::create(L"./shaders/main_shader.hlsl", L"vs_main", L"vs_6_0");
-	mFragShader = directx12::shader_code::create(L"./shaders/main_shader.hlsl", L"ps_main", L"ps_6_0");
+	mVertShader = directx12::shader_code::create_from_file(L"./shaders/main_shader.hlsl", L"vs_main", L"vs_6_0");
+	mFragShader = directx12::shader_code::create_from_file(L"./shaders/main_shader.hlsl", L"ps_main", L"ps_6_0");
 	
 	mGraphicsPipelineInfo
 		.set_primitive_type(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE)
@@ -47,12 +49,11 @@ wrapper::samples::triangle_application::triangle_application(const std::string& 
 		.set_root_signature(mRootSignature)
 		.set_vert_shader(mVertShader)
 		.set_frag_shader(mFragShader)
-		.set_render_target({ mSwapChain.format() });
+		.set_format({ mSwapChain.format() });
 
 	mGraphicsPipeline = directx12::pipeline_state::create(mDevice, mGraphicsPipelineInfo);
 
-	mVertexBuffer = directx12::resource::buffer(mDevice, D3D12_RESOURCE_STATE_GENERIC_READ,
-		D3D12_RESOURCE_FLAG_NONE, D3D12_HEAP_TYPE_UPLOAD, sizeof(float) * 9);
+	mVertexBuffer = directx12::buffer::create(mDevice, directx12::resource_info::upload(), sizeof(float) * 9);
 
 	std::vector<float> vertices = {
 		width / 2.0f, height / 2.0f + height * 0.1f, 0,
@@ -60,11 +61,24 @@ wrapper::samples::triangle_application::triangle_application(const std::string& 
 		width / 2.0f - width * 0.1f, height / 2.0f, 0
 	};
 
-	mVertexBuffer.copy_data_from_cpu(vertices.data(), sizeof(float) * vertices.size());
+	mVertexBuffer.copy_from_cpu(vertices.data(), sizeof(float) * vertices.size());
+
+	mImGuiDescriptorHeap = directx12::descriptor_heap::create(mDevice, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1);
+	
+	directx12::extensions::imgui_context::initialize(
+		mDevice, mImGuiDescriptorHeap,
+		mImGuiDescriptorHeap.cpu_handle(), mImGuiDescriptorHeap.gpu_handle(),
+		mSwapChain.format(), 2);
 }
 
 void wrapper::samples::triangle_application::update(float delta)
 {
+	directx12::extensions::imgui_context::new_frame();
+	ImGui::NewFrame();
+
+	ImGui::Begin("triangle_sample");
+	ImGui::ColorEdit4("Color", mColor.data());
+	ImGui::End();
 }
 
 void wrapper::samples::triangle_application::render(float delta)
@@ -104,7 +118,7 @@ void wrapper::samples::triangle_application::render(float delta)
 	};
 
 	constant_input config = {
-		1, 0, 0, 1,
+		mColor[0], mColor[1], mColor[2], mColor[3],
 		static_cast<unsigned>(mWidth),
 		static_cast<unsigned>(mHeight)
 	};
@@ -121,9 +135,14 @@ void wrapper::samples::triangle_application::render(float delta)
 
 	mCommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	mCommandList->DrawInstanced(3, 1, 0, 0);
+
+	mCommandList->SetDescriptorHeaps(1, mImGuiDescriptorHeap.get_address_off());
+
+	ImGui::Render();
+	directx12::extensions::imgui_context::render(mCommandList, ImGui::GetDrawData());
 	
 	mSwapChain.buffers()[current_frame_index].barrier(mCommandList, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
-	
+
 	mCommandList->Close();
 	mCommandQueue.execute({ mCommandList });
 
