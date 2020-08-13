@@ -26,3 +26,27 @@ D3D12_GPU_DESCRIPTOR_HANDLE wrapper::directx12::offset_handle(const D3D12_GPU_DE
 {
 	return { handle.ptr + value };
 }
+
+std::string wrapper::directx12::copy_data_to_string(void* data, size_t size_in_bytes)
+{
+	std::string value; value.resize(size_in_bytes);
+
+	std::memcpy(value.data(), data, size_in_bytes);
+
+	return value;
+}
+
+std::string wrapper::directx12::wide_string_to_multi_bytes_string(const std::wstring& wide_string)
+{
+	const auto size = WideCharToMultiByte(
+		CP_ACP, 0, wide_string.c_str(),
+		-1, nullptr, 0, nullptr, nullptr);
+
+	std::string result; result.resize(size);
+	
+	WideCharToMultiByte(
+		CP_ACP, 0, wide_string.c_str(),
+		-1, result.data(), size, nullptr, nullptr);
+
+	return result;
+}

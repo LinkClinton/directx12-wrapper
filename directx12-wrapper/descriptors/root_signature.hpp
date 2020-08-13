@@ -1,7 +1,7 @@
 #pragma once
 
 #include "descriptor_heap.hpp"
-#include "../device.hpp"
+#include "../devices/device.hpp"
 
 #include <vector>
 #include <string>

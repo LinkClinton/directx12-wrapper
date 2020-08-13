@@ -17,6 +17,13 @@ wrapper::directx12::blend_info::blend_info()
 	mDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 }
 
+wrapper::directx12::blend_info& wrapper::directx12::blend_info::set_independent_blend_enable(bool enable)
+{
+	mDesc.IndependentBlendEnable = enable;
+
+	return *this;
+}
+
 wrapper::directx12::blend_info& wrapper::directx12::blend_info::set_render_target(
 	const D3D12_RENDER_TARGET_BLEND_DESC& desc, size_t index)
 {

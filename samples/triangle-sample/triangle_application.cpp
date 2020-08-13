@@ -1,6 +1,7 @@
 #include "triangle_application.hpp"
 
 #include "../../directx12-wrapper/extensions/imgui.hpp"
+#include "../../directx12-wrapper/extensions/dxc.hpp"
 
 wrapper::samples::triangle_application::triangle_application(const std::string& name, int width, int height) :
 	application(name, width, height)
@@ -28,17 +29,17 @@ wrapper::samples::triangle_application::triangle_application(const std::string& 
 
 		mDevice->CreateRenderTargetView(mSwapChain.buffers()[index].get(), &desc, mRenderTargetViewHeap.cpu_handle(index));
 	}
-
+	
 	mInputAssemblyInfo.add_input_element("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	
-	mDepthStencilInfo.set_depth_state(false);
+	mDepthStencilInfo.set_depth_enable(false);
 	
 	mRootSignatureInfo.add_constants("config", 0, 0, 6);
 	
 	mRootSignature = directx12::root_signature::create(mDevice, mRootSignatureInfo);
 
-	mVertShader = directx12::shader_code::create_from_file(L"./shaders/main_shader.hlsl", L"vs_main", L"vs_6_0");
-	mFragShader = directx12::shader_code::create_from_file(L"./shaders/main_shader.hlsl", L"ps_main", L"ps_6_0");
+	mVertShader = directx12::extensions::compile_from_file_using_dxc(L"./shaders/main_shader.hlsl", L"vs_main", L"vs_6_0");
+	mFragShader = directx12::extensions::compile_from_file_using_dxc(L"./shaders/main_shader.hlsl", L"ps_main", L"ps_6_0");
 	
 	mGraphicsPipelineInfo
 		.set_primitive_type(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE)
@@ -92,52 +93,38 @@ void wrapper::samples::triangle_application::render(float delta)
 	mCommandList->Reset(mCommandAllocator.get(), nullptr);
 
 	mSwapChain.buffers()[current_frame_index].barrier(mCommandList, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
-	
-	mCommandList->ClearRenderTargetView(render_target_view, color, 0, nullptr);
-	mCommandList->OMSetRenderTargets(1, &render_target_view, false, nullptr);
 
-	mCommandList->SetPipelineState(mGraphicsPipeline.get());
-	
-	D3D12_VERTEX_BUFFER_VIEW view;
-
-	view.BufferLocation = mVertexBuffer->GetGPUVirtualAddress();
-	view.SizeInBytes = sizeof(float) * 9;
-	view.StrideInBytes = sizeof(float) * 3;
-
-	D3D12_VIEWPORT viewport = {
-		0, 0, static_cast<float>(mWidth), static_cast<float>(mHeight), 0, 1
-	};
-
-	D3D12_RECT rect = {
-		0, 0, static_cast<long>(mWidth), static_cast<long>(mHeight)
-	};
-
-	struct constant_input {
-		float red, green, blue, alpha;
-		unsigned width, height;
-	};
-
-	constant_input config = {
-		mColor[0], mColor[1], mColor[2], mColor[3],
-		static_cast<unsigned>(mWidth),
-		static_cast<unsigned>(mHeight)
-	};
-	
-	mCommandList->IASetVertexBuffers(0, 1, &view);
-
-	mCommandList->RSSetViewports(1, &viewport);
-	mCommandList->RSSetScissorRects(1, &rect);
+	mCommandList.clear_render_target_view(render_target_view, { 1, 1, 1, 1 });
+	mCommandList.set_render_targets({ render_target_view });
 
 	mCommandList->SetGraphicsRootSignature(mRootSignature.get());
-	mCommandList->SetGraphicsRoot32BitConstants(
-		static_cast<UINT>(mRootSignatureInfo.index("config")),
-		6, &config, 0);
+	mCommandList->SetPipelineState(mGraphicsPipeline.get());
+	
+	mCommandList.set_vertex_buffers({
+		directx12::resource_view::vertex_buffer(mVertexBuffer, sizeof(float) * 3, sizeof(float) * 9)
+		});
 
+	mCommandList.set_view_ports({
+		{ 0, 0, static_cast<float>(mWidth), static_cast<float>(mHeight), 0.f, 1.f }
+		});
+
+	mCommandList.set_scissor_rects({
+		{ 0, 0, static_cast<LONG>(mWidth), static_cast<LONG>(mHeight) }
+		});
+
+	mCommandList.set_graphics_constants(
+		mRootSignatureInfo.index("config"), 
+		{
+		mColor[0], mColor[1], mColor[2], mColor[3],
+		static_cast<directx12::uint32>(mWidth),
+		static_cast<directx12::uint32>(mHeight)
+		});
+	
 	mCommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	mCommandList->DrawInstanced(3, 1, 0, 0);
 
-	mCommandList->SetDescriptorHeaps(1, mImGuiDescriptorHeap.get_address_off());
-
+	mCommandList.set_descriptor_heaps({ mImGuiDescriptorHeap.get() });
+	
 	ImGui::Render();
 	directx12::extensions::imgui_context::render(mCommandList, ImGui::GetDrawData());
 	

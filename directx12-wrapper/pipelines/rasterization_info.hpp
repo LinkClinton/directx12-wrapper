@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../device.hpp"
+#include "../devices/device.hpp"
 
 namespace wrapper::directx12 {
 
@@ -13,6 +13,8 @@ namespace wrapper::directx12 {
 		rasterization_info& set_fill_mode(const D3D12_FILL_MODE& mode);
 
 		rasterization_info& set_cull_mode(const D3D12_CULL_MODE& mode);
+
+		rasterization_info& set_multi_sample_enable(bool enable);
 		
 		D3D12_RASTERIZER_DESC desc() const;
 	private:

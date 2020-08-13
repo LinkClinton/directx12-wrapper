@@ -1,5 +1,7 @@
 #include "resource.hpp"
 
+#include "buffer.hpp"
+
 #include <memory>
 
 wrapper::directx12::resource_info::resource_info(
@@ -55,6 +57,24 @@ wrapper::directx12::resource_info wrapper::directx12::resource_info::upload(cons
 wrapper::directx12::resource_info wrapper::directx12::resource_info::common(const D3D12_RESOURCE_STATES& state, const D3D12_RESOURCE_FLAGS& flags)
 {
 	return resource_info(state, flags, D3D12_HEAP_TYPE_DEFAULT);
+}
+
+D3D12_VERTEX_BUFFER_VIEW wrapper::directx12::resource_view::vertex_buffer(const buffer& buffer, size_t stride_in_bytes, size_t size_in_bytes)
+{
+	return {
+		buffer->GetGPUVirtualAddress(),
+		static_cast<UINT>(size_in_bytes),
+		static_cast<UINT>(stride_in_bytes)
+	};
+}
+
+D3D12_INDEX_BUFFER_VIEW wrapper::directx12::resource_view::index_buffer(const buffer& buffer, const DXGI_FORMAT& format, size_t size_in_bytes)
+{
+	return {
+		buffer->GetGPUVirtualAddress(),
+		static_cast<UINT>(size_in_bytes),
+		format
+	};
 }
 
 wrapper::directx12::resource::resource(const ComPtr<ID3D12Resource>& source) : wrapper_t<ID3D12Resource>(source)

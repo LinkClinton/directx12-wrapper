@@ -1,6 +1,7 @@
 #pragma once
 
-#include "interfaces/wrapper.hpp"
+#include "../interfaces/wrapper.hpp"
+#include "adapter.hpp"
 
 namespace wrapper::directx12 {
 
@@ -13,6 +14,8 @@ namespace wrapper::directx12 {
 		~device() = default;
 
 		static device create(const D3D_FEATURE_LEVEL& level);
+
+		static device create(const adapter& adapter, const D3D_FEATURE_LEVEL& level);
 	};
 	
 }

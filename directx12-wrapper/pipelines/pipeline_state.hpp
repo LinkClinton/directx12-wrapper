@@ -8,7 +8,7 @@
 #include "../descriptors/root_signature.hpp"
 
 #include "../shaders/shader_code.hpp"
-#include "../device.hpp"
+#include "../devices/device.hpp"
 
 namespace wrapper::directx12 {
 

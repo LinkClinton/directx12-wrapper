@@ -41,6 +41,26 @@ mGraphicsPipelineInfo
 mGraphicsPipeline = directx12::pipeline_state::create(device, mGraphicsPipelineInfo);
 ```
 
+C++ style member functions.
+
+```C++
+command_list.set_descriptor_heaps({
+	descriptor_heap0.get(),
+	descriptor_heap1.get(),
+	...
+});
+```
+
+Root signature with named index.
+
+```C++
+root_signature_info.add_constants("config", base, space, count);
+
+command_list.set_graphics_constants(root_signature_info.index("config"), {
+	value32bit_0, value32bit_1, ..., value32bit_5
+});
+```
+
 Support some helpful functions. For example :
 
 ```C++
@@ -55,10 +75,15 @@ For the user with resharper extension. If you enable the resharper extension to 
 
 It is not a good way to support code completion with HLSL. But I think it is helpful.
 
+## Extensions
+
+All extensions are header only file. If you want to use them, you can include the header files of them. But you should ensure the third parties of extensions are installed. For example, if you want to use `dxc` extension, you need ensure your operation system support [dxc](https://github.com/microsoft/DirectXShaderCompiler) and `.dll` files should be your working path.
+
+- `imgui` : a renderer backend of imgui.
+- `dxc` : DirectX Shader Compiler.
+
 ## Todo
 
-- Adapters.
-- Pipeline State.
 - Raytracing.
 
 ## Samples

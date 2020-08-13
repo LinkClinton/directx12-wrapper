@@ -25,9 +25,11 @@
     <Filter Include="extensions">
       <UniqueIdentifier>{9c879674-ed74-44d4-b874-dbaa65c362b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="devices">
+      <UniqueIdentifier>{1f3ace60-345a-44d9-80ad-d05c78872bc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="device.hpp" />
     <ClInclude Include="utilities.hpp" />
     <ClInclude Include="commands\command_allocator.hpp">
       <Filter>commands</Filter>
@@ -79,10 +81,18 @@
     <ClInclude Include="resources\texture2d.hpp">
       <Filter>resources</Filter>
     </ClInclude>
+    <ClInclude Include="extensions\dxc.hpp">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="devices\device.hpp">
+      <Filter>devices</Filter>
+    </ClInclude>
+    <ClInclude Include="devices\adapter.hpp">
+      <Filter>devices</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="utilities.cpp" />
-    <ClCompile Include="device.cpp" />
     <ClCompile Include="commands\command_allocator.cpp">
       <Filter>commands</Filter>
     </ClCompile>
@@ -126,6 +136,12 @@
     </ClCompile>
     <ClCompile Include="resources\texture2d.cpp">
       <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\device.cpp">
+      <Filter>devices</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\adapter.cpp">
+      <Filter>devices</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

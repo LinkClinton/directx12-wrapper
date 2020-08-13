@@ -1,6 +1,7 @@
 #include "input_assembly_info.hpp"
 
-void wrapper::directx12::input_assembly_info::add_input_element(const std::string& name, const DXGI_FORMAT& format, size_t slot)
+wrapper::directx12::input_assembly_info& wrapper::directx12::input_assembly_info::add_input_element(
+	const std::string& name, const DXGI_FORMAT& format, size_t slot)
 {
 	// cache the name to keep the life of SemanticName in mElements
 	mNames.push_back(name);
@@ -21,6 +22,8 @@ void wrapper::directx12::input_assembly_info::add_input_element(const std::strin
 	// so we need update them 
 	for (size_t index = 0; index < mNames.size(); index++)
 		mElements[index].SemanticName = mNames[index].c_str();
+
+	return *this;
 }
 
 D3D12_INPUT_LAYOUT_DESC wrapper::directx12::input_assembly_info::desc() const

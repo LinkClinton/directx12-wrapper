@@ -24,7 +24,9 @@
     <ClInclude Include="commands\command_queue.hpp" />
     <ClInclude Include="descriptors\descriptor_heap.hpp" />
     <ClInclude Include="descriptors\root_signature.hpp" />
-    <ClInclude Include="device.hpp" />
+    <ClInclude Include="devices\adapter.hpp" />
+    <ClInclude Include="devices\device.hpp" />
+    <ClInclude Include="extensions\dxc.hpp" />
     <ClInclude Include="extensions\imgui.hpp" />
     <ClInclude Include="fence.hpp" />
     <ClInclude Include="interfaces\wrapper.hpp" />
@@ -46,7 +48,8 @@
     <ClCompile Include="commands\command_queue.cpp" />
     <ClCompile Include="descriptors\descriptor_heap.cpp" />
     <ClCompile Include="descriptors\root_signature.cpp" />
-    <ClCompile Include="device.cpp" />
+    <ClCompile Include="devices\adapter.cpp" />
+    <ClCompile Include="devices\device.cpp" />
     <ClCompile Include="fence.cpp" />
     <ClCompile Include="pipelines\blend_info.cpp" />
     <ClCompile Include="pipelines\depth_stencil_info.cpp" />

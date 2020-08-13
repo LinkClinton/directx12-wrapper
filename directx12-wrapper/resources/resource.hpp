@@ -1,10 +1,12 @@
 #pragma once
 
 #include "../commands/command_list.hpp"
-#include "../device.hpp"
+#include "../devices/device.hpp"
 
 namespace wrapper::directx12 {
 
+	class buffer;
+	
 	class resource_info final {
 	public:
 		resource_info() = default;
@@ -40,6 +42,37 @@ namespace wrapper::directx12 {
 		D3D12_RESOURCE_FLAGS mFlags;
 		D3D12_HEAP_TYPE mHeapType;
 	};
+
+	class resource_view final {
+	public:
+		resource_view() = delete;
+
+		~resource_view() = default;
+
+		static D3D12_VERTEX_BUFFER_VIEW vertex_buffer(const buffer& buffer, size_t stride_in_bytes, size_t size_in_bytes);
+
+		static D3D12_INDEX_BUFFER_VIEW index_buffer(const buffer& buffer, const DXGI_FORMAT& format, size_t size_in_bytes);
+		
+		template <typename T>
+		static D3D12_VERTEX_BUFFER_VIEW vertex_buffer(const buffer& buffer, size_t count);
+
+		template <typename T>
+		static D3D12_INDEX_BUFFER_VIEW index_buffer(const buffer& buffer, size_t count);
+	};
+
+	template <typename T>
+	D3D12_VERTEX_BUFFER_VIEW resource_view::vertex_buffer(const buffer& buffer, size_t count)
+	{
+		return vertex_buffer(buffer, sizeof(T), count * sizeof(T));
+	}
+
+	template <typename T>
+	D3D12_INDEX_BUFFER_VIEW resource_view::index_buffer(const buffer& buffer, size_t count)
+	{
+		static_assert(sizeof(T) == 4 || sizeof(T) == 2);
+		
+		return index_buffer(buffer, sizeof(T) == 4 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT, count * sizeof(T));
+	}
 
 	class resource : public wrapper_t<ID3D12Resource> {
 	public:

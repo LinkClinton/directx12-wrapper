@@ -1,9 +1,8 @@
 #pragma once
 
 #define __DIRECTX_WRAPPER_EXTENSION_IMGUI__
-
-#ifdef __DIRECTX_WRAPPER_EXTENSION_IMGUI__
-
+#ifndef __DIRECTX_WRAPPER_EXTENSION_IMGUI__
+#else
 #include "../descriptors/root_signature.hpp"
 #include "../pipelines/pipeline_state.hpp"
 #include "../commands/command_queue.hpp"
@@ -367,7 +366,7 @@ namespace wrapper::directx12::extensions {
 			.set_fill_mode(D3D12_FILL_MODE_SOLID)
 			.set_cull_mode(D3D12_CULL_MODE_NONE);
 		
-		depth_stencil.set_depth_state(false);
+		depth_stencil.set_depth_enable(false);
 
 		blend.set_render_target({
 			true,

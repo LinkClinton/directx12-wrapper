@@ -31,6 +31,13 @@ wrapper::directx12::rasterization_info& wrapper::directx12::rasterization_info::
 	return *this;
 }
 
+wrapper::directx12::rasterization_info& wrapper::directx12::rasterization_info::set_multi_sample_enable(bool enable)
+{
+	mDesc.MultisampleEnable = enable;
+
+	return *this;
+}
+
 D3D12_RASTERIZER_DESC wrapper::directx12::rasterization_info::desc() const
 {
 	return mDesc;

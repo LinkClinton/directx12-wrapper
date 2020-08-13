@@ -18,11 +18,36 @@ wrapper::directx12::depth_stencil_info::depth_stencil_info()
 	mDesc.BackFace.StencilFunc = D3D12_COMPARISON_FUNC_ALWAYS;
 }
 
-wrapper::directx12::depth_stencil_info& wrapper::directx12::depth_stencil_info::set_depth_state(bool state)
+wrapper::directx12::depth_stencil_info& wrapper::directx12::depth_stencil_info::set_depth_enable(bool enable)
 {
-	mDesc.DepthEnable = state;
+	mDesc.DepthEnable = enable;
 
 	return *this;
+}
+
+wrapper::directx12::depth_stencil_info& wrapper::directx12::depth_stencil_info::set_depth_write_mask(
+	const D3D12_DEPTH_WRITE_MASK& mask)
+{
+	mDesc.DepthWriteMask = mask;
+
+	return *this;
+}
+
+wrapper::directx12::depth_stencil_info& wrapper::directx12::depth_stencil_info::set_depth_function(
+	const D3D12_COMPARISON_FUNC& function)
+{
+	mDesc.DepthFunc = function;
+
+	return *this;
+}
+
+wrapper::directx12::depth_stencil_info& wrapper::directx12::depth_stencil_info::set_depth_all_configs(
+	const D3D12_COMPARISON_FUNC& function, const D3D12_DEPTH_WRITE_MASK& mask, bool enable)
+{
+	return
+		set_depth_function(function).
+		set_depth_write_mask(mask).
+		set_depth_enable(enable);
 }
 
 D3D12_DEPTH_STENCIL_DESC wrapper::directx12::depth_stencil_info::desc() const
