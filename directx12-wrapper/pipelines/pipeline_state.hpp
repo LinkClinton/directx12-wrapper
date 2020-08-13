@@ -24,6 +24,8 @@ namespace wrapper::directx12 {
 
 		graphics_pipeline_info& set_rasterization(const rasterization_info& rasterization);
 
+		graphics_pipeline_info& set_multi_sample(size_t samples, size_t quality = 0);
+		
 		graphics_pipeline_info& set_blend(const blend_info& blend);
 
 		graphics_pipeline_info& set_vert_shader(const shader_code& shader);

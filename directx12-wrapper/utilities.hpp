@@ -31,6 +31,7 @@ namespace wrapper::directx12 {
 	using Microsoft::WRL::ComPtr;
 
 	using uint32 = unsigned;
+	using uint8 = unsigned char;
 	using int32 = int;
 	using real = float;
 	

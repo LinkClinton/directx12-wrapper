@@ -31,6 +31,14 @@ wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipelin
 	return *this;
 }
 
+wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipeline_info::set_multi_sample(size_t samples, size_t quality)
+{
+	mDesc.SampleDesc.Count = static_cast<UINT>(samples);
+	mDesc.SampleDesc.Quality = static_cast<UINT>(quality);
+
+	return *this;
+}
+
 wrapper::directx12::graphics_pipeline_info& wrapper::directx12::graphics_pipeline_info::set_blend(const blend_info& blend)
 {
 	mDesc.BlendState = blend.desc();

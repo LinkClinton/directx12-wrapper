@@ -56,6 +56,8 @@ namespace wrapper::directx12::extensions {
 			const graphics_command_list& command_list,
 			const imgui_frame_resources& resources, 
 			ImDrawData* draw_data);
+
+		static void set_multi_sample(size_t samples);
 		
 		static void render(const graphics_command_list& command_list, ImDrawData* draw_data);
 	private:
@@ -67,7 +69,13 @@ namespace wrapper::directx12::extensions {
 
 		static inline root_signature_info RootSignatureInfo;
 		static inline root_signature RootSignature;
-		
+
+		static inline input_assembly_info InputAssemblyInfo;
+		static inline rasterization_info RasterizationInfo;
+		static inline depth_stencil_info DepthStencilInfo;
+		static inline blend_info BlendInfo;
+
+		static inline graphics_pipeline_info GraphicsPipelineInfo;
 		static inline pipeline_state GraphicsPipeline;
 
 		static inline descriptor_table DescriptorTable;
@@ -173,6 +181,8 @@ namespace wrapper::directx12::extensions {
 
 		for (size_t index = 0; index < num_frames_in_flight; index++)
 			FrameResources.push_back(imgui_frame_resources(Device));
+
+		create_pipeline_state();
 	}
 
 	inline void imgui_context::new_frame()
@@ -232,6 +242,13 @@ namespace wrapper::directx12::extensions {
 
 		const float blend_factor[4] = { 0.f, 0.f, 0.f, 0.f };
 		command_list->OMSetBlendFactor(blend_factor);
+	}
+
+	inline void imgui_context::set_multi_sample(size_t samples)
+	{
+		GraphicsPipelineInfo.set_multi_sample(samples);
+
+		GraphicsPipeline = pipeline_state::create(Device, GraphicsPipelineInfo);
 	}
 
 	inline void imgui_context::render(const graphics_command_list& command_list, ImDrawData* draw_data)
@@ -353,22 +370,18 @@ namespace wrapper::directx12::extensions {
 		VertShader = shader_code::create_from_source(vert_shader, "main", "vs_5_0");
 		FragShader = shader_code::create_from_source(frag_shader, "main", "ps_5_0");
 		
-		input_assembly_info input_assembly;
-		rasterization_info rasterization;
-		depth_stencil_info depth_stencil;
-		blend_info blend;
-		
-		input_assembly.add_input_element("POSITION", DXGI_FORMAT_R32G32_FLOAT);
-		input_assembly.add_input_element("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
-		input_assembly.add_input_element("COLOR", DXGI_FORMAT_R8G8B8A8_UNORM);
+		InputAssemblyInfo
+			.add_input_element("POSITION", DXGI_FORMAT_R32G32_FLOAT)
+			.add_input_element("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT)
+			.add_input_element("COLOR", DXGI_FORMAT_R8G8B8A8_UNORM);
 
-		rasterization
+		RasterizationInfo
 			.set_fill_mode(D3D12_FILL_MODE_SOLID)
 			.set_cull_mode(D3D12_CULL_MODE_NONE);
 		
-		depth_stencil.set_depth_enable(false);
+		DepthStencilInfo.set_depth_enable(false);
 
-		blend.set_render_target({
+		BlendInfo.set_render_target({
 			true,
 			false,
 			D3D12_BLEND_SRC_ALPHA,
@@ -381,20 +394,18 @@ namespace wrapper::directx12::extensions {
 			D3D12_COLOR_WRITE_ENABLE_ALL
 		}, 0);
 
-		graphics_pipeline_info graphics_pipeline_info;
-
-		graphics_pipeline_info
+		GraphicsPipelineInfo
 			.set_primitive_type(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE)
 			.set_root_signature(RootSignature)
 			.set_vert_shader(VertShader)
 			.set_frag_shader(FragShader)
-			.set_input_assembly(input_assembly)
-			.set_rasterization(rasterization)
-			.set_depth_stencil(depth_stencil)
-			.set_blend(blend)
+			.set_input_assembly(InputAssemblyInfo)
+			.set_rasterization(RasterizationInfo)
+			.set_depth_stencil(DepthStencilInfo)
+			.set_blend(BlendInfo)
 			.set_format({ RenderTargetViewFormat });
 
-		GraphicsPipeline = pipeline_state::create(Device, graphics_pipeline_info);
+		GraphicsPipeline = pipeline_state::create(Device, GraphicsPipelineInfo);
 
 		create_font_texture();
 	}
