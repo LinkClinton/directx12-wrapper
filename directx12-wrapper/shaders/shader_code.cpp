@@ -28,8 +28,14 @@ wrapper::directx12::shader_code wrapper::directx12::shader_code::create_from_sou
 {
 	ComPtr<ID3DBlob> message;
 	ComPtr<ID3DBlob> result;
+
+	D3D_SHADER_MACRO macros[] = {
+		{ "__HLSL_SHADER__", "1" },
+		{ nullptr, nullptr }
+	};
 	
-	D3DCompile(source.data(), source.length(), nullptr, nullptr, nullptr, entry.c_str(), version.c_str(),
+	D3DCompile(source.data(), source.length(), nullptr, macros, 
+		D3D_COMPILE_STANDARD_FILE_INCLUDE, entry.c_str(), version.c_str(),
 		0, 0, result.GetAddressOf(), message.GetAddressOf());
 
 	std::string error;
@@ -45,6 +51,41 @@ wrapper::directx12::shader_code wrapper::directx12::shader_code::create_from_sou
 		
 	}
 		
+	auto code = std::vector<byte>(result->GetBufferSize());
+
+	std::memcpy(code.data(), result->GetBufferPointer(), result->GetBufferSize());
+
+	return shader_code(code);
+}
+
+wrapper::directx12::shader_code wrapper::directx12::shader_code::create_from_file(const std::wstring& filename,
+	const std::string& entry, const std::string& version)
+{	
+	ComPtr<ID3DBlob> message;
+	ComPtr<ID3DBlob> result;
+
+	D3D_SHADER_MACRO macros[] = {
+		{ "__HLSL_SHADER__", "1" },
+		{ nullptr, nullptr }
+	};
+
+	D3DCompileFromFile(filename.c_str(), macros, D3D_COMPILE_STANDARD_FILE_INCLUDE,
+		entry.c_str(), version.c_str(), 0, 0, 
+		result.GetAddressOf(), message.GetAddressOf());
+	
+	std::string error;
+
+	if (message != nullptr) {
+
+		error.resize(message->GetBufferSize());
+
+		std::memcpy(error.data(), message->GetBufferPointer(), message->GetBufferSize());
+
+		if (!error.empty() && error.back() == '\n') error.pop_back();
+		if (!error.empty()) printf("%s\n", error.c_str());
+
+	}
+
 	auto code = std::vector<byte>(result->GetBufferSize());
 
 	std::memcpy(code.data(), result->GetBufferPointer(), result->GetBufferSize());

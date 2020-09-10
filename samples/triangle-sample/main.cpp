@@ -4,7 +4,7 @@
 
 int main() {
 	const auto app = std::make_shared<wrapper::samples::triangle_application>(
-		"triangle-sample", 1280, 720);
+		"triangle-sample", 800, 600);
 
 	app->run_loop();
 }

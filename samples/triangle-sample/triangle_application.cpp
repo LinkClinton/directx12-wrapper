@@ -6,7 +6,7 @@
 wrapper::samples::triangle_application::triangle_application(const std::string& name, int width, int height) :
 	application(name, width, height)
 {
-	mDevice = directx12::device::create(D3D_FEATURE_LEVEL_12_0);
+	mDevice = directx12::device::create(D3D_FEATURE_LEVEL_11_0);
 
 	mFence = directx12::fence::create(mDevice, 0);
 	
@@ -40,9 +40,9 @@ wrapper::samples::triangle_application::triangle_application(const std::string& 
 	
 	mRootSignature = directx12::root_signature::create(mDevice, mRootSignatureInfo);
 
-	mVertShader = directx12::extensions::compile_from_file_using_dxc(L"./shaders/main_shader.hlsl", L"vs_main", L"vs_6_0");
-	mFragShader = directx12::extensions::compile_from_file_using_dxc(L"./shaders/main_shader.hlsl", L"ps_main", L"ps_6_0");
-	
+	mVertShader = directx12::shader_code::create_from_file(L"./shaders/main_shader.hlsl", "vs_main", "vs_5_1");
+	mFragShader = directx12::shader_code::create_from_file(L"./shaders/main_shader.hlsl", "ps_main", "ps_5_1");
+
 	mGraphicsPipelineInfo
 		.set_primitive_type(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE)
 		.set_input_assembly(mInputAssemblyInfo)
