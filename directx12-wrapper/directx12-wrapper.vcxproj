@@ -26,6 +26,7 @@
     <ClInclude Include="descriptors\root_signature.hpp" />
     <ClInclude Include="devices\adapter.hpp" />
     <ClInclude Include="devices\device.hpp" />
+    <ClInclude Include="enums\pixel_format.hpp" />
     <ClInclude Include="extensions\dxc.hpp" />
     <ClInclude Include="extensions\imgui.hpp" />
     <ClInclude Include="fence.hpp" />

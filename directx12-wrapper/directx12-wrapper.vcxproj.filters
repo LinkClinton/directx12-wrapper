@@ -28,6 +28,9 @@
     <Filter Include="devices">
       <UniqueIdentifier>{1f3ace60-345a-44d9-80ad-d05c78872bc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="enums">
+      <UniqueIdentifier>{54579db3-14ec-4172-87be-25a972f249b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utilities.hpp" />
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="devices\adapter.hpp">
       <Filter>devices</Filter>
+    </ClInclude>
+    <ClInclude Include="enums\pixel_format.hpp">
+      <Filter>enums</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
