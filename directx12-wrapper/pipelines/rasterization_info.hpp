@@ -15,6 +15,8 @@ namespace wrapper::directx12 {
 		rasterization_info& set_cull_mode(const D3D12_CULL_MODE& mode);
 
 		rasterization_info& set_multi_sample_enable(bool enable);
+
+		rasterization_info& set_anti_aliased_line_enable(bool enable);
 		
 		D3D12_RASTERIZER_DESC desc() const;
 	private:
