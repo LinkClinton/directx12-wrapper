@@ -77,6 +77,19 @@ D3D12_INDEX_BUFFER_VIEW wrapper::directx12::resource_view::index_buffer(const bu
 	};
 }
 
+D3D12_RENDER_TARGET_VIEW_DESC wrapper::directx12::resource_view::render_target2d(const DXGI_FORMAT& format, uint32 mip_slice)
+{
+	D3D12_RENDER_TARGET_VIEW_DESC desc;
+
+	desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+	desc.Format = format;
+	
+	desc.Texture2D.PlaneSlice = 0;
+	desc.Texture2D.MipSlice = mip_slice;
+	
+	return desc;
+}
+
 wrapper::directx12::resource::resource(const ComPtr<ID3D12Resource>& source) : wrapper_t<ID3D12Resource>(source)
 {
 	mDesc = mWrapperInstance->GetDesc();

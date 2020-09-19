@@ -1,11 +1,19 @@
 #include "device.hpp"
 
+#include "../resources/resource.hpp"
+
 #ifndef _NDEBUG
 #define __ENABLE_DIRECTX_DEBUG_LAYER__
 #endif
 
 wrapper::directx12::device::device(const ComPtr<ID3D12Device5>& source) : wrapper_t<ID3D12Device5>(source)
 {
+}
+
+void wrapper::directx12::device::create_render_target_view(const D3D12_RENDER_TARGET_VIEW_DESC& desc,
+	const D3D12_CPU_DESCRIPTOR_HANDLE& handle, const resource& resource) const
+{
+	mWrapperInstance->CreateRenderTargetView(resource.get(), &desc, handle);
 }
 
 wrapper::directx12::device wrapper::directx12::device::create(const D3D_FEATURE_LEVEL& level)
