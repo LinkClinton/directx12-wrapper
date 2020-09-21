@@ -40,6 +40,7 @@
     <ClInclude Include="resources\resource.hpp" />
     <ClInclude Include="resources\texture2d.hpp" />
     <ClInclude Include="shaders\shader_code.hpp" />
+    <ClInclude Include="shaders\shader_creator.hpp" />
     <ClInclude Include="swap_chain.hpp" />
     <ClInclude Include="utilities.hpp" />
   </ItemGroup>
@@ -61,6 +62,7 @@
     <ClCompile Include="resources\resource.cpp" />
     <ClCompile Include="resources\texture2d.cpp" />
     <ClCompile Include="shaders\shader_code.cpp" />
+    <ClCompile Include="shaders\shader_creator.cpp" />
     <ClCompile Include="swap_chain.cpp" />
     <ClCompile Include="utilities.cpp" />
   </ItemGroup>

@@ -96,6 +96,9 @@
     <ClInclude Include="enums\pixel_format.hpp">
       <Filter>enums</Filter>
     </ClInclude>
+    <ClInclude Include="shaders\shader_creator.hpp">
+      <Filter>shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="utilities.cpp" />
@@ -148,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="devices\adapter.cpp">
       <Filter>devices</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders\shader_creator.cpp">
+      <Filter>shaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
