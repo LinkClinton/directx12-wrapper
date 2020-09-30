@@ -22,7 +22,7 @@ wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::define_s
 	const std::string& type, const std::string& name, uint32 base, uint32 space)
 {
 	mSource += "StructuredBuffer<" + type + "> " + name +
-		" : register(s" + std::to_string(base) + ", space" + std::to_string(space) + ");\n";
+		" : register(t" + std::to_string(base) + ", space" + std::to_string(space) + ");\n";
 
 	return *this;
 }
