@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "directx12-wrapper", "directx12-wrapper.vcxproj", "{79DF4B1F-8673-4153-BB01-87BDE91D8642}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79DF4B1F-8673-4153-BB01-87BDE91D8642}.Debug|x64.ActiveCfg = Debug|x64
+		{79DF4B1F-8673-4153-BB01-87BDE91D8642}.Debug|x64.Build.0 = Debug|x64
+		{79DF4B1F-8673-4153-BB01-87BDE91D8642}.Debug|x86.ActiveCfg = Debug|Win32
+		{79DF4B1F-8673-4153-BB01-87BDE91D8642}.Debug|x86.Build.0 = Debug|Win32
+		{79DF4B1F-8673-4153-BB01-87BDE91D8642}.Release|x64.ActiveCfg = Release|x64
+		{79DF4B1F-8673-4153-BB01-87BDE91D8642}.Release|x64.Build.0 = Release|x64
+		{79DF4B1F-8673-4153-BB01-87BDE91D8642}.Release|x86.ActiveCfg = Release|Win32
+		{79DF4B1F-8673-4153-BB01-87BDE91D8642}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44E777DF-43CA-4F8C-B738-096E03C28DF5}
+	EndGlobalSection
+EndGlobal
