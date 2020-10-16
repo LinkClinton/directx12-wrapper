@@ -90,6 +90,24 @@ D3D12_RENDER_TARGET_VIEW_DESC wrapper::directx12::resource_view::render_target2d
 	return desc;
 }
 
+D3D12_SHADER_RESOURCE_VIEW_DESC wrapper::directx12::resource_view::texture2d(const DXGI_FORMAT& format)
+{
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc;
+
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	desc.Format = format;
+
+	// https://docs.microsoft.com/en-us/windows/win32/api/d3d12/ns-d3d12-d3d12_tex2d_srv
+	
+	desc.Texture2D.PlaneSlice = 0;
+	desc.Texture2D.MipLevels = -1; // Set to -1 to indicate all the mipmap levels from MostDetailedMip on down to least detailed.
+	desc.Texture2D.MostDetailedMip = 0;
+	desc.Texture2D.ResourceMinLODClamp = 0.f;
+	
+	return desc;
+}
+
 wrapper::directx12::resource::resource(const ComPtr<ID3D12Resource>& source) : wrapper_t<ID3D12Resource>(source)
 {
 	mDesc = mWrapperInstance->GetDesc();

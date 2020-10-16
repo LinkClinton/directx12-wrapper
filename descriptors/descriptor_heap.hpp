@@ -8,6 +8,32 @@
 
 namespace wrapper::directx12 {
 
+	struct cpu_descriptor_handle : D3D12_CPU_DESCRIPTOR_HANDLE {
+		cpu_descriptor_handle() = default;
+
+		cpu_descriptor_handle(const D3D12_CPU_DESCRIPTOR_HANDLE& handle);
+		
+		~cpu_descriptor_handle() = default;
+		
+		cpu_descriptor_handle& operator+(const cpu_descriptor_handle& rhs);
+		cpu_descriptor_handle& operator-(const cpu_descriptor_handle& rhs);
+		cpu_descriptor_handle& operator+(size_t offset);
+		cpu_descriptor_handle& operator-(size_t offset);
+	};
+	
+	struct gpu_descriptor_handle : D3D12_GPU_DESCRIPTOR_HANDLE {
+		gpu_descriptor_handle() = default;
+
+		gpu_descriptor_handle(const D3D12_GPU_DESCRIPTOR_HANDLE& handle);
+
+		~gpu_descriptor_handle() = default;
+
+		gpu_descriptor_handle& operator+(const gpu_descriptor_handle& rhs);
+		gpu_descriptor_handle& operator-(const gpu_descriptor_handle& rhs);
+		gpu_descriptor_handle& operator+(size_t offset);
+		gpu_descriptor_handle& operator-(size_t offset);
+	};
+	
 	class descriptor_table final {
 	public:
 		descriptor_table() = default;

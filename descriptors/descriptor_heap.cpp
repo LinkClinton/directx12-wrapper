@@ -1,5 +1,55 @@
 #include "descriptor_heap.hpp"
 
+wrapper::directx12::cpu_descriptor_handle::cpu_descriptor_handle(const D3D12_CPU_DESCRIPTOR_HANDLE& handle)
+{
+	ptr = handle.ptr;
+}
+
+wrapper::directx12::cpu_descriptor_handle& wrapper::directx12::cpu_descriptor_handle::operator+(const cpu_descriptor_handle& rhs)
+{
+	ptr += rhs.ptr; return *this;
+}
+
+wrapper::directx12::cpu_descriptor_handle& wrapper::directx12::cpu_descriptor_handle::operator-(const cpu_descriptor_handle& rhs)
+{
+	ptr -= rhs.ptr; return *this;
+}
+
+wrapper::directx12::cpu_descriptor_handle& wrapper::directx12::cpu_descriptor_handle::operator+(size_t offset)
+{
+	ptr += offset; return *this;
+}
+
+wrapper::directx12::cpu_descriptor_handle& wrapper::directx12::cpu_descriptor_handle::operator-(size_t offset)
+{
+	ptr -= offset; return *this;
+}
+
+wrapper::directx12::gpu_descriptor_handle::gpu_descriptor_handle(const D3D12_GPU_DESCRIPTOR_HANDLE& handle)
+{
+	ptr = handle.ptr;
+}
+
+wrapper::directx12::gpu_descriptor_handle& wrapper::directx12::gpu_descriptor_handle::operator+(const gpu_descriptor_handle& rhs)
+{
+	ptr += rhs.ptr; return *this;
+}
+
+wrapper::directx12::gpu_descriptor_handle& wrapper::directx12::gpu_descriptor_handle::operator-(const gpu_descriptor_handle& rhs)
+{
+	ptr -= rhs.ptr; return *this;
+}
+
+wrapper::directx12::gpu_descriptor_handle& wrapper::directx12::gpu_descriptor_handle::operator+(size_t offset)
+{
+	ptr += offset; return *this;
+}
+
+wrapper::directx12::gpu_descriptor_handle& wrapper::directx12::gpu_descriptor_handle::operator-(size_t offset)
+{
+	ptr -= offset; return *this;
+}
+
 wrapper::directx12::descriptor_table& wrapper::directx12::descriptor_table::add_srv_range(const std::vector<std::string>& name, size_t base, size_t space)
 {
 	return add_range(name, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, base, space);

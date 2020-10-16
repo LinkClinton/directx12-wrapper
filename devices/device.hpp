@@ -19,6 +19,11 @@ namespace wrapper::directx12 {
 			const D3D12_RENDER_TARGET_VIEW_DESC& desc,
 			const D3D12_CPU_DESCRIPTOR_HANDLE& handle,
 			const resource& resource) const;
+
+		void create_shader_resource_view(
+			const D3D12_SHADER_RESOURCE_VIEW_DESC& desc,
+			const D3D12_CPU_DESCRIPTOR_HANDLE& handle,
+			const resource& resource) const;
 		
 		static device create(const D3D_FEATURE_LEVEL& level);
 

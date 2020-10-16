@@ -55,6 +55,8 @@ namespace wrapper::directx12 {
 		static D3D12_INDEX_BUFFER_VIEW index_buffer(const buffer& buffer, const DXGI_FORMAT& format, size_t size_in_bytes);
 
 		static D3D12_RENDER_TARGET_VIEW_DESC render_target2d(const DXGI_FORMAT& format, uint32 mip_slice = 0);
+
+		static D3D12_SHADER_RESOURCE_VIEW_DESC texture2d(const DXGI_FORMAT& format);
 		
 		template <typename T>
 		static D3D12_VERTEX_BUFFER_VIEW vertex_buffer(const buffer& buffer, size_t count);
