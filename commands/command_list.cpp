@@ -65,6 +65,17 @@ void wrapper::directx12::graphics_command_list::set_graphics_constants(size_t in
 	set_graphics_constants(index, values.data(), values.size(), 0);
 }
 
+void wrapper::directx12::graphics_command_list::resource_barrier(
+	const std::vector<D3D12_RESOURCE_BARRIER>& barriers) const
+{
+	mWrapperInstance->ResourceBarrier(static_cast<UINT>(barriers.size()), barriers.data());
+}
+
+void wrapper::directx12::graphics_command_list::close() const
+{
+	mWrapperInstance->Close();
+}
+
 wrapper::directx12::graphics_command_list wrapper::directx12::graphics_command_list::create(const device& device, const command_allocator& allocator)
 {
 	ComPtr<ID3D12GraphicsCommandList4> list;

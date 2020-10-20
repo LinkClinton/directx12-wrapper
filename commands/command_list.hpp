@@ -47,6 +47,10 @@ namespace wrapper::directx12 {
 		void set_graphics_constants(size_t index, const void* data, size_t count, size_t offset) const;
 
 		void set_graphics_constants(size_t index, const std::vector<value32bit>& values) const;
+
+		void resource_barrier(const std::vector<D3D12_RESOURCE_BARRIER>& barriers) const;
+
+		void close() const;
 		
 		static graphics_command_list create(const device& device, const command_allocator& allocator);
 	};

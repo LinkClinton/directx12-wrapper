@@ -20,6 +20,12 @@ void wrapper::directx12::buffer::copy_from_cpu(void* data, size_t size) const
 	mWrapperInstance->Unmap(0, nullptr);
 }
 
+void wrapper::directx12::buffer::copy_from(const graphics_command_list& command_list, const buffer& buffer) const
+{
+	command_list->CopyBufferRegion(mWrapperInstance.Get(), 0, buffer.get(), 0,
+		static_cast<UINT64>(buffer.size_in_bytes()));
+}
+
 auto wrapper::directx12::buffer::begin_mapping() const -> void* 
 {
 	void* data = nullptr;
