@@ -56,6 +56,8 @@ namespace wrapper::directx12 {
 
 		static D3D12_RENDER_TARGET_VIEW_DESC render_target2d(const DXGI_FORMAT& format, uint32 mip_slice = 0);
 
+		static D3D12_DEPTH_STENCIL_VIEW_DESC depth_stencil2d(const DXGI_FORMAT& format, uint32 mip_slice = 0);
+		
 		static D3D12_SHADER_RESOURCE_VIEW_DESC texture2d(const DXGI_FORMAT& format);
 		
 		template <typename T>
@@ -97,9 +99,9 @@ namespace wrapper::directx12 {
 			const D3D12_RESOURCE_STATES& before,
 			const D3D12_RESOURCE_STATES& after) const;
 	protected:
-		D3D12_RESOURCE_DESC mDesc;
+		D3D12_RESOURCE_DESC mDesc = {};
 
-		D3D12_HEAP_PROPERTIES mHeapProperties;
-		D3D12_HEAP_FLAGS mHeapFlags;
+		D3D12_HEAP_PROPERTIES mHeapProperties = {};
+		D3D12_HEAP_FLAGS mHeapFlags = {};
 	};
 }

@@ -16,8 +16,14 @@ void wrapper::directx12::device::create_render_target_view(const D3D12_RENDER_TA
 	mWrapperInstance->CreateRenderTargetView(resource.get(), &desc, handle);
 }
 
-void wrapper::directx12::device::create_shader_resource_view(const D3D12_SHADER_RESOURCE_VIEW_DESC& desc,
+void wrapper::directx12::device::create_depth_stencil_view(const D3D12_DEPTH_STENCIL_VIEW_DESC& desc,
 	const D3D12_CPU_DESCRIPTOR_HANDLE& handle, const resource& resource) const
+{
+	mWrapperInstance->CreateDepthStencilView(resource.get(), &desc, handle);
+}
+
+void wrapper::directx12::device::create_shader_resource_view(const D3D12_SHADER_RESOURCE_VIEW_DESC& desc,
+                                                             const D3D12_CPU_DESCRIPTOR_HANDLE& handle, const resource& resource) const
 {
 	mWrapperInstance->CreateShaderResourceView(resource.get(), &desc, handle);
 }

@@ -4,6 +4,8 @@
 
 namespace wrapper::directx12 {
 
+	class buffer;
+	
 	struct value32bit {
 		union {
 			uint32 uint32;
@@ -30,6 +32,8 @@ namespace wrapper::directx12 {
 
 		void clear_render_target_view(const D3D12_CPU_DESCRIPTOR_HANDLE& view,  const std::array<float, 4>& color) const;
 
+		void clear_depth_stencil_view(const D3D12_CPU_DESCRIPTOR_HANDLE& view, float depth, uint8 stencil) const;
+		
 		void set_descriptor_heaps(const std::vector<ComPtr<ID3D12DescriptorHeap>>& heaps) const;
 		
 		void set_render_targets(const std::vector<D3D12_CPU_DESCRIPTOR_HANDLE>& views, const D3D12_CPU_DESCRIPTOR_HANDLE& depth_stencil) const;
@@ -44,6 +48,10 @@ namespace wrapper::directx12 {
 
 		void set_scissor_rects(const std::vector<D3D12_RECT>& rects) const;
 
+		void set_graphics_shader_resource_view(size_t index, const resource& resource) const;
+		
+		void set_graphics_constant_buffer_view(size_t index, const buffer& resource) const;
+		
 		void set_graphics_constants(size_t index, const void* data, size_t count, size_t offset) const;
 
 		void set_graphics_constants(size_t index, const std::vector<value32bit>& values) const;

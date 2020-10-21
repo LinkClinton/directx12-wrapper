@@ -7,7 +7,7 @@ wrapper::directx12::buffer::buffer(const ComPtr<ID3D12Resource>& source) : resou
 	assert(mDesc.Dimension == D3D12_RESOURCE_DIMENSION_BUFFER);
 }
 
-void wrapper::directx12::buffer::copy_from_cpu(void* data, size_t size) const
+void wrapper::directx12::buffer::copy_from_cpu(const void* data, size_t size) const
 {
 	assert(mHeapProperties.Type == D3D12_HEAP_TYPE_UPLOAD);
 

@@ -1,5 +1,7 @@
 #include "command_list.hpp"
 
+#include "../resources/buffer.hpp"
+
 wrapper::directx12::graphics_command_list::graphics_command_list(const ComPtr<ID3D12GraphicsCommandList4>& source)
 	: wrapper_t<ID3D12GraphicsCommandList4>(source)
 {
@@ -9,6 +11,13 @@ void wrapper::directx12::graphics_command_list::clear_render_target_view(const D
 	const std::array<float, 4>& color) const
 {
 	mWrapperInstance->ClearRenderTargetView(view, color.data(), 0, nullptr);
+}
+
+void wrapper::directx12::graphics_command_list::clear_depth_stencil_view(const D3D12_CPU_DESCRIPTOR_HANDLE& view,
+	float depth, uint8 stencil) const
+{
+	mWrapperInstance->ClearDepthStencilView(view, D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 
+		depth, stencil, 0, nullptr);
 }
 
 void wrapper::directx12::graphics_command_list::set_descriptor_heaps(
@@ -52,6 +61,18 @@ void wrapper::directx12::graphics_command_list::set_view_ports(const std::vector
 void wrapper::directx12::graphics_command_list::set_scissor_rects(const std::vector<D3D12_RECT>& rects) const
 {
 	mWrapperInstance->RSSetScissorRects(static_cast<UINT>(rects.size()), rects.data());
+}
+
+void wrapper::directx12::graphics_command_list::set_graphics_shader_resource_view(size_t index,
+	const resource& resource) const
+{
+	mWrapperInstance->SetGraphicsRootShaderResourceView(static_cast<UINT>(index), resource->GetGPUVirtualAddress());
+}
+
+void wrapper::directx12::graphics_command_list::set_graphics_constant_buffer_view(size_t index,
+                                                                                  const buffer& resource) const
+{
+	mWrapperInstance->SetGraphicsRootConstantBufferView(static_cast<UINT>(index), resource->GetGPUVirtualAddress());
 }
 
 void wrapper::directx12::graphics_command_list::set_graphics_constants(size_t index, const void* data, size_t count, size_t offset) const

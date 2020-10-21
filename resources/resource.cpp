@@ -90,6 +90,19 @@ D3D12_RENDER_TARGET_VIEW_DESC wrapper::directx12::resource_view::render_target2d
 	return desc;
 }
 
+D3D12_DEPTH_STENCIL_VIEW_DESC wrapper::directx12::resource_view::depth_stencil2d(const DXGI_FORMAT& format, uint32 mip_slice)
+{
+	D3D12_DEPTH_STENCIL_VIEW_DESC desc;
+
+	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	desc.Format = format;
+	desc.Flags = D3D12_DSV_FLAG_NONE;
+	
+	desc.Texture2D.MipSlice = mip_slice;
+
+	return desc;
+}
+
 D3D12_SHADER_RESOURCE_VIEW_DESC wrapper::directx12::resource_view::texture2d(const DXGI_FORMAT& format)
 {
 	D3D12_SHADER_RESOURCE_VIEW_DESC desc;

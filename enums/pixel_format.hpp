@@ -14,7 +14,7 @@ namespace wrapper::directx12 {
 
 		constexpr static inline DXGI_FORMAT unknown = DXGI_FORMAT_UNKNOWN;
 	private:
-		DXGI_FORMAT mFormat;
+		DXGI_FORMAT mFormat = DXGI_FORMAT_UNKNOWN;
 	};
 	
 }

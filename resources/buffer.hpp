@@ -12,7 +12,7 @@ namespace wrapper::directx12 {
 
 		~buffer() = default;
 
-		void copy_from_cpu(void* data, size_t size) const;
+		void copy_from_cpu(const void* data, size_t size) const;
 
 		void copy_from(const graphics_command_list& command_list, const buffer& buffer) const;
 
