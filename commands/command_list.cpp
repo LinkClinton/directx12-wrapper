@@ -63,8 +63,14 @@ void wrapper::directx12::graphics_command_list::set_scissor_rects(const std::vec
 	mWrapperInstance->RSSetScissorRects(static_cast<UINT>(rects.size()), rects.data());
 }
 
+void wrapper::directx12::graphics_command_list::set_graphics_descriptor_table(size_t index,
+	const D3D12_GPU_DESCRIPTOR_HANDLE& base) const
+{
+	mWrapperInstance->SetGraphicsRootDescriptorTable(static_cast<UINT>(index), base);
+}
+
 void wrapper::directx12::graphics_command_list::set_graphics_shader_resource_view(size_t index,
-	const resource& resource) const
+                                                                                  const resource& resource) const
 {
 	mWrapperInstance->SetGraphicsRootShaderResourceView(static_cast<UINT>(index), resource->GetGPUVirtualAddress());
 }

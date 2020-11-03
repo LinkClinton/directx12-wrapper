@@ -35,7 +35,7 @@ namespace wrapper::directx12 {
 		void clear_depth_stencil_view(const D3D12_CPU_DESCRIPTOR_HANDLE& view, float depth, uint8 stencil) const;
 		
 		void set_descriptor_heaps(const std::vector<ComPtr<ID3D12DescriptorHeap>>& heaps) const;
-		
+
 		void set_render_targets(const std::vector<D3D12_CPU_DESCRIPTOR_HANDLE>& views, const D3D12_CPU_DESCRIPTOR_HANDLE& depth_stencil) const;
 		
 		void set_render_targets(const std::vector<D3D12_CPU_DESCRIPTOR_HANDLE>& views) const;
@@ -48,6 +48,8 @@ namespace wrapper::directx12 {
 
 		void set_scissor_rects(const std::vector<D3D12_RECT>& rects) const;
 
+		void set_graphics_descriptor_table(size_t index, const D3D12_GPU_DESCRIPTOR_HANDLE& base) const;
+		
 		void set_graphics_shader_resource_view(size_t index, const resource& resource) const;
 		
 		void set_graphics_constant_buffer_view(size_t index, const buffer& resource) const;
