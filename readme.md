@@ -88,4 +88,4 @@ All extensions are header only file. If you want to use them, you can include th
 
 ## Samples
 
-See the `samples` directory.
+See [realtime-playground](https://github.com/LinkClinton/realtime-playground) and [path-tracing-gpu](https://github.com/LinkClinton/path-tracing-gpu).
