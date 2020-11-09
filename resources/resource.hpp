@@ -7,6 +7,8 @@ namespace wrapper::directx12 {
 
 	class texture2d;
 	class buffer;
+
+	using gpu_virtual_address = D3D12_GPU_VIRTUAL_ADDRESS;
 	
 	class resource_info final {
 	public:

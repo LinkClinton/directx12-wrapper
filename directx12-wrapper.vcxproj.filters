@@ -99,6 +99,9 @@
     <ClInclude Include="shaders\shader_creator.hpp">
       <Filter>shaders</Filter>
     </ClInclude>
+    <ClInclude Include="raytracings\accleration.hpp">
+      <Filter>raytracings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="utilities.cpp" />
@@ -154,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="shaders\shader_creator.cpp">
       <Filter>shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracings\accleration.cpp">
+      <Filter>raytracings</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
