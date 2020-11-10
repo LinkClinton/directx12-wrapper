@@ -44,7 +44,8 @@ namespace wrapper::directx12 {
 			const std::vector<raytracing_instance>& instances);
 	private:
 		buffer mAcceleration;
-		buffer mInstances;
+		buffer mGpuInstances;
+		buffer mCpuInstances;
 		buffer mScratch;
 	};
 }
