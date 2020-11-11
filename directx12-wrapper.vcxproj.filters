@@ -102,6 +102,12 @@
     <ClInclude Include="raytracings\accleration.hpp">
       <Filter>raytracings</Filter>
     </ClInclude>
+    <ClInclude Include="shaders\shader_library.hpp">
+      <Filter>shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="raytracings\shader_table.hpp">
+      <Filter>raytracings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="utilities.cpp" />
@@ -159,6 +165,12 @@
       <Filter>shaders</Filter>
     </ClCompile>
     <ClCompile Include="raytracings\accleration.cpp">
+      <Filter>raytracings</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders\shader_library.cpp">
+      <Filter>shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="raytracings\shader_table.cpp">
       <Filter>raytracings</Filter>
     </ClCompile>
   </ItemGroup>

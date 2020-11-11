@@ -49,6 +49,7 @@ namespace wrapper::directx12 {
 
 		std::vector<size_t> mDescriptorBase;
 		std::vector<size_t> mDescriptorSize;
+
 		size_t mSize = 0;
 	};
 	

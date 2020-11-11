@@ -37,11 +37,13 @@
     <ClInclude Include="pipelines\pipeline_state.hpp" />
     <ClInclude Include="pipelines\rasterization_info.hpp" />
     <ClInclude Include="raytracings\accleration.hpp" />
+    <ClInclude Include="raytracings\shader_table.hpp" />
     <ClInclude Include="resources\buffer.hpp" />
     <ClInclude Include="resources\resource.hpp" />
     <ClInclude Include="resources\texture2d.hpp" />
     <ClInclude Include="shaders\shader_code.hpp" />
     <ClInclude Include="shaders\shader_creator.hpp" />
+    <ClInclude Include="shaders\shader_library.hpp" />
     <ClInclude Include="swap_chain.hpp" />
     <ClInclude Include="utilities.hpp" />
   </ItemGroup>
@@ -60,11 +62,13 @@
     <ClCompile Include="pipelines\pipeline_state.cpp" />
     <ClCompile Include="pipelines\rasterization_info.cpp" />
     <ClCompile Include="raytracings\accleration.cpp" />
+    <ClCompile Include="raytracings\shader_table.cpp" />
     <ClCompile Include="resources\buffer.cpp" />
     <ClCompile Include="resources\resource.cpp" />
     <ClCompile Include="resources\texture2d.cpp" />
     <ClCompile Include="shaders\shader_code.cpp" />
     <ClCompile Include="shaders\shader_creator.cpp" />
+    <ClCompile Include="shaders\shader_library.cpp" />
     <ClCompile Include="swap_chain.cpp" />
     <ClCompile Include="utilities.cpp" />
   </ItemGroup>
