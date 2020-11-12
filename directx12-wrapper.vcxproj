@@ -37,6 +37,7 @@
     <ClInclude Include="pipelines\pipeline_state.hpp" />
     <ClInclude Include="pipelines\rasterization_info.hpp" />
     <ClInclude Include="raytracings\accleration.hpp" />
+    <ClInclude Include="raytracings\pipeline.hpp" />
     <ClInclude Include="raytracings\shader_table.hpp" />
     <ClInclude Include="resources\buffer.hpp" />
     <ClInclude Include="resources\resource.hpp" />
@@ -62,6 +63,7 @@
     <ClCompile Include="pipelines\pipeline_state.cpp" />
     <ClCompile Include="pipelines\rasterization_info.cpp" />
     <ClCompile Include="raytracings\accleration.cpp" />
+    <ClCompile Include="raytracings\pipeline.cpp" />
     <ClCompile Include="raytracings\shader_table.cpp" />
     <ClCompile Include="resources\buffer.cpp" />
     <ClCompile Include="resources\resource.cpp" />

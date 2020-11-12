@@ -22,7 +22,7 @@ namespace wrapper::directx12 {
 		buffer mScratch;
 	};
 
-	struct raytracing_instance final {
+	struct raytracing_instance {
 		raytracing_geometry geometry;
 
 		real transform[3][4];

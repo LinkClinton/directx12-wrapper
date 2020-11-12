@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../descriptors/root_signature.hpp"
+#include "../shaders/shader_library.hpp"
 
 #include <optional>
 
@@ -9,16 +10,16 @@ namespace wrapper::directx12 {
 	struct raytracing_shader_config {
 		constexpr static inline size_t default_payload_size = 32;
 
-		size_t max_attribute_size = D3D12_RAYTRACING_MAX_ATTRIBUTE_SIZE_IN_BYTES;
-		size_t max_payload_size = default_payload_size;
+		uint32 max_attribute_size = D3D12_RAYTRACING_MAX_ATTRIBUTE_SIZE_IN_BYTES;
+		uint32 max_payload_size = default_payload_size;
 
 		raytracing_shader_config() = default;
 
-		size_t hash() const noexcept;
+		uint32 hash() const noexcept;
 
-		static size_t encode(const raytracing_shader_config& config);
+		static uint32 encode(const raytracing_shader_config& config);
 
-		static raytracing_shader_config decode(size_t code);
+		static raytracing_shader_config decode(uint32 code);
 	};
 
 	struct raytracing_shader_root_signature {
@@ -46,6 +47,8 @@ namespace wrapper::directx12 {
 
 	class raytracing_shader_table final {
 	public:
+		raytracing_shader_table() = default;
+		
 		raytracing_shader_table(
 			const std::vector<raytracing_shader_association>& associations,
 			const std::vector<std::wstring>& miss_shaders,
@@ -65,6 +68,12 @@ namespace wrapper::directx12 {
 		size_t size() const noexcept;
 		
 		const byte* data() const noexcept;
+
+		static raytracing_shader_table create(
+			const std::vector<raytracing_shader_association>& associations,
+			const std::vector<std::wstring>& miss_shaders,
+			const std::vector<std::wstring>& hit_groups,
+			const std::wstring& ray_generation);
 	private:
 		std::unordered_map<std::wstring, raytracing_shader_record> mShaderRecords;
 

@@ -1,18 +1,18 @@
 #include "shader_table.hpp"
 
-size_t wrapper::directx12::raytracing_shader_config::hash() const noexcept
+wrapper::directx12::uint32 wrapper::directx12::raytracing_shader_config::hash() const noexcept
 {
 	assert(max_attribute_size <= D3D12_RAYTRACING_MAX_ATTRIBUTE_SIZE_IN_BYTES);
 
 	return encode(*this);
 }
 
-size_t wrapper::directx12::raytracing_shader_config::encode(const raytracing_shader_config& config)
+wrapper::directx12::uint32 wrapper::directx12::raytracing_shader_config::encode(const raytracing_shader_config& config)
 {
 	return config.max_payload_size * D3D12_RAYTRACING_MAX_ATTRIBUTE_SIZE_IN_BYTES + config.max_attribute_size;
 }
 
-wrapper::directx12::raytracing_shader_config wrapper::directx12::raytracing_shader_config::decode(size_t code)
+wrapper::directx12::raytracing_shader_config wrapper::directx12::raytracing_shader_config::decode(uint32 code)
 {
 	return raytracing_shader_config{
 		code % D3D12_RAYTRACING_MAX_ATTRIBUTE_SIZE_IN_BYTES,
@@ -122,4 +122,13 @@ size_t wrapper::directx12::raytracing_shader_table::size() const noexcept
 const byte* wrapper::directx12::raytracing_shader_table::data() const noexcept
 {
 	return mMemoryBuffer.data();
+}
+
+wrapper::directx12::raytracing_shader_table wrapper::directx12::raytracing_shader_table::create(
+	const std::vector<raytracing_shader_association>& associations, 
+	const std::vector<std::wstring>& miss_shaders,
+	const std::vector<std::wstring>& hit_groups, 
+	const std::wstring& ray_generation)
+{
+	return raytracing_shader_table(associations, miss_shaders, hit_groups, ray_generation);
 }
