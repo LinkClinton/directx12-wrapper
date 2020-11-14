@@ -79,34 +79,34 @@ DXGI_FORMAT wrapper::directx12::texture2d::format() const
 	return mDesc.Format;
 }
 
-size_t wrapper::directx12::texture2d::width() const
+size_t wrapper::directx12::texture2d::size_x() const
 {
 	return static_cast<size_t>(mDesc.Width);
 }
 
-size_t wrapper::directx12::texture2d::height() const
+size_t wrapper::directx12::texture2d::size_y() const
 {
 	return static_cast<size_t>(mDesc.Height);
 }
 
 wrapper::directx12::texture2d wrapper::directx12::texture2d::create(
 	const device& device, const resource_info& info,
-	const DXGI_FORMAT& format, size_t width, size_t height, const clear_value& clear)
+	const DXGI_FORMAT& format, size_t size_x, size_t size_y, const clear_value& clear)
 {
-	return create(device, info, format, width, height, 1, clear);
+	return create(device, info, format, size_x, size_y, 1, clear);
 }
 
 wrapper::directx12::texture2d wrapper::directx12::texture2d::create(
 	const device& device, const resource_info& info,
-	const DXGI_FORMAT& format, size_t width, size_t height, size_t samples,
+	const DXGI_FORMAT& format, size_t size_x, size_t size_y, size_t samples,
 	const clear_value& clear)
 {
 	D3D12_RESOURCE_DESC desc;
 
 	desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	desc.Alignment = 0;
-	desc.Width = static_cast<UINT64>(width);
-	desc.Height = static_cast<UINT>(height);
+	desc.Width = static_cast<UINT64>(size_x);
+	desc.Height = static_cast<UINT>(size_y);
 	desc.DepthOrArraySize = 1;
 	desc.MipLevels = 1;
 	desc.Format = format;

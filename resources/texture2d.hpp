@@ -33,15 +33,15 @@ namespace wrapper::directx12 {
 
 		size_t alignment() const;
 		
-		size_t width() const;
+		size_t size_x() const;
 
-		size_t height() const;
+		size_t size_y() const;
 		
 		static texture2d create(const device& device, const resource_info& info, 
-			const DXGI_FORMAT& format, size_t width, size_t height, const clear_value& clear = clear_value());
+			const DXGI_FORMAT& format, size_t size_x, size_t size_y, const clear_value& clear = clear_value());
 
 		static texture2d create(const device& device, const resource_info& info,
-			const DXGI_FORMAT& format, size_t width, size_t height, size_t samples,
+			const DXGI_FORMAT& format, size_t size_x, size_t size_y, size_t samples,
 			const clear_value& clear = clear_value());
 	};
 	

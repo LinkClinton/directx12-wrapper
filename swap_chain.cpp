@@ -28,14 +28,14 @@ const std::vector<wrapper::directx12::texture2d>& wrapper::directx12::swap_chain
 	return mTextures;
 }
 
-wrapper::directx12::swap_chain wrapper::directx12::swap_chain::create(const command_queue& queue, int width, int height, HWND handle)
+wrapper::directx12::swap_chain wrapper::directx12::swap_chain::create(const command_queue& queue, int size_x, int size_y, HWND handle)
 {
 	DXGI_SWAP_CHAIN_DESC desc;
 
 	desc.BufferCount = static_cast<UINT>(2);
 	desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	desc.BufferDesc.Width = static_cast<UINT>(width);
-	desc.BufferDesc.Height = static_cast<UINT>(height);
+	desc.BufferDesc.Width = static_cast<UINT>(size_x);
+	desc.BufferDesc.Height = static_cast<UINT>(size_y);
 	desc.BufferDesc.RefreshRate.Denominator = 1;
 	desc.BufferDesc.RefreshRate.Numerator = 60;
 	desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;

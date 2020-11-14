@@ -21,7 +21,7 @@ namespace wrapper::directx12 {
 		
 		const std::vector<texture2d>& buffers() const;
 		
-		static swap_chain create(const command_queue& queue, int width, int height, HWND handle);
+		static swap_chain create(const command_queue& queue, int size_x, int size_y, HWND handle);
 	private:
 		std::vector<texture2d> mTextures;
 		

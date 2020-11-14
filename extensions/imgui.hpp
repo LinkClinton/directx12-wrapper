@@ -422,13 +422,13 @@ namespace wrapper::directx12::extensions {
 			DXGI_FORMAT_R8G8B8A8_UNORM, width, height);
 
 		const auto pitch = FontTexture.alignment();
-		const auto size = FontTexture.height() * pitch;
+		const auto size = FontTexture.size_y() * pitch;
 
 		const auto upload = buffer::create(Device, resource_info::upload(), size);
 
 		const auto data = static_cast<byte*>(upload.begin_mapping());
 
-		for (size_t index = 0; index < FontTexture.height(); index++)
+		for (size_t index = 0; index < FontTexture.size_y(); index++)
 			std::memcpy(data + index * pitch, pixels + index * width * 4, static_cast<size_t>(width) * 4);
 		
 		upload.end_mapping();
