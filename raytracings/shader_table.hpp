@@ -59,6 +59,8 @@ namespace wrapper::directx12 {
 
 		byte* shader_record_address(const std::wstring& function);
 
+		const std::unordered_map<std::wstring, raytracing_shader_record>& records() const noexcept;
+		
 		raytracing_shader_record ray_generation() const noexcept;
 
 		raytracing_shader_record miss_shaders() const noexcept;
@@ -68,6 +70,8 @@ namespace wrapper::directx12 {
 		size_t size() const noexcept;
 		
 		const byte* data() const noexcept;
+
+		byte* data() noexcept;
 
 		static raytracing_shader_table create(
 			const std::vector<raytracing_shader_association>& associations,

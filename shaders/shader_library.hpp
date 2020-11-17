@@ -6,6 +6,8 @@ namespace wrapper::directx12 {
 
 	class shader_library final {
 	public:
+		shader_library() = default;
+		
 		shader_library(const shader_code& shader, const std::vector<std::wstring>& functions);
 
 		shader_library(const shader_library& library);
@@ -18,6 +20,8 @@ namespace wrapper::directx12 {
 
 		shader_library& operator=(const shader_library& rhs);
 		shader_library& operator=(shader_library&& rhs) noexcept;
+
+		static shader_library create(const shader_code& shader, const std::vector<std::wstring>& functions);
 	private:
 		std::vector<D3D12_EXPORT_DESC> mExports;
 		std::vector<std::wstring> mFunctions;

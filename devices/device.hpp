@@ -29,6 +29,19 @@ namespace wrapper::directx12 {
 			const D3D12_SHADER_RESOURCE_VIEW_DESC& desc,
 			const D3D12_CPU_DESCRIPTOR_HANDLE& handle,
 			const resource& resource) const;
+
+		void create_shader_resource_view(
+			const D3D12_SHADER_RESOURCE_VIEW_DESC& desc,
+			const D3D12_CPU_DESCRIPTOR_HANDLE& handle) const;
+		
+		void create_constant_buffer_view(
+			const D3D12_CONSTANT_BUFFER_VIEW_DESC& desc,
+			const D3D12_CPU_DESCRIPTOR_HANDLE& handle) const;
+
+		void create_unordered_access_view(
+			const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc,
+			const D3D12_CPU_DESCRIPTOR_HANDLE& handle,
+			const resource& resource) const;
 		
 		static device create(const D3D_FEATURE_LEVEL& level);
 

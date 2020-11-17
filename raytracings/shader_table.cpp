@@ -99,6 +99,12 @@ byte* wrapper::directx12::raytracing_shader_table::shader_record_address(const s
 	return mMemoryBuffer.data() + mShaderRecords.at(function).address;
 }
 
+const std::unordered_map<std::wstring, wrapper::directx12::raytracing_shader_record>& 
+	wrapper::directx12::raytracing_shader_table::records() const noexcept
+{
+	return mShaderRecords;
+}
+
 wrapper::directx12::raytracing_shader_record wrapper::directx12::raytracing_shader_table::ray_generation() const noexcept
 {
 	return mRayGenerationShaderRecord;
@@ -120,6 +126,11 @@ size_t wrapper::directx12::raytracing_shader_table::size() const noexcept
 }
 
 const byte* wrapper::directx12::raytracing_shader_table::data() const noexcept
+{
+	return mMemoryBuffer.data();
+}
+
+byte* wrapper::directx12::raytracing_shader_table::data() noexcept
 {
 	return mMemoryBuffer.data();
 }

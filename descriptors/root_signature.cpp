@@ -131,14 +131,14 @@ wrapper::directx12::root_signature wrapper::directx12::root_signature::create(co
 {
 	D3D12_ROOT_SIGNATURE_DESC desc;
 
-	desc.Flags = local ? D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE : D3D12_ROOT_SIGNATURE_FLAG_NONE;
+	// https://docs.microsoft.com/en-us/windows/win32/api/d3d12/ne-d3d12-d3d12_root_signature_flags
+	// This flag(D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE) cannot be combined with any other root signature flags
+	desc.Flags = local ? D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE : D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 	desc.NumStaticSamplers = static_cast<UINT>(info.samplers().size());
 	desc.NumParameters = static_cast<UINT>(info.parameters().size());
 	desc.pStaticSamplers = info.samplers().data();
 	desc.pParameters = info.parameters().data();
 
-	desc.Flags = desc.Flags | D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-	
 	ComPtr<ID3DBlob> signature_blob = nullptr;
 	ComPtr<ID3DBlob> error_blob = nullptr;
 
@@ -146,6 +146,14 @@ wrapper::directx12::root_signature wrapper::directx12::root_signature::create(co
 	
 	D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1, signature_blob.GetAddressOf(), error_blob.GetAddressOf());
 
+	// output error message if we have
+	if (error_blob != nullptr) {
+		auto error = copy_data_to_string(error_blob->GetBufferPointer(), error_blob->GetBufferSize());
+
+		if (!error.empty() && error.back() == '\n') error.pop_back();
+		if (!error.empty()) directx12::error(error);
+	}
+	
 	device->CreateRootSignature(0, signature_blob->GetBufferPointer(), signature_blob->GetBufferSize(),
 		IID_PPV_ARGS(signature.GetAddressOf()));
 

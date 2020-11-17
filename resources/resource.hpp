@@ -5,6 +5,8 @@
 
 namespace wrapper::directx12 {
 
+	class raytracing_acceleration;
+	
 	class texture2d;
 	class buffer;
 
@@ -56,11 +58,19 @@ namespace wrapper::directx12 {
 
 		static D3D12_INDEX_BUFFER_VIEW index_buffer(const buffer& buffer, const DXGI_FORMAT& format, size_t size_in_bytes);
 
+		static D3D12_CONSTANT_BUFFER_VIEW_DESC constant_buffer(const buffer& buffer, size_t offset, size_t size_in_bytes);
+
+		static D3D12_CONSTANT_BUFFER_VIEW_DESC constant_buffer(const buffer& buffer);
+		
 		static D3D12_RENDER_TARGET_VIEW_DESC render_target2d(const DXGI_FORMAT& format, uint32 mip_slice = 0);
 
 		static D3D12_DEPTH_STENCIL_VIEW_DESC depth_stencil2d(const DXGI_FORMAT& format, uint32 mip_slice = 0);
+
+		static D3D12_SHADER_RESOURCE_VIEW_DESC acceleration(const raytracing_acceleration& acceleration);
 		
 		static D3D12_SHADER_RESOURCE_VIEW_DESC texture2d(const DXGI_FORMAT& format);
+
+		static D3D12_UNORDERED_ACCESS_VIEW_DESC read_write_texture2d(const DXGI_FORMAT& format);
 		
 		template <typename T>
 		static D3D12_VERTEX_BUFFER_VIEW vertex_buffer(const buffer& buffer, size_t count);

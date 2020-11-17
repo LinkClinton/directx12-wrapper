@@ -8,7 +8,7 @@ wrapper::directx12::shader_library::shader_library(const shader_code& shader, co
 	for (size_t index = 0; index < mFunctions.size(); index++) {
 		mExports[index].Flags = D3D12_EXPORT_FLAG_NONE;
 		mExports[index].ExportToRename = nullptr;
-		mExports[index].Name = functions[index].c_str();
+		mExports[index].Name = mFunctions[index].c_str();
 	}
 
 	mDesc.NumExports = static_cast<UINT>(mExports.size());
@@ -49,5 +49,11 @@ wrapper::directx12::shader_library& wrapper::directx12::shader_library::operator
 	mDesc = rhs.mDesc;
 
 	return *this;
+}
+
+wrapper::directx12::shader_library wrapper::directx12::shader_library::create(const shader_code& shader,
+	const std::vector<std::wstring>& functions)
+{
+	return shader_library(shader, functions);
 }
 

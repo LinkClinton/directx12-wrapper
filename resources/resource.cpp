@@ -1,5 +1,6 @@
 #include "resource.hpp"
 
+#include "../raytracings/accleration.hpp"
 #include "buffer.hpp"
 
 #include <memory>
@@ -77,6 +78,23 @@ D3D12_INDEX_BUFFER_VIEW wrapper::directx12::resource_view::index_buffer(const bu
 	};
 }
 
+D3D12_CONSTANT_BUFFER_VIEW_DESC wrapper::directx12::resource_view::constant_buffer(const buffer& buffer, size_t offset,
+	size_t size_in_bytes)
+{
+	return {
+		buffer->GetGPUVirtualAddress() + offset,
+		static_cast<UINT>(size_in_bytes)
+	};
+}
+
+D3D12_CONSTANT_BUFFER_VIEW_DESC wrapper::directx12::resource_view::constant_buffer(const buffer& buffer)
+{
+	return {
+		buffer->GetGPUVirtualAddress(),
+		static_cast<UINT>(buffer.size_in_bytes())
+	};
+}
+
 D3D12_RENDER_TARGET_VIEW_DESC wrapper::directx12::resource_view::render_target2d(const DXGI_FORMAT& format, uint32 mip_slice)
 {
 	D3D12_RENDER_TARGET_VIEW_DESC desc;
@@ -103,6 +121,20 @@ D3D12_DEPTH_STENCIL_VIEW_DESC wrapper::directx12::resource_view::depth_stencil2d
 	return desc;
 }
 
+D3D12_SHADER_RESOURCE_VIEW_DESC wrapper::directx12::resource_view::acceleration(
+	const raytracing_acceleration& acceleration)
+{
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc;
+
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	desc.ViewDimension = D3D12_SRV_DIMENSION_RAYTRACING_ACCELERATION_STRUCTURE;
+
+	desc.RaytracingAccelerationStructure.Location = acceleration.acceleration()->GetGPUVirtualAddress();
+
+	return desc;
+}
+
 D3D12_SHADER_RESOURCE_VIEW_DESC wrapper::directx12::resource_view::texture2d(const DXGI_FORMAT& format)
 {
 	D3D12_SHADER_RESOURCE_VIEW_DESC desc;
@@ -118,6 +150,18 @@ D3D12_SHADER_RESOURCE_VIEW_DESC wrapper::directx12::resource_view::texture2d(con
 	desc.Texture2D.MostDetailedMip = 0;
 	desc.Texture2D.ResourceMinLODClamp = 0.f;
 	
+	return desc;
+}
+
+D3D12_UNORDERED_ACCESS_VIEW_DESC wrapper::directx12::resource_view::read_write_texture2d(const DXGI_FORMAT& format)
+{
+	D3D12_UNORDERED_ACCESS_VIEW_DESC desc;
+
+	desc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
+	desc.Format = format;
+	desc.Texture2D.MipSlice = 0;
+	desc.Texture2D.PlaneSlice = 0;
+
 	return desc;
 }
 
