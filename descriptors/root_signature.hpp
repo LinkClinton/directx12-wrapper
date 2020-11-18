@@ -14,21 +14,21 @@ namespace wrapper::directx12 {
 
 		~root_signature_info() = default;
 
-		root_signature_info& add_descriptor(const std::string& name, const D3D12_ROOT_PARAMETER_TYPE& type, size_t base, size_t space);
+		root_signature_info& add_descriptor(const std::string& name, const D3D12_ROOT_PARAMETER_TYPE& type, uint32 base, uint32 space);
 
 		root_signature_info& add_descriptor_table(const std::string& name, const descriptor_table& table);
 
-		root_signature_info& add_constants(const std::string& name, size_t base, size_t space, size_t count);
+		root_signature_info& add_constants(const std::string& name, uint32 base, uint32 space, uint32 count);
 
-		root_signature_info& add_unordered_access_view(const std::string& name, size_t base, size_t space);
+		root_signature_info& add_unordered_access_view(const std::string& name, uint32 base, uint32 space);
 		
-		root_signature_info& add_shader_resource_view(const std::string& name, size_t base, size_t space);
+		root_signature_info& add_shader_resource_view(const std::string& name, uint32 base, uint32 space);
 
-		root_signature_info& add_constant_buffer_view(const std::string& name, size_t base, size_t space);
+		root_signature_info& add_constant_buffer_view(const std::string& name, uint32 base, uint32 space);
 
-		root_signature_info& add_static_sampler(const std::string& name, size_t base, size_t space);
+		root_signature_info& add_static_sampler(const std::string& name, uint32 base, uint32 space);
 		
-		size_t index(const std::string& name) const;
+		uint32 index(const std::string& name) const;
 		
 		size_t base(const std::string& name) const;
 
@@ -45,7 +45,7 @@ namespace wrapper::directx12 {
 		std::vector<D3D12_STATIC_SAMPLER_DESC> mStaticSamplers;
 		std::vector<D3D12_ROOT_PARAMETER> mRootParameters;
 
-		std::unordered_map<std::string, size_t> mDescriptorIndex;
+		std::unordered_map<std::string, uint32> mDescriptorIndex;
 
 		std::vector<size_t> mDescriptorBase;
 		std::vector<size_t> mDescriptorSize;

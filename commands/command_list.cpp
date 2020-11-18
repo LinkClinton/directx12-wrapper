@@ -63,33 +63,38 @@ void wrapper::directx12::graphics_command_list::set_scissor_rects(const std::vec
 	mWrapperInstance->RSSetScissorRects(static_cast<UINT>(rects.size()), rects.data());
 }
 
-void wrapper::directx12::graphics_command_list::set_graphics_descriptor_table(size_t index,
+void wrapper::directx12::graphics_command_list::set_compute_descriptor_table(uint32 index,
 	const D3D12_GPU_DESCRIPTOR_HANDLE& base) const
 {
-	mWrapperInstance->SetGraphicsRootDescriptorTable(static_cast<UINT>(index), base);
+	mWrapperInstance->SetComputeRootDescriptorTable(index, base);
 }
 
-void wrapper::directx12::graphics_command_list::set_graphics_shader_resource_view(size_t index,
+void wrapper::directx12::graphics_command_list::set_graphics_descriptor_table(uint32 index,
+                                                                              const D3D12_GPU_DESCRIPTOR_HANDLE& base) const
+{
+	mWrapperInstance->SetGraphicsRootDescriptorTable(index, base);
+}
+
+void wrapper::directx12::graphics_command_list::set_graphics_shader_resource_view(uint32 index,
                                                                                   const resource& resource) const
 {
-	mWrapperInstance->SetGraphicsRootShaderResourceView(static_cast<UINT>(index), resource->GetGPUVirtualAddress());
+	mWrapperInstance->SetGraphicsRootShaderResourceView(index, resource->GetGPUVirtualAddress());
 }
 
-void wrapper::directx12::graphics_command_list::set_graphics_constant_buffer_view(size_t index,
+void wrapper::directx12::graphics_command_list::set_graphics_constant_buffer_view(uint32 index,
                                                                                   const buffer& resource) const
 {
-	mWrapperInstance->SetGraphicsRootConstantBufferView(static_cast<UINT>(index), resource->GetGPUVirtualAddress());
+	mWrapperInstance->SetGraphicsRootConstantBufferView(index, resource->GetGPUVirtualAddress());
 }
 
-void wrapper::directx12::graphics_command_list::set_graphics_constants(size_t index, const void* data, size_t count, size_t offset) const
+void wrapper::directx12::graphics_command_list::set_graphics_constants(uint32 index, const void* data, uint32 count, uint32 offset) const
 {
-	mWrapperInstance->SetGraphicsRoot32BitConstants(static_cast<UINT>(index),
-		static_cast<UINT>(count), data, static_cast<UINT>(offset));
+	mWrapperInstance->SetGraphicsRoot32BitConstants(index, count, data, offset);
 }
 
-void wrapper::directx12::graphics_command_list::set_graphics_constants(size_t index, const std::vector<value32bit>& values) const
+void wrapper::directx12::graphics_command_list::set_graphics_constants(uint32 index, const std::vector<value32bit>& values) const
 {
-	set_graphics_constants(index, values.data(), values.size(), 0);
+	set_graphics_constants(index, values.data(), static_cast<uint32>(values.size()), 0);
 }
 
 void wrapper::directx12::graphics_command_list::resource_barrier(

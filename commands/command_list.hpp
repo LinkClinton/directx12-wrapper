@@ -48,15 +48,17 @@ namespace wrapper::directx12 {
 
 		void set_scissor_rects(const std::vector<D3D12_RECT>& rects) const;
 
-		void set_graphics_descriptor_table(size_t index, const D3D12_GPU_DESCRIPTOR_HANDLE& base) const;
-		
-		void set_graphics_shader_resource_view(size_t index, const resource& resource) const;
-		
-		void set_graphics_constant_buffer_view(size_t index, const buffer& resource) const;
-		
-		void set_graphics_constants(size_t index, const void* data, size_t count, size_t offset) const;
+		void set_graphics_descriptor_table(uint32 index, const D3D12_GPU_DESCRIPTOR_HANDLE& base) const;
 
-		void set_graphics_constants(size_t index, const std::vector<value32bit>& values) const;
+		void set_compute_descriptor_table(uint32 index, const D3D12_GPU_DESCRIPTOR_HANDLE& base) const;
+		
+		void set_graphics_shader_resource_view(uint32 index, const resource& resource) const;
+		
+		void set_graphics_constant_buffer_view(uint32 index, const buffer& resource) const;
+		
+		void set_graphics_constants(uint32 index, const void* data, uint32 count, uint32 offset) const;
+
+		void set_graphics_constants(uint32 index, const std::vector<value32bit>& values) const;
 
 		void resource_barrier(const std::vector<D3D12_RESOURCE_BARRIER>& barriers) const;
 

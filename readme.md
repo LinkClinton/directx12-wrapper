@@ -69,6 +69,8 @@ command_queue.wait(...); //wait fence
 resource.barrier(command_list, before_state, after_state);
 ```
 
+Raytracing was supported.
+
 ### About "fix_resharper_error.hlsl"
 
 For the user with resharper extension. If you enable the resharper extension to work with HLSL, you can include this file to help you write HLSL with better code completion(highlight, warning and so on). 
@@ -81,10 +83,6 @@ All extensions are header only file. If you want to use them, you can include th
 
 - `imgui` : a renderer backend of imgui.
 - `dxc` : DirectX Shader Compiler.
-
-## Todo
-
-- Raytracing.
 
 ## Samples
 

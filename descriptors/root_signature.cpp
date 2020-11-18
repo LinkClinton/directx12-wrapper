@@ -1,14 +1,14 @@
 #include "root_signature.hpp"
 
 wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info::add_descriptor(
-	const std::string& name, const D3D12_ROOT_PARAMETER_TYPE& type, size_t base, size_t space)
+	const std::string& name, const D3D12_ROOT_PARAMETER_TYPE& type, uint32 base, uint32 space)
 {
 	D3D12_ROOT_PARAMETER parameter;
 
 	parameter.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	parameter.ParameterType = type;
-	parameter.Descriptor.ShaderRegister = static_cast<UINT>(base);
-	parameter.Descriptor.RegisterSpace = static_cast<UINT>(space);
+	parameter.Descriptor.ShaderRegister = base;
+	parameter.Descriptor.RegisterSpace = space;
 
 	return add_root_parameter(name, parameter);
 }
@@ -20,44 +20,44 @@ wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info
 }
 
 wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info::add_constants(
-	const std::string& name, size_t base, size_t space, size_t count)
+	const std::string& name, uint32 base, uint32 space, uint32 count)
 {
 	D3D12_ROOT_PARAMETER parameter;
 
 	parameter.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	parameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
-	parameter.Constants.Num32BitValues = static_cast<UINT>(count);
-	parameter.Constants.ShaderRegister = static_cast<UINT>(base);
-	parameter.Constants.RegisterSpace = static_cast<UINT>(space);
+	parameter.Constants.Num32BitValues = count;
+	parameter.Constants.ShaderRegister = base;
+	parameter.Constants.RegisterSpace = space;
 
 	return add_root_parameter(name, parameter);
 }
 
 wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info::add_unordered_access_view(
-	const std::string& name, size_t base, size_t space)
+	const std::string& name, uint32 base, uint32 space)
 {
 	return add_descriptor(name, D3D12_ROOT_PARAMETER_TYPE_UAV, base, space);
 }
 
 wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info::add_shader_resource_view(
-	const std::string& name, size_t base, size_t space)
+	const std::string& name, uint32 base, uint32 space)
 {
 	return add_descriptor(name, D3D12_ROOT_PARAMETER_TYPE_SRV, base, space);
 }
 
 wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info::add_constant_buffer_view(
-	const std::string& name, size_t base, size_t space)
+	const std::string& name, uint32 base, uint32 space)
 {
 	return add_descriptor(name, D3D12_ROOT_PARAMETER_TYPE_CBV, base, space);
 }
 
 wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info::add_static_sampler(
-	const std::string& name, size_t base, size_t space)
+	const std::string& name, uint32 base, uint32 space)
 {
 	D3D12_STATIC_SAMPLER_DESC desc;
 
-	desc.RegisterSpace = static_cast<UINT>(space);
-	desc.ShaderRegister = static_cast<UINT>(base);
+	desc.RegisterSpace = space;
+	desc.ShaderRegister = base;
 	desc.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	desc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 	desc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
@@ -74,7 +74,7 @@ wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info
 	return *this;
 }
 
-size_t wrapper::directx12::root_signature_info::index(const std::string& name) const
+wrapper::directx12::uint32 wrapper::directx12::root_signature_info::index(const std::string& name) const
 {
 	return mDescriptorIndex.at(name);
 }
@@ -109,7 +109,7 @@ wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info
 {
 	mRootParameters.push_back(parameter);
 
-	mDescriptorIndex.insert({ name, mDescriptorIndex.size() });
+	mDescriptorIndex.insert({ name, static_cast<uint32>(mDescriptorIndex.size()) });
 
 	const auto size = parameter.ParameterType == D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS ?
 		align_to(static_cast<size_t>(parameter.Constants.Num32BitValues) * 4, sizeof(D3D12_GPU_DESCRIPTOR_HANDLE)) :
