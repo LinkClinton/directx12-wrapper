@@ -69,9 +69,9 @@ void wrapper::directx12::texture2d::copy_from(const graphics_command_list& comma
 	command_list->CopyTextureRegion(&dest, 0, 0, 0, &src, &region);
 }
 
-size_t wrapper::directx12::texture2d::alignment() const
+wrapper::directx12::uint32 wrapper::directx12::texture2d::alignment() const
 {
-	return align_to(mDesc.Width * size_of(mDesc.Format), D3D12_TEXTURE_DATA_PITCH_ALIGNMENT);
+	return static_cast<uint32>(align_to(mDesc.Width * size_of(mDesc.Format), D3D12_TEXTURE_DATA_PITCH_ALIGNMENT));
 }
 
 DXGI_FORMAT wrapper::directx12::texture2d::format() const
@@ -79,26 +79,26 @@ DXGI_FORMAT wrapper::directx12::texture2d::format() const
 	return mDesc.Format;
 }
 
-size_t wrapper::directx12::texture2d::size_x() const
+wrapper::directx12::uint32 wrapper::directx12::texture2d::size_x() const
 {
-	return static_cast<size_t>(mDesc.Width);
+	return static_cast<uint32>(mDesc.Width);
 }
 
-size_t wrapper::directx12::texture2d::size_y() const
+wrapper::directx12::uint32 wrapper::directx12::texture2d::size_y() const
 {
-	return static_cast<size_t>(mDesc.Height);
+	return static_cast<uint32>(mDesc.Height);
 }
 
 wrapper::directx12::texture2d wrapper::directx12::texture2d::create(
 	const device& device, const resource_info& info,
-	const DXGI_FORMAT& format, size_t size_x, size_t size_y, const clear_value& clear)
+	const DXGI_FORMAT& format, uint32 size_x, uint32 size_y, const clear_value& clear)
 {
 	return create(device, info, format, size_x, size_y, 1, clear);
 }
 
 wrapper::directx12::texture2d wrapper::directx12::texture2d::create(
 	const device& device, const resource_info& info,
-	const DXGI_FORMAT& format, size_t size_x, size_t size_y, size_t samples,
+	const DXGI_FORMAT& format, uint32 size_x, uint32 size_y, uint32 samples,
 	const clear_value& clear)
 {
 	D3D12_RESOURCE_DESC desc;

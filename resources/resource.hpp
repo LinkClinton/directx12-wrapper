@@ -42,6 +42,10 @@ namespace wrapper::directx12 {
 		static resource_info common(
 			const D3D12_RESOURCE_STATES& state = D3D12_RESOURCE_STATE_GENERIC_READ,
 			const D3D12_RESOURCE_FLAGS& flags = D3D12_RESOURCE_FLAG_NONE);
+
+		static resource_info readback(
+			const D3D12_RESOURCE_STATES& state = D3D12_RESOURCE_STATE_COPY_DEST,
+			const D3D12_RESOURCE_FLAGS& flags = D3D12_RESOURCE_FLAG_NONE);
 	private:
 		D3D12_RESOURCE_STATES mState;
 		D3D12_RESOURCE_FLAGS mFlags;

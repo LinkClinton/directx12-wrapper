@@ -1,6 +1,6 @@
 #include "utilities.hpp"
 
-size_t wrapper::directx12::size_of(const DXGI_FORMAT& format)
+wrapper::directx12::uint32 wrapper::directx12::size_of(const DXGI_FORMAT& format)
 {
 	// todo : support more DXGI_FORMAT
 	switch (format) {
@@ -14,7 +14,7 @@ size_t wrapper::directx12::size_of(const DXGI_FORMAT& format)
 	return 0;
 }
 
-size_t wrapper::directx12::align_to(size_t value, size_t alignment)
+wrapper::directx12::uint64 wrapper::directx12::align_to(uint64 value, uint64 alignment)
 {
 	return ((value + alignment - 1) / alignment) * alignment;
 }

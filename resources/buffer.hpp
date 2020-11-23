@@ -16,6 +16,8 @@ namespace wrapper::directx12 {
 
 		void copy_from(const graphics_command_list& command_list, const buffer& buffer) const;
 
+		void copy_from(const graphics_command_list& command_list, const texture2d& texture) const;
+		
 		auto begin_mapping() const -> void*;
 
 		void end_mapping() const;

@@ -60,6 +60,11 @@ wrapper::directx12::resource_info wrapper::directx12::resource_info::common(cons
 	return resource_info(state, flags, D3D12_HEAP_TYPE_DEFAULT);
 }
 
+wrapper::directx12::resource_info wrapper::directx12::resource_info::readback(const D3D12_RESOURCE_STATES& state, const D3D12_RESOURCE_FLAGS& flags)
+{
+	return resource_info(state, flags, D3D12_HEAP_TYPE_READBACK);
+}
+
 D3D12_VERTEX_BUFFER_VIEW wrapper::directx12::resource_view::vertex_buffer(const buffer& buffer, size_t stride_in_bytes, size_t size_in_bytes)
 {
 	return {

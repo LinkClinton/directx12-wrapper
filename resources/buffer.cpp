@@ -1,5 +1,7 @@
 #include "buffer.hpp"
 
+#include "texture2d.hpp"
+
 #include <memory>
 
 wrapper::directx12::buffer::buffer(const ComPtr<ID3D12Resource>& source) : resource(source)
@@ -24,6 +26,34 @@ void wrapper::directx12::buffer::copy_from(const graphics_command_list& command_
 {
 	command_list->CopyBufferRegion(mWrapperInstance.Get(), 0, buffer.get(), 0,
 		static_cast<UINT64>(buffer.size_in_bytes()));
+}
+
+void wrapper::directx12::buffer::copy_from(const graphics_command_list& command_list, const texture2d& texture) const
+{
+	D3D12_TEXTURE_COPY_LOCATION dest;
+	D3D12_TEXTURE_COPY_LOCATION src;
+
+	dest.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+	dest.PlacedFootprint.Offset = 0;
+	dest.PlacedFootprint.Footprint.Format = texture.format();
+	dest.PlacedFootprint.Footprint.Width = static_cast<UINT>(texture.size_x());
+	dest.PlacedFootprint.Footprint.Height = static_cast<UINT>(texture.size_y());
+	dest.PlacedFootprint.Footprint.Depth = 1;
+	dest.PlacedFootprint.Footprint.RowPitch = static_cast<UINT>(texture.alignment());
+	dest.pResource = mWrapperInstance.Get();
+
+	src.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+	src.SubresourceIndex = 0;
+	src.pResource = texture.get();
+
+	D3D12_BOX region = {
+		0, 0, 0,
+		static_cast<UINT>(texture.size_x()),
+		static_cast<UINT>(texture.size_y()),
+		1
+	};
+
+	command_list->CopyTextureRegion(&dest, 0, 0, 0, &src, &region);
 }
 
 auto wrapper::directx12::buffer::begin_mapping() const -> void* 

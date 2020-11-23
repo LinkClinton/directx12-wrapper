@@ -31,17 +31,17 @@ namespace wrapper::directx12 {
 		
 		DXGI_FORMAT format() const;
 
-		size_t alignment() const;
+		uint32 alignment() const;
 		
-		size_t size_x() const;
+		uint32 size_x() const;
 
-		size_t size_y() const;
+		uint32 size_y() const;
 		
 		static texture2d create(const device& device, const resource_info& info, 
-			const DXGI_FORMAT& format, size_t size_x, size_t size_y, const clear_value& clear = clear_value());
+			const DXGI_FORMAT& format, uint32 size_x, uint32 size_y, const clear_value& clear = clear_value());
 
 		static texture2d create(const device& device, const resource_info& info,
-			const DXGI_FORMAT& format, size_t size_x, size_t size_y, size_t samples,
+			const DXGI_FORMAT& format, uint32 size_x, uint32 size_y, uint32 samples,
 			const clear_value& clear = clear_value());
 	};
 	

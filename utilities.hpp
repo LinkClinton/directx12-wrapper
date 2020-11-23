@@ -30,14 +30,15 @@ namespace wrapper::directx12 {
 
 	using Microsoft::WRL::ComPtr;
 
+	using uint64 = unsigned long long;
 	using uint32 = unsigned;
 	using uint8 = unsigned char;
 	using int32 = int;
 	using real = float;
 	
-	size_t size_of(const DXGI_FORMAT& format);
+	uint32 size_of(const DXGI_FORMAT& format);
 
-	size_t align_to(size_t value, size_t alignment);
+	uint64 align_to(uint64 value, uint64 alignment);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE offset_handle(const D3D12_CPU_DESCRIPTOR_HANDLE& handle, size_t value);
 
