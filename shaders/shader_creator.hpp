@@ -20,7 +20,9 @@ namespace wrapper::directx12 {
 		
 		~shader_creator() = default;
 
-		shader_creator& include(const std::string& filepath, uint32 line = 0);
+		shader_creator& include(const std::string& filepath, uint32 line);
+
+		shader_creator& include(const std::string& filepath);
 		
 		shader_creator& define_structure(const std::vector<shader_variable>& variables, const std::string& type_name);
 
@@ -41,6 +43,8 @@ namespace wrapper::directx12 {
 		std::string source() const noexcept;
 
 		static shader_creator create_from_file(const std::wstring& filename);
+
+		static shader_creator create();
 	private:
 		std::vector<std::string> mSource;
 	};

@@ -31,6 +31,13 @@ wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::include(
 	return *this;
 }
 
+wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::include(const std::string& filepath)
+{
+	mSource.push_back("#include \"" + filepath + "\"");
+
+	return *this;
+}
+
 wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::define_structure(
 	const std::vector<shader_variable>& variables, const std::string& type_name)
 {
@@ -125,4 +132,9 @@ wrapper::directx12::shader_creator wrapper::directx12::shader_creator::create_fr
 		source += line + "\n";
 
 	return shader_creator(source);
+}
+
+wrapper::directx12::shader_creator wrapper::directx12::shader_creator::create()
+{
+	return shader_creator();
 }
