@@ -23,8 +23,7 @@ wrapper::directx12::shader_creator::shader_creator(const std::string& source)
 	}
 }
 
-wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::include(const std::string& filepath,
-	uint32 line)
+wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::include(const std::string& filepath, size_t line)
 {
 	mSource.insert(mSource.begin() + line, "#include \"" + filepath + "\"");
 
@@ -33,7 +32,7 @@ wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::include(
 
 wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::include(const std::string& filepath)
 {
-	mSource.push_back("#include \"" + filepath + "\"");
+	mSource.push_back("#include \"" + filepath + "\"\n");
 
 	return *this;
 }
@@ -68,9 +67,10 @@ wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::define_c
 	return *this;
 }
 
-wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::define_variable(const std::string& type, const std::string& name)
+wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::define_variable(
+	const std::string& type, const std::string& name, size_t tab)
 {
-	mSource.push_back(type + " " + name + ";\n");
+	mSource.push_back(prefix_tab(tab) + type + " " + name + ";\n");
 
 	return *this;
 }
@@ -98,17 +98,46 @@ wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::end_func
 	return *this;
 }
 
-wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::add_sentence(const std::string& sentence)
+wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::add_sentence(const std::string& sentence, size_t tab)
 {
-	mSource.push_back(sentence + "\n");
+	mSource.push_back(prefix_tab(tab) + sentence + "\n");
 	
 	return *this;
 }
 
-wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::insert(const shader_creator& creator,
-	uint32 line)
+wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::replace(const std::string& keyword,
+                                                                                const shader_creator& creator)
 {
-	mSource.insert(mSource.begin(), creator.mSource.begin(), creator.mSource.end());
+	// replace code block like this(keyword will be removed)
+	// keyword
+	// ...
+	// keyword
+	// notice : keyword must be one line
+
+	size_t beg = std::numeric_limits<size_t>::max();
+	size_t end = std::numeric_limits<size_t>::max();
+	
+	for (size_t index = 0; index < mSource.size(); index++) {
+		if (mSource[index].find(keyword) != std::string::npos) {
+			if (beg == std::numeric_limits<size_t>::max())
+				beg = index;
+			else { end = index; break;}
+		}
+	}
+
+	assert(beg != std::numeric_limits<size_t>::max());
+	assert(end != std::numeric_limits<size_t>::max());
+
+	mSource.erase(mSource.begin() + beg, mSource.begin() + end + 1);
+
+	insert(creator, beg);
+
+	return *this;
+}
+
+wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::insert(const shader_creator& creator, size_t line)
+{
+	mSource.insert(mSource.begin() + line, creator.mSource.begin(), creator.mSource.end());
 
 	return *this;
 }
@@ -137,4 +166,13 @@ wrapper::directx12::shader_creator wrapper::directx12::shader_creator::create_fr
 wrapper::directx12::shader_creator wrapper::directx12::shader_creator::create()
 {
 	return shader_creator();
+}
+
+std::string wrapper::directx12::shader_creator::prefix_tab(size_t count) const
+{
+	std::string prefix = "";
+
+	for (size_t index = 0; index < count; index++) prefix.push_back('\t');
+
+	return prefix;
 }

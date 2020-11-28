@@ -126,15 +126,31 @@ D3D12_DEPTH_STENCIL_VIEW_DESC wrapper::directx12::resource_view::depth_stencil2d
 	return desc;
 }
 
+D3D12_SHADER_RESOURCE_VIEW_DESC wrapper::directx12::resource_view::structured_buffer(size_t stride_in_bytes, size_t size_in_bytes)
+{
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc;
+
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+
+	desc.Buffer.FirstElement = 0;
+	desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	desc.Buffer.NumElements = static_cast<UINT>(size_in_bytes / stride_in_bytes);
+	desc.Buffer.StructureByteStride = static_cast<UINT>(stride_in_bytes);
+
+	return desc;
+}
+
 D3D12_SHADER_RESOURCE_VIEW_DESC wrapper::directx12::resource_view::acceleration(
 	const raytracing_acceleration& acceleration)
 {
 	D3D12_SHADER_RESOURCE_VIEW_DESC desc;
 
 	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	desc.Format = DXGI_FORMAT_UNKNOWN;
 	desc.ViewDimension = D3D12_SRV_DIMENSION_RAYTRACING_ACCELERATION_STRUCTURE;
-
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	
 	desc.RaytracingAccelerationStructure.Location = acceleration.acceleration()->GetGPUVirtualAddress();
 
 	return desc;

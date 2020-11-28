@@ -70,8 +70,10 @@ namespace wrapper::directx12 {
 
 		static D3D12_DEPTH_STENCIL_VIEW_DESC depth_stencil2d(const DXGI_FORMAT& format, uint32 mip_slice = 0);
 
+		static D3D12_SHADER_RESOURCE_VIEW_DESC structured_buffer(size_t stride_in_bytes, size_t size_in_bytes);
+
 		static D3D12_SHADER_RESOURCE_VIEW_DESC acceleration(const raytracing_acceleration& acceleration);
-		
+
 		static D3D12_SHADER_RESOURCE_VIEW_DESC texture2d(const DXGI_FORMAT& format);
 
 		static D3D12_UNORDERED_ACCESS_VIEW_DESC read_write_texture2d(const DXGI_FORMAT& format);
