@@ -19,7 +19,7 @@ namespace wrapper::directx12::extensions {
 		ComPtr<IDxcIncludeHandler> include;
 		ComPtr<IDxcCompiler> compiler;
 		ComPtr<IDxcLibrary> library;
-
+		
 		DxcCreateInstance(CLSID_DxcLibrary, IID_PPV_ARGS(library.GetAddressOf()));
 		DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(compiler.GetAddressOf()));
 
@@ -36,21 +36,17 @@ namespace wrapper::directx12::extensions {
 
 		defines.push_back({ L"__HLSL_SHADER__", L"1" });
 
-		const wchar_t* arguments[] = {
-			L"-Od",
-			L"-Zi"
-		};
-
+		std::vector<const wchar_t*> arguments = {
 #ifdef _DEBUG
-		compiler->Compile(encoding_blob.Get(), filename.c_str(), entry.c_str(),
-			version.c_str(), arguments, 1, defines.data(), static_cast<UINT32>(defines.size()),
-			include.Get(), result.GetAddressOf());
-#else
-		compiler->Compile(encoding_blob.Get(), filename.c_str(), entry.c_str(),
-			version.c_str(), nullptr, 0, defines.data(), static_cast<UINT32>(defines.size()),
-			include.Get(), result.GetAddressOf());
+			L"-Od"
 #endif
-
+		};
+		
+		compiler->Compile(encoding_blob.Get(), filename.c_str(), entry.c_str(),
+			version.c_str(), arguments.data(), static_cast<uint32>(arguments.size()), 
+			defines.data(), static_cast<UINT32>(defines.size()),
+			include.Get(), result.GetAddressOf());
+		
 		ComPtr<IDxcBlobEncoding> error_code;
 		ComPtr<IDxcBlob> result_code;
 		HRESULT result_status;
@@ -93,20 +89,16 @@ namespace wrapper::directx12::extensions {
 
 		defines.push_back({ L"__HLSL_SHADER__", L"1" });
 
-		const wchar_t* arguments[] = {
-			L"-Od",
-			L"-Zi"
+		std::vector<const wchar_t*> arguments = {
+#ifdef _DEBUG
+			L"-Od"
+#endif
 		};
 
-#ifdef _DEBUG
 		compiler->Compile(encoding_blob.Get(), filename.c_str(), entry.c_str(),
-			version.c_str(), arguments, 1, defines.data(), static_cast<UINT32>(defines.size()),
+			version.c_str(), arguments.data(), static_cast<uint32>(arguments.size()),
+			defines.data(), static_cast<UINT32>(defines.size()),
 			include.Get(), result.GetAddressOf());
-#else
-		compiler->Compile(encoding_blob.Get(), filename.c_str(), entry.c_str(),
-			version.c_str(), nullptr, 0, defines.data(), static_cast<UINT32>(defines.size()),
-			include.Get(), result.GetAddressOf());
-#endif
 
 		ComPtr<IDxcBlobEncoding> error_code;
 		ComPtr<IDxcBlob> result_code;
