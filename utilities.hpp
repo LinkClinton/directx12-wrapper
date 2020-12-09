@@ -4,8 +4,11 @@
 #include <d3d12.h>
 #include <wrl.h>
 
+#include <algorithm>
 #include <cassert>
+#include <vector>
 #include <string>
+#include <array>
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -13,7 +16,6 @@
 #undef max
 #undef min
 
-#define __LOG_SPDLOG_IMPLEMENTATION__
 #ifndef __LOG_SPDLOG_IMPLEMENTATION__
 #else
 #pragma warning(disable : 4275)
