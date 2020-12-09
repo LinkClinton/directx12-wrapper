@@ -76,16 +76,28 @@ namespace wrapper::directx12 {
 	void error(const std::string_view& format, const Args& ... args) { spdlog::error(format, args...); }
 #else
 	template <typename... Args>
-	void debug(const std::string_view& format, const Args& ... args) {}
+	void debug(const std::string_view& format, const Args& ... args)
+	{
+		printf(format.data());
+	}
 
 	template <typename... Args>
-	void info(const std::string_view& format, const Args& ... args) {}
+	void info(const std::string_view& format, const Args& ... args)
+	{
+		printf(format.data());
+	}
 
 	template <typename... Args>
-	void warn(const std::string_view& format, const Args& ... args) {}
+	void warn(const std::string_view& format, const Args& ... args)
+	{
+		printf(format.data());
+	}
 
 	template <typename... Args>
-	void error(const std::string_view& format, const Args& ... args) {}
+	void error(const std::string_view& format, const Args& ... args)
+	{
+		printf(format.data());
+	}
 #endif
 	
 }
