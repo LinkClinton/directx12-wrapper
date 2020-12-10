@@ -23,6 +23,7 @@ jobs:
         setupOnly: true
     - run: |
         $VCPKG_ROOT/vcpkg install spdlog:x64-windows
+      shell: bash
       
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
