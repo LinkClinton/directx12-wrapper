@@ -13,6 +13,8 @@ namespace wrapper::directx12 {
 
 		virtual ~wrapper_t() = default;
 
+		bool valid() const noexcept { return mWrapperInstance.Get() != nullptr; }
+		
 		T* const* get_address_off() const;
 		T* operator->() const;
 		T* get() const;

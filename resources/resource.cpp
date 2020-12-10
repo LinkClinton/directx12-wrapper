@@ -60,6 +60,12 @@ wrapper::directx12::resource_info wrapper::directx12::resource_info::common(cons
 	return resource_info(state, flags, D3D12_HEAP_TYPE_DEFAULT);
 }
 
+wrapper::directx12::resource_info wrapper::directx12::resource_info::common(const D3D12_RESOURCE_FLAGS& flags,
+	const D3D12_RESOURCE_STATES& state)
+{
+	return common(state, flags);
+}
+
 wrapper::directx12::resource_info wrapper::directx12::resource_info::readback(const D3D12_RESOURCE_STATES& state, const D3D12_RESOURCE_FLAGS& flags)
 {
 	return resource_info(state, flags, D3D12_HEAP_TYPE_READBACK);
