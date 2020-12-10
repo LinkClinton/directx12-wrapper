@@ -11,22 +11,20 @@ env:
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Release
 
-jobs:
-  set_up:
-    runs-on: windows-latest
-    steps:
-    - name: run-vcpkg
-    - uses: lukka/run-vcpkg@v6.0
-      with: 
-        setupOnly: true
-    - run: |
-        $VCPKG_ROOT/vcpkg install spdlog:x64-windows
-      shell: bash
-      
+jobs: 
   build:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
+    
+    - name: run-vcpkg
+    - uses: lukka/run-vcpkg@v6.0
+      with: 
+        setupOnly: true
+    - name: install pkg
+      run: |
+        $VCPKG_ROOT/vcpkg install spdlog:x64-windows
+      shell: bash
     
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
