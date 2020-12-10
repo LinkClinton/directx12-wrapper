@@ -16,12 +16,6 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    
-    - name: run-vcpkg
-    - uses: lukka/run-vcpkg@v6.0
-      with: 
-        vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-        setupOnly: true
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
