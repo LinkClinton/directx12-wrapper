@@ -52,3 +52,16 @@ std::string wrapper::directx12::wide_string_to_multi_bytes_string(const std::wst
 
 	return result;
 }
+
+std::wstring wrapper::directx12::multi_bytes_string_to_wide_string(const std::string& string)
+{
+	const auto size = MultiByteToWideChar(CP_ACP, 0, string.c_str(), 
+		static_cast<int>(string.size()), nullptr, 0);
+
+	std::wstring result; result.resize(size);
+
+	MultiByteToWideChar(CP_ACP, 0, string.c_str(), static_cast<int>(string.size()),
+		result.data(), size);
+
+	return result;
+}

@@ -49,6 +49,8 @@ namespace wrapper::directx12 {
 	std::string copy_data_to_string(void* data, size_t size_in_bytes);
 
 	std::string wide_string_to_multi_bytes_string(const std::wstring& wide_string);
+
+	std::wstring multi_bytes_string_to_wide_string(const std::string& string);
 	
 	template <typename... Args>
 	void debug(const std::string_view& format, const Args& ... args);

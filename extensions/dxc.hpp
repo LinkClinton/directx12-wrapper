@@ -14,7 +14,7 @@
 namespace wrapper::directx12::extensions {
 
 	inline shader_code compile_from_source_using_dxc(const std::string& source, const std::wstring& filename, 
-		const std::wstring& entry, const std::wstring& version)
+		const std::wstring& entry, const std::wstring& version, const std::vector<std::pair<std::wstring, std::wstring>>& macros = {})
 	{
 		ComPtr<IDxcIncludeHandler> include;
 		ComPtr<IDxcCompiler> compiler;
@@ -33,9 +33,12 @@ namespace wrapper::directx12::extensions {
 		ComPtr<IDxcOperationResult> result;
 
 		std::vector<DxcDefine> defines;
-
+		
 		defines.push_back({ L"__HLSL_SHADER__", L"1" });
 
+		for (const auto& macro : macros)
+			defines.push_back({ macro.first.c_str(), macro.second.c_str() });
+		
 		std::vector<const wchar_t*> arguments = {
 #ifdef _DEBUG
 			L"-Od"
@@ -66,9 +69,29 @@ namespace wrapper::directx12::extensions {
 
 		return shader_code(code);
 	}
+
+	inline shader_code compile_from_source_using_dxc(const std::string& source, const std::string& filename,
+		const std::string& entry, const std::string& version, const std::vector<std::pair<std::string, std::string>>& macros = {})
+	{
+		std::vector<std::pair<std::wstring, std::wstring>> wmacros = {};
+
+		for (const auto& [macro, value] : macros)
+			wmacros.push_back({
+				multi_bytes_string_to_wide_string(macro),
+				multi_bytes_string_to_wide_string(value)
+			});
+
+		return compile_from_source_using_dxc(
+			source,
+			multi_bytes_string_to_wide_string(filename),
+			multi_bytes_string_to_wide_string(entry),
+			multi_bytes_string_to_wide_string(version),
+			wmacros
+		);
+	}
 	
 	inline shader_code compile_from_file_using_dxc(const std::wstring& filename, const std::wstring& entry,
-	                                               const std::wstring& version)
+		const std::wstring& version, const std::vector<std::pair<std::wstring, std::wstring>>& macros = {})
 	{
 		ComPtr<IDxcIncludeHandler> include;
 		ComPtr<IDxcCompiler> compiler;
@@ -89,6 +112,9 @@ namespace wrapper::directx12::extensions {
 
 		defines.push_back({ L"__HLSL_SHADER__", L"1" });
 
+		for (const auto& macro : macros)
+			defines.push_back({ macro.first.c_str(), macro.second.c_str() });
+		
 		std::vector<const wchar_t*> arguments = {
 #ifdef _DEBUG
 			L"-Od"
@@ -119,7 +145,26 @@ namespace wrapper::directx12::extensions {
 
 		return shader_code(code);
 	}
+	
+	inline shader_code compile_from_file_using_dxc(const std::string& filename, const std::string& entry,
+		const std::string& version, const std::vector<std::pair<std::string, std::string>>& macros = {})
+	{
+		std::vector<std::pair<std::wstring, std::wstring>> wmacros = {};
 
+		for (const auto& [macro, value] : macros)
+			wmacros.push_back({
+				multi_bytes_string_to_wide_string(macro),
+				multi_bytes_string_to_wide_string(value)
+				});
+
+		return compile_from_file_using_dxc(
+			multi_bytes_string_to_wide_string(filename),
+			multi_bytes_string_to_wide_string(entry),
+			multi_bytes_string_to_wide_string(version),
+			wmacros
+		);
+	}
+	
 }
 
 #endif

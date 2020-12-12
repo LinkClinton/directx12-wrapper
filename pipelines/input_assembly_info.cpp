@@ -1,7 +1,7 @@
 #include "input_assembly_info.hpp"
 
 wrapper::directx12::input_assembly_info& wrapper::directx12::input_assembly_info::add_input_element(
-	const std::string& name, const DXGI_FORMAT& format, size_t slot)
+	const std::string& name, const DXGI_FORMAT& format, uint32 slot)
 {
 	// cache the name to keep the life of SemanticName in mElements
 	mNames.push_back(name);
