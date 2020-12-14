@@ -77,6 +77,10 @@ For the user with resharper extension. If you enable the resharper extension to 
 
 It is not a good way to support code completion with HLSL. But I think it is helpful.
 
+## Todo
+
+- Extension : Pipeline from json.
+
 ## Extensions
 
 All extensions are header only file. If you want to use them, you can include the header files of them. But you should ensure the third parties of extensions are installed. For example, if you want to use `dxc` extension, you need ensure your operation system support [dxc](https://github.com/microsoft/DirectXShaderCompiler) and `.dll` files should be your working path.

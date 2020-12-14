@@ -56,6 +56,8 @@ wrapper::directx12::swap_chain wrapper::directx12::swap_chain::create(const comm
 
 	factory->CreateSwapChain(queue.get(), &desc, swap_chain0.GetAddressOf());
 
+	factory->MakeWindowAssociation(handle, DXGI_MWA_NO_ALT_ENTER);
+	
 	swap_chain0->QueryInterface(IID_PPV_ARGS(swap_chain4.GetAddressOf()));
 
 	return swap_chain(swap_chain4);
