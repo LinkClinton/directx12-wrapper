@@ -23,7 +23,11 @@ namespace wrapper::directx12 {
 
 		static shader_code create_from_source(const std::string& source, const std::string& entry, const std::string& version);
 
-		static shader_code create_from_file(const std::wstring& filename, const std::string& entry, const std::string& version);
+		static shader_code create_from_file(const std::wstring& filename, const std::string& entry, const std::string& version,
+			const std::vector<std::pair<std::string, std::string>>& macros = {});
+
+		static shader_code create_from_file(const std::string& filename, const std::string& entry, const std::string& version,
+			const std::vector<std::pair<std::string, std::string>>& macros = {});
 	private:
 		std::vector<byte> mCode;
 	};

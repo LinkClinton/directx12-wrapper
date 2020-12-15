@@ -58,18 +58,24 @@ wrapper::directx12::shader_code wrapper::directx12::shader_code::create_from_sou
 	return shader_code(code);
 }
 
-wrapper::directx12::shader_code wrapper::directx12::shader_code::create_from_file(const std::wstring& filename,
-	const std::string& entry, const std::string& version)
+wrapper::directx12::shader_code wrapper::directx12::shader_code::create_from_file(
+	const std::wstring& filename, const std::string& entry, const std::string& version,
+	const std::vector<std::pair<std::string, std::string>>& macros)
 {	
 	ComPtr<ID3DBlob> message;
 	ComPtr<ID3DBlob> result;
 
-	D3D_SHADER_MACRO macros[] = {
+	std::vector<D3D_SHADER_MACRO> shader_macros = {
 		{ "__HLSL_SHADER__", "1" },
-		{ nullptr, nullptr }
+		{ "__FXC_COMPILER__", "1" }
 	};
 
-	D3DCompileFromFile(filename.c_str(), macros, D3D_COMPILE_STANDARD_FILE_INCLUDE,
+	for (const auto& [name, value] : macros)
+		shader_macros.push_back({ name.c_str(), value.c_str() });
+
+	shader_macros.push_back({ nullptr, nullptr });
+
+	D3DCompileFromFile(filename.c_str(), shader_macros.data(), D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		entry.c_str(), version.c_str(), 0, 0, 
 		result.GetAddressOf(), message.GetAddressOf());
 	
@@ -91,4 +97,12 @@ wrapper::directx12::shader_code wrapper::directx12::shader_code::create_from_fil
 	std::memcpy(code.data(), result->GetBufferPointer(), result->GetBufferSize());
 
 	return shader_code(code);
+}
+
+wrapper::directx12::shader_code wrapper::directx12::shader_code::create_from_file(
+	const std::string& filename, const std::string& entry, const std::string& version,
+	const std::vector<std::pair<std::string, std::string>>& macros)
+{
+	return create_from_file(multi_bytes_string_to_wide_string(filename),
+		entry, version, macros);
 }
