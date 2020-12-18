@@ -4,6 +4,7 @@
 #include <d3d12.h>
 #include <wrl.h>
 
+#include <unordered_map>
 #include <algorithm>
 #include <cassert>
 #include <vector>
@@ -37,6 +38,9 @@ namespace wrapper::directx12 {
 	using uint8 = unsigned char;
 	using int32 = int;
 	using real = float;
+
+	template <typename Key, typename Value>
+	using mapping = std::unordered_map<Key, Value>;
 	
 	uint32 size_of(const DXGI_FORMAT& format);
 

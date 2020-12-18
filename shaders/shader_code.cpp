@@ -33,10 +33,16 @@ wrapper::directx12::shader_code wrapper::directx12::shader_code::create_from_sou
 		{ "__HLSL_SHADER__", "1" },
 		{ nullptr, nullptr }
 	};
+
+#ifdef _DEBUG
+	const auto flag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#else
+	const auto flag = 0;
+#endif
 	
 	D3DCompile(source.data(), source.length(), nullptr, macros, 
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, entry.c_str(), version.c_str(),
-		0, 0, result.GetAddressOf(), message.GetAddressOf());
+		flag, 0, result.GetAddressOf(), message.GetAddressOf());
 
 	std::string error;
 
@@ -75,8 +81,14 @@ wrapper::directx12::shader_code wrapper::directx12::shader_code::create_from_fil
 
 	shader_macros.push_back({ nullptr, nullptr });
 
+#ifdef _DEBUG
+	const auto flag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;;
+#else
+	const auto flag = 0;
+#endif
+	
 	D3DCompileFromFile(filename.c_str(), shader_macros.data(), D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		entry.c_str(), version.c_str(), 0, 0, 
+		entry.c_str(), version.c_str(), flag, 0, 
 		result.GetAddressOf(), message.GetAddressOf());
 	
 	std::string error;
