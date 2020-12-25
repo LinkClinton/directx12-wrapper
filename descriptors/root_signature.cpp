@@ -16,7 +16,10 @@ wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info
 wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info::add_descriptor_table(
 	const std::string& name, const descriptor_table& table)
 {
-	return add_root_parameter(name, table.parameter());
+	// save the descriptor table for root signature creating
+	mDescriptorTables.insert({ name, table });
+	
+	return add_root_parameter(name, mDescriptorTables.at(name).parameter());
 }
 
 wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info::add_constants(
@@ -72,6 +75,11 @@ wrapper::directx12::root_signature_info& wrapper::directx12::root_signature_info
 	mStaticSamplers.push_back(desc);
 
 	return *this;
+}
+
+const wrapper::directx12::descriptor_table& wrapper::directx12::root_signature_info::table(const std::string& name) const noexcept
+{
+	return mDescriptorTables.at(name);
 }
 
 wrapper::directx12::uint32 wrapper::directx12::root_signature_info::index(const std::string& name) const

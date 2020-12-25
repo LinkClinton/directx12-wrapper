@@ -27,6 +27,8 @@ namespace wrapper::directx12 {
 		root_signature_info& add_constant_buffer_view(const std::string& name, uint32 base, uint32 space);
 
 		root_signature_info& add_static_sampler(const std::string& name, uint32 base, uint32 space);
+
+		const descriptor_table& table(const std::string& name) const noexcept;
 		
 		uint32 index(const std::string& name) const;
 		
@@ -45,6 +47,7 @@ namespace wrapper::directx12 {
 		std::vector<D3D12_STATIC_SAMPLER_DESC> mStaticSamplers;
 		std::vector<D3D12_ROOT_PARAMETER> mRootParameters;
 
+		std::unordered_map<std::string, descriptor_table> mDescriptorTables;
 		std::unordered_map<std::string, uint32> mDescriptorIndex;
 
 		std::vector<size_t> mDescriptorBase;
