@@ -29,6 +29,7 @@
     <ClInclude Include="enums\pixel_format.hpp" />
     <ClInclude Include="extensions\dxc.hpp" />
     <ClInclude Include="extensions\imgui.hpp" />
+    <ClInclude Include="extensions\pipeline.hpp" />
     <ClInclude Include="fence.hpp" />
     <ClInclude Include="interfaces\wrapper.hpp" />
     <ClInclude Include="pipelines\blend_info.hpp" />

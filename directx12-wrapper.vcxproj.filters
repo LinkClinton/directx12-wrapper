@@ -111,6 +111,9 @@
     <ClInclude Include="raytracings\pipeline.hpp">
       <Filter>raytracings</Filter>
     </ClInclude>
+    <ClInclude Include="extensions\pipeline.hpp">
+      <Filter>extensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="utilities.cpp" />
