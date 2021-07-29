@@ -85,6 +85,10 @@ namespace wrapper::directx12::extensions {
 			{"shader_resource_view",[](descriptor_table& table, const nlohmann::json& item)
 			{
 				table.add_srv_range(item["name"], item["index"], item["space"]);
+			}},
+			{"unordered_access_view",[](descriptor_table& table, const nlohmann::json& item)
+			{
+				table.add_uav_range(item["name"], item["index"], item["space"]);
 			}}
 		};
 
