@@ -72,6 +72,8 @@ namespace wrapper::directx12 {
 		
 		static descriptor_heap create(const device& device, const D3D12_DESCRIPTOR_HEAP_TYPE& type, size_t count);
 
+		static descriptor_heap create(const device& device, const D3D12_DESCRIPTOR_HEAP_TYPE& type, const D3D12_DESCRIPTOR_HEAP_FLAGS& flags, size_t count);
+		
 		static descriptor_heap create(const device& device, const descriptor_table& table);
 	private:
 		size_t mOffset = 0;

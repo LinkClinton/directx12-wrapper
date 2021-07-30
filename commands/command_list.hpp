@@ -30,6 +30,11 @@ namespace wrapper::directx12 {
 
 		~graphics_command_list() = default;
 
+		void clear_unordered_access_view(
+			const D3D12_CPU_DESCRIPTOR_HANDLE& cpu_handle_in_non_shader_visible_heap, 
+			const D3D12_GPU_DESCRIPTOR_HANDLE& gpu_handle_in_shader_visible_heap, 
+			const resource& resource, const std::array<float, 4>& value) const;
+		
 		void clear_render_target_view(const D3D12_CPU_DESCRIPTOR_HANDLE& view,  const std::array<float, 4>& color) const;
 
 		void clear_depth_stencil_view(const D3D12_CPU_DESCRIPTOR_HANDLE& view, float depth, uint8 stencil) const;

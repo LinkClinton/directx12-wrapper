@@ -146,6 +146,23 @@ wrapper::directx12::descriptor_heap wrapper::directx12::descriptor_heap::create(
 	return descriptor_heap(heap, device.get());
 }
 
+wrapper::directx12::descriptor_heap wrapper::directx12::descriptor_heap::create(const device& device,
+	const D3D12_DESCRIPTOR_HEAP_TYPE& type, const D3D12_DESCRIPTOR_HEAP_FLAGS& flags, size_t count)
+{
+	D3D12_DESCRIPTOR_HEAP_DESC desc;
+
+	desc.NodeMask = 0;
+	desc.Flags = flags;
+	desc.Type = type;
+	desc.NumDescriptors = static_cast<UINT>(count);
+
+	ComPtr<ID3D12DescriptorHeap> heap;
+
+	device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(heap.GetAddressOf()));
+
+	return descriptor_heap(heap, device.get());
+}
+
 wrapper::directx12::descriptor_heap wrapper::directx12::descriptor_heap::create(const device& device, const descriptor_table& table)
 {
 	D3D12_DESCRIPTOR_HEAP_DESC desc;

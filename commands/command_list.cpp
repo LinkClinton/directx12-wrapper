@@ -7,8 +7,19 @@ wrapper::directx12::graphics_command_list::graphics_command_list(const ComPtr<ID
 {
 }
 
+void wrapper::directx12::graphics_command_list::clear_unordered_access_view(
+	const D3D12_CPU_DESCRIPTOR_HANDLE& cpu_handle_in_non_shader_visible_heap, 
+	const D3D12_GPU_DESCRIPTOR_HANDLE& gpu_handle_in_shader_visible_heap,
+	const resource& resource, const std::array<float, 4>& value) const
+{
+	mWrapperInstance->ClearUnorderedAccessViewFloat(
+		gpu_handle_in_shader_visible_heap, 
+		cpu_handle_in_non_shader_visible_heap, 
+		resource.get(), value.data(), 0, nullptr);
+}
+
 void wrapper::directx12::graphics_command_list::clear_render_target_view(const D3D12_CPU_DESCRIPTOR_HANDLE& view,
-	const std::array<float, 4>& color) const
+                                                                         const std::array<float, 4>& color) const
 {
 	mWrapperInstance->ClearRenderTargetView(view, color.data(), 0, nullptr);
 }
