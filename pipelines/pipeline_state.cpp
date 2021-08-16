@@ -97,6 +97,32 @@ D3D12_GRAPHICS_PIPELINE_STATE_DESC wrapper::directx12::graphics_pipeline_info::d
 	return mDesc;
 }
 
+wrapper::directx12::compute_pipeline_info::compute_pipeline_info()
+{
+	mDesc.NodeMask = 0;
+	mDesc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+}
+
+wrapper::directx12::compute_pipeline_info& wrapper::directx12::compute_pipeline_info::set_root_signature(const root_signature& signature)
+{
+	mDesc.pRootSignature = signature.get();
+
+	return *this;
+}
+
+wrapper::directx12::compute_pipeline_info& wrapper::directx12::compute_pipeline_info::set_compute_shader(const shader_code& shader)
+{
+	mDesc.CS.pShaderBytecode = shader.data();
+	mDesc.CS.BytecodeLength = static_cast<SIZE_T>(shader.size());
+
+	return *this;
+}
+
+D3D12_COMPUTE_PIPELINE_STATE_DESC wrapper::directx12::compute_pipeline_info::desc() const
+{
+	return mDesc;
+}
+
 wrapper::directx12::pipeline_state::pipeline_state(const ComPtr<ID3D12PipelineState>& source) :	wrapper_t<ID3D12PipelineState>(source)
 {
 }
@@ -108,6 +134,17 @@ wrapper::directx12::pipeline_state wrapper::directx12::pipeline_state::create(co
 	ComPtr<ID3D12PipelineState> pipeline;
 	
 	device->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(pipeline.GetAddressOf()));
+
+	return pipeline_state(pipeline);
+}
+
+wrapper::directx12::pipeline_state wrapper::directx12::pipeline_state::create(const device& device, const compute_pipeline_info& info)
+{
+	const auto desc = info.desc();
+
+	ComPtr<ID3D12PipelineState> pipeline;
+
+	device->CreateComputePipelineState(&desc, IID_PPV_ARGS(pipeline.GetAddressOf()));
 
 	return pipeline_state(pipeline);
 }

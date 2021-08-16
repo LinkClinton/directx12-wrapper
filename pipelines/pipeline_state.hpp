@@ -42,6 +42,21 @@ namespace wrapper::directx12 {
 	private:
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC mDesc = {};
 	};
+
+	class compute_pipeline_info final {
+	public:
+		compute_pipeline_info();
+
+		~compute_pipeline_info() = default;
+
+		compute_pipeline_info& set_root_signature(const root_signature& signature);
+
+		compute_pipeline_info& set_compute_shader(const shader_code& shader);
+
+		D3D12_COMPUTE_PIPELINE_STATE_DESC desc() const;
+	private:
+		D3D12_COMPUTE_PIPELINE_STATE_DESC mDesc = {};
+	};
 	
 	class pipeline_state final : public wrapper_t<ID3D12PipelineState> {
 	public:
@@ -52,6 +67,8 @@ namespace wrapper::directx12 {
 		~pipeline_state() = default;
 
 		static pipeline_state create(const device& device, const graphics_pipeline_info& info);
+
+		static pipeline_state create(const device& device, const compute_pipeline_info& info);
 	};
 	
 }
