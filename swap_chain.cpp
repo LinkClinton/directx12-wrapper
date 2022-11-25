@@ -15,7 +15,7 @@ wrapper::directx12::swap_chain::swap_chain(const ComPtr<IDXGISwapChain4>& source
 
 void wrapper::directx12::swap_chain::present(bool sync) const
 {
-	mWrapperInstance->Present(sync ? 1 : 0, 0);
+	mWrapperInstance->Present(sync ? 1 : 0, sync ? 0 : DXGI_PRESENT_ALLOW_TEARING);
 }
 
 DXGI_FORMAT wrapper::directx12::swap_chain::format() const
@@ -41,7 +41,7 @@ wrapper::directx12::swap_chain wrapper::directx12::swap_chain::create(const comm
 	desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING;
 	desc.OutputWindow = handle;
 	desc.SampleDesc.Quality = 0;
 	desc.SampleDesc.Count = 1;
