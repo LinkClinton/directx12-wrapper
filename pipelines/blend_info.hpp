@@ -2,13 +2,13 @@
 
 #include "../devices/device.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	class blend_info final {
+	class blend_info final
+	{
 	public:
 		blend_info();
-
-		~blend_info() = default;
 
 		blend_info& set_independent_blend_enable(bool enable);
 		

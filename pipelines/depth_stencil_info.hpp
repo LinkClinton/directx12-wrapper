@@ -2,13 +2,13 @@
 
 #include "../devices/device.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	class depth_stencil_info final {
+	class depth_stencil_info final
+	{
 	public:
 		depth_stencil_info();
-
-		~depth_stencil_info() = default;
 
 		depth_stencil_info& set_depth_enable(bool enable);
 

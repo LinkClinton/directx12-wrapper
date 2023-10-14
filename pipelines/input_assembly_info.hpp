@@ -5,17 +5,17 @@
 #include <vector>
 #include <string>
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	class input_assembly_info final {
+	class input_assembly_info final
+	{
 	public:
 		input_assembly_info() = default;
 
 		input_assembly_info(const input_assembly_info& info);
 
 		input_assembly_info(input_assembly_info&& info) noexcept = default;
-		
-		~input_assembly_info() = default;
 		
 		input_assembly_info& add_input_element(const std::string& name, const DXGI_FORMAT& format, uint32 slot = 0);
 

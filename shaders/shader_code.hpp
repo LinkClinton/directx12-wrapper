@@ -5,9 +5,11 @@
 #include <vector>
 #include <string>
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	class shader_code final {
+	class shader_code final
+	{
 	public:
 		shader_code() = default;
 

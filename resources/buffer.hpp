@@ -2,15 +2,15 @@
 
 #include "resource.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	class buffer final : public resource {
+	class buffer final : public resource
+	{
 	public:
 		buffer() = default;
 
 		explicit buffer(const ComPtr<ID3D12Resource>& source);
-
-		~buffer() = default;
 
 		void copy_from_cpu(const void* data, size_t size) const;
 

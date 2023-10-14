@@ -1,6 +1,7 @@
 #include "pipeline.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
 	LPCWSTR get_import(const std::wstring& str) { return str.empty() ? nullptr : str.c_str(); }
 	
@@ -116,7 +117,8 @@ wrapper::directx12::raytracing_pipeline wrapper::directx12::raytracing_pipeline:
 	std::unordered_map<ID3D12RootSignature*, shader_functions> signature_associations;
 	std::unordered_map<uint32, shader_functions> config_associations;
 
-	for (const auto& association : info.associations()) {
+	for (const auto& association : info.associations()) 
+	{
 		if (association.root_signature.has_value())
 			signature_associations[association.root_signature->signature.get()].push_back(association.function.c_str());
 
@@ -141,7 +143,8 @@ wrapper::directx12::raytracing_pipeline wrapper::directx12::raytracing_pipeline:
 
 	size_t config_index = 0;
 	
-	for (auto& config_association : config_associations) {
+	for (auto& config_association : config_associations)
+	{
 		const auto config = raytracing_shader_config::decode(config_association.first);
 
 		auto& association = associations[association_count++];
@@ -166,7 +169,8 @@ wrapper::directx12::raytracing_pipeline wrapper::directx12::raytracing_pipeline:
 
 	size_t signature_index = 0;
 
-	for (auto& signature_association : signature_associations) {
+	for (auto& signature_association : signature_associations)
+	{
 		auto& association = associations[association_count++];
 		auto& subobject_signature = subobjects[subobject_count++];
 		auto& subobject_export = subobjects[subobject_count++];
@@ -186,7 +190,8 @@ wrapper::directx12::raytracing_pipeline wrapper::directx12::raytracing_pipeline:
 
 	std::vector<D3D12_DXIL_LIBRARY_DESC> libraries(info.libraries().size());
 
-	for (size_t index = 0; index < info.libraries().size(); index++) {
+	for (size_t index = 0; index < info.libraries().size(); index++) 
+	{
 		auto& subobject = subobjects[subobject_count++];
 
 		libraries[index] = info.libraries()[index].desc();
@@ -197,7 +202,8 @@ wrapper::directx12::raytracing_pipeline wrapper::directx12::raytracing_pipeline:
 
 	std::vector<D3D12_HIT_GROUP_DESC> hit_groups(info.hit_groups().size());
 
-	for (size_t index = 0; index < info.hit_groups().size(); index++) {
+	for (size_t index = 0; index < info.hit_groups().size(); index++)
+	{
 		auto& subobject = subobjects[subobject_count++];
 		
 		hit_groups[index].Type = info.hit_groups()[index].type;
@@ -212,7 +218,8 @@ wrapper::directx12::raytracing_pipeline wrapper::directx12::raytracing_pipeline:
 
 	D3D12_GLOBAL_ROOT_SIGNATURE global_root_signature = {};
 	
-	if (info.signature().get() != nullptr) {
+	if (info.signature().get() != nullptr)
+	{
 		auto& subobject = subobjects[subobject_count++];
 
 		global_root_signature.pGlobalRootSignature = info.signature().get();

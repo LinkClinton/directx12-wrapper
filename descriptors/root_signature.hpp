@@ -6,14 +6,12 @@
 #include <vector>
 #include <string>
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 	
-	class root_signature_info final {
+	class root_signature_info final
+	{
 	public:
-		root_signature_info() = default;
-
-		~root_signature_info() = default;
-
 		root_signature_info& add_descriptor(const std::string& name, const D3D12_ROOT_PARAMETER_TYPE& type, uint32 base, uint32 space);
 
 		root_signature_info& add_descriptor_table(const std::string& name, const descriptor_table& table);
@@ -56,14 +54,13 @@ namespace wrapper::directx12 {
 		size_t mSize = 0;
 	};
 	
-	class root_signature final : public wrapper_t<ID3D12RootSignature> {
+	class root_signature final : public wrapper_t<ID3D12RootSignature>
+	{
 	public:
 		root_signature() = default;
 
 		root_signature(const ComPtr<ID3D12RootSignature>& source);
 		
-		~root_signature() = default;
-
 		static root_signature create(const device& device, const root_signature_info& info, bool local = false);
 	};
 	

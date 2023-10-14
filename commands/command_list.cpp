@@ -37,7 +37,7 @@ void wrapper::directx12::graphics_command_list::set_descriptor_heaps(
 	std::vector<ID3D12DescriptorHeap*> origins(heaps.size());
 
 	std::transform(heaps.begin(), heaps.end(), origins.begin(),
-		[](const ComPtr<ID3D12DescriptorHeap> heap) { return heap.Get(); });
+		[](const ComPtr<ID3D12DescriptorHeap>& heap) { return heap.Get(); });
 	
 	mWrapperInstance->SetDescriptorHeaps(static_cast<UINT>(heaps.size()), origins.data());
 }

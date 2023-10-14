@@ -12,9 +12,11 @@
 
 #include <fstream>
 
-namespace wrapper::directx12::extensions {
+namespace wrapper::directx12::extensions
+{
 
-	struct render_pipeline final {
+	struct render_pipeline final
+	{
 		root_signature_info root_signature_info;
 		root_signature root_signature;
 
@@ -32,16 +34,11 @@ namespace wrapper::directx12::extensions {
 		std::vector<DXGI_FORMAT> rtv_format = {};
 
 		DXGI_FORMAT dsv_format = DXGI_FORMAT_UNKNOWN;
-
-		render_pipeline() = default;
 	};
 
-	class render_pipelines final {
+	class render_pipelines final
+	{
 	public:
-		render_pipelines() = default;
-
-		~render_pipelines() = default;
-		
 		bool empty() const noexcept;
 
 		const render_pipeline& at(const std::string& name) const;

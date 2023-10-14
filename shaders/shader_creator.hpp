@@ -2,9 +2,11 @@
 
 #include "shader_code.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	struct shader_variable {
+	struct shader_variable
+	{
 		std::string semantic;
 		std::string name;
 		std::string type;
@@ -12,13 +14,12 @@ namespace wrapper::directx12 {
 
 	std::string to_string(const shader_variable& variable);
 	
-	class shader_creator final {
+	class shader_creator final
+	{
 	public:
 		shader_creator() = default;
 
 		shader_creator(const std::string& source);
-		
-		~shader_creator() = default;
 
 		shader_creator& include(const std::string& filepath, size_t line);
 

@@ -3,9 +3,11 @@
 #include "resource.hpp"
 #include "buffer.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	struct clear_value {
+	struct clear_value
+	{
 		float red = 1.f, green = 1.f, blue = 1.f, alpha = 1.f;
 		float depth = 1.f;
 		uint8 stencil = 0;
@@ -17,13 +19,12 @@ namespace wrapper::directx12 {
 		clear_value(float depth, uint8 stencil);
 	};
 	
-	class texture2d final : public resource {
+	class texture2d final : public resource
+	{
 	public:
 		texture2d() = default;
 
 		explicit texture2d(const ComPtr<ID3D12Resource>& source);
-
-		~texture2d() = default;
 
 		void copy_from(const graphics_command_list& command_list, const buffer& buffer) const;
 

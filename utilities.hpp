@@ -29,7 +29,8 @@ static_assert(false, "'__LOG_SPDLOG_IMPLEMENTATION__' and '__LOG_USER_IMPLEMENTA
 #endif
 #endif
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
 	using Microsoft::WRL::ComPtr;
 

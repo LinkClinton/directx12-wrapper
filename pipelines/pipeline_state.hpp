@@ -10,13 +10,13 @@
 #include "../shaders/shader_code.hpp"
 #include "../devices/device.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	class graphics_pipeline_info final {
+	class graphics_pipeline_info final
+	{
 	public:
 		graphics_pipeline_info();
-
-		~graphics_pipeline_info() = default;
 
 		graphics_pipeline_info& set_input_assembly(const input_assembly_info& input_assembly);
 
@@ -43,11 +43,10 @@ namespace wrapper::directx12 {
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC mDesc = {};
 	};
 
-	class compute_pipeline_info final {
+	class compute_pipeline_info final
+	{
 	public:
 		compute_pipeline_info();
-
-		~compute_pipeline_info() = default;
 
 		compute_pipeline_info& set_root_signature(const root_signature& signature);
 
@@ -58,14 +57,13 @@ namespace wrapper::directx12 {
 		D3D12_COMPUTE_PIPELINE_STATE_DESC mDesc = {};
 	};
 	
-	class pipeline_state final : public wrapper_t<ID3D12PipelineState> {
+	class pipeline_state final : public wrapper_t<ID3D12PipelineState>
+	{
 	public:
 		pipeline_state() = default;
 
 		pipeline_state(const ComPtr<ID3D12PipelineState>& source);
 		
-		~pipeline_state() = default;
-
 		static pipeline_state create(const device& device, const graphics_pipeline_info& info);
 
 		static pipeline_state create(const device& device, const compute_pipeline_info& info);

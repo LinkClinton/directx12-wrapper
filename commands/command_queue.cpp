@@ -19,7 +19,8 @@ void wrapper::directx12::command_queue::wait(const fence& fence) const
 
 	mWrapperInstance->Signal(fence.get(), value);
 
-	if (fence->GetCompletedValue() < value) {
+	if (fence->GetCompletedValue() < value) 
+	{
 		const auto event_handle = CreateEventEx(nullptr, nullptr, false, EVENT_ALL_ACCESS);
 
 		fence->SetEventOnCompletion(value, event_handle);

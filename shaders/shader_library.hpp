@@ -2,9 +2,11 @@
 
 #include "shader_code.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	class shader_library final {
+	class shader_library final
+	{
 	public:
 		shader_library() = default;
 		
@@ -13,8 +15,6 @@ namespace wrapper::directx12 {
 		shader_library(const shader_library& library);
 
 		shader_library(shader_library&& library) noexcept;
-		
-		~shader_library() = default;
 
 		D3D12_DXIL_LIBRARY_DESC desc() const noexcept;
 

@@ -2,10 +2,12 @@
 
 #include "../utilities.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
 	template <typename T>
-	class wrapper_t {
+	class wrapper_t
+	{
 	public:
 		wrapper_t() = default;
 

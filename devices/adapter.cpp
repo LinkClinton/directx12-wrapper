@@ -17,7 +17,9 @@ std::vector<wrapper::directx12::adapter> wrapper::directx12::adapter::all()
 	std::vector<directx12::adapter> adapters;
 	
 	while (factory->EnumAdapters1(index++, &adapter) != DXGI_ERROR_NOT_FOUND)
+	{
 		adapters.push_back(directx12::adapter(adapter));
-
+	}
+		
 	return adapters;
 }

@@ -12,10 +12,12 @@ wrapper::directx12::shader_creator::shader_creator(const std::string& source)
 {
 	std::string current_line;
 
-	for (const auto& character : source) {
+	for (const auto& character : source) 
+	{
 		current_line.push_back(character);
 		
-		if (character == '\n') {
+		if (character == '\n')
+		{
 			mSource.push_back(current_line);
 
 			current_line.clear();
@@ -80,7 +82,8 @@ wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::begin_fu
 {
 	mSource.push_back(type + " " + name + "(\n");
 
-	for (size_t index = 0; index < arguments.size(); index++) {
+	for (size_t index = 0; index < arguments.size(); index++)
+	{
 		mSource.push_back("\t" + to_string(arguments[index]));
 
 		if (index + 1 != arguments.size()) mSource.push_back(",\n");
@@ -117,8 +120,10 @@ wrapper::directx12::shader_creator& wrapper::directx12::shader_creator::replace(
 	size_t beg = std::numeric_limits<size_t>::max();
 	size_t end = std::numeric_limits<size_t>::max();
 	
-	for (size_t index = 0; index < mSource.size(); index++) {
-		if (mSource[index].find(keyword) != std::string::npos) {
+	for (size_t index = 0; index < mSource.size(); index++)
+	{
+		if (mSource[index].find(keyword) != std::string::npos) 
+		{
 			if (beg == std::numeric_limits<size_t>::max())
 				beg = index;
 			else { end = index; break;}

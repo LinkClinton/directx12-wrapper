@@ -11,13 +11,13 @@
 
 #include <imgui.h>
 
-namespace wrapper::directx12::extensions {
+namespace wrapper::directx12::extensions
+{
 
-	class imgui_frame_resources {
+	class imgui_frame_resources
+	{
 	public:
 		explicit imgui_frame_resources(const device& device);
-
-		~imgui_frame_resources() = default;
 
 		void update(ImDrawData* draw_data);
 
@@ -37,7 +37,8 @@ namespace wrapper::directx12::extensions {
 		size_t mCurrentIdxBufferCount = 0;
 	};
 	
-	class imgui_context final {
+	class imgui_context final
+	{
 	public:
 		imgui_context() = delete;
 

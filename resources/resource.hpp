@@ -12,7 +12,8 @@ namespace wrapper::directx12 {
 
 	using gpu_virtual_address = D3D12_GPU_VIRTUAL_ADDRESS;
 	
-	class resource_info final {
+	class resource_info final
+	{
 	public:
 		resource_info() = default;
 
@@ -55,7 +56,8 @@ namespace wrapper::directx12 {
 		D3D12_HEAP_TYPE mHeapType;
 	};
 
-	class resource_view final {
+	class resource_view final
+	{
 	public:
 		resource_view() = delete;
 
@@ -102,14 +104,13 @@ namespace wrapper::directx12 {
 		return index_buffer(buffer, sizeof(T) == 4 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT, count * sizeof(T));
 	}
 
-	class resource : public wrapper_t<ID3D12Resource> {
+	class resource : public wrapper_t<ID3D12Resource>
+	{
 	public:
 		resource() = default;
 
 		explicit resource(const ComPtr<ID3D12Resource>& source);
 		
-		~resource() = default;
-
 		auto barrier(
 			const D3D12_RESOURCE_STATES& before,
 			const D3D12_RESOURCE_STATES& after) const

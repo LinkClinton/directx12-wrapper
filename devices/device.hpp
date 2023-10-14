@@ -3,18 +3,18 @@
 #include "../interfaces/wrapper.hpp"
 #include "adapter.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
 	class resource;
 	
-	class device final : public wrapper_t<ID3D12Device5> {
+	class device final : public wrapper_t<ID3D12Device5>
+	{
 	public:
 		device() = default;
 
 		explicit device(const ComPtr<ID3D12Device5>& source);
 		
-		~device() = default;
-
 		void create_render_target_view(
 			const D3D12_RENDER_TARGET_VIEW_DESC& desc,
 			const D3D12_CPU_DESCRIPTOR_HANDLE& handle,

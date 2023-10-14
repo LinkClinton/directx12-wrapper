@@ -5,7 +5,8 @@ wrapper::directx12::shader_library::shader_library(const shader_code& shader, co
 {
 	mExports = std::vector<D3D12_EXPORT_DESC>(mFunctions.size());
 
-	for (size_t index = 0; index < mFunctions.size(); index++) {
+	for (size_t index = 0; index < mFunctions.size(); index++) 
+	{
 		mExports[index].Flags = D3D12_EXPORT_FLAG_NONE;
 		mExports[index].ExportToRename = nullptr;
 		mExports[index].Name = mFunctions[index].c_str();

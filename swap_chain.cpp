@@ -4,7 +4,8 @@ wrapper::directx12::swap_chain::swap_chain(const ComPtr<IDXGISwapChain4>& source
 {
 	mWrapperInstance->GetDesc(&mDesc);
 
-	for (UINT index = 0; index < mDesc.BufferCount; index++) {
+	for (UINT index = 0; index < mDesc.BufferCount; index++) 
+	{
 		ComPtr<ID3D12Resource> buffer;
 		
 		mWrapperInstance->GetBuffer(index, IID_PPV_ARGS(buffer.GetAddressOf()));

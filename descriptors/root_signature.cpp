@@ -155,7 +155,8 @@ wrapper::directx12::root_signature wrapper::directx12::root_signature::create(co
 	D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1, signature_blob.GetAddressOf(), error_blob.GetAddressOf());
 
 	// output error message if we have
-	if (error_blob != nullptr) {
+	if (error_blob != nullptr) 
+	{
 		auto error = copy_data_to_string(error_blob->GetBufferPointer(), error_blob->GetBufferSize());
 
 		if (!error.empty() && error.back() == '\n') error.pop_back();

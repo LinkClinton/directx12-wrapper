@@ -5,15 +5,15 @@
 
 #include <vector>
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	class swap_chain final : public wrapper_t<IDXGISwapChain4> {
+	class swap_chain final : public wrapper_t<IDXGISwapChain4>
+	{
 	public:
 		swap_chain() = default;
 
 		explicit swap_chain(const ComPtr<IDXGISwapChain4>& source);
-
-		~swap_chain() = default;
 		
 		void present(bool sync = true) const;
 

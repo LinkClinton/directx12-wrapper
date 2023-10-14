@@ -6,14 +6,14 @@
 #include <vector>
 #include <string>
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	struct cpu_descriptor_handle : D3D12_CPU_DESCRIPTOR_HANDLE {
+	struct cpu_descriptor_handle : D3D12_CPU_DESCRIPTOR_HANDLE
+	{
 		cpu_descriptor_handle() = default;
 
 		cpu_descriptor_handle(const D3D12_CPU_DESCRIPTOR_HANDLE& handle);
-		
-		~cpu_descriptor_handle() = default;
 		
 		cpu_descriptor_handle& operator+(const cpu_descriptor_handle& rhs);
 		cpu_descriptor_handle& operator-(const cpu_descriptor_handle& rhs);
@@ -21,12 +21,11 @@ namespace wrapper::directx12 {
 		cpu_descriptor_handle& operator-(size_t offset);
 	};
 	
-	struct gpu_descriptor_handle : D3D12_GPU_DESCRIPTOR_HANDLE {
+	struct gpu_descriptor_handle : D3D12_GPU_DESCRIPTOR_HANDLE
+	{
 		gpu_descriptor_handle() = default;
 
 		gpu_descriptor_handle(const D3D12_GPU_DESCRIPTOR_HANDLE& handle);
-
-		~gpu_descriptor_handle() = default;
 
 		gpu_descriptor_handle& operator+(const gpu_descriptor_handle& rhs);
 		gpu_descriptor_handle& operator-(const gpu_descriptor_handle& rhs);
@@ -34,12 +33,9 @@ namespace wrapper::directx12 {
 		gpu_descriptor_handle& operator-(size_t offset);
 	};
 	
-	class descriptor_table final {
+	class descriptor_table final
+	{
 	public:
-		descriptor_table() = default;
-
-		~descriptor_table() = default;
-		
 		descriptor_table& add_srv_range(const std::vector<std::string>& name, size_t base, size_t space);
 
 		descriptor_table& add_uav_range(const std::vector<std::string>& name, size_t base, size_t space);
@@ -59,14 +55,13 @@ namespace wrapper::directx12 {
 		std::vector<D3D12_DESCRIPTOR_RANGE> mRanges;
 	};
 	
-	class descriptor_heap final : public wrapper_t<ID3D12DescriptorHeap> {
+	class descriptor_heap final : public wrapper_t<ID3D12DescriptorHeap>
+	{
 	public:
 		descriptor_heap() = default;
 
 		explicit descriptor_heap(const ComPtr<ID3D12DescriptorHeap>& source, const ComPtr<ID3D12Device5>& device);
 		
-		~descriptor_heap() = default;
-
 		D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle(size_t index = 0) const;
 		D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle(size_t index = 0) const;
 		

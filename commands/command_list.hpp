@@ -2,12 +2,15 @@
 
 #include "command_allocator.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
 	class buffer;
 	
-	struct value32bit {
-		union {
+	struct value32bit
+	{
+		union
+		{
 			uint32 uint32;
 			int32 int32;
 			real real;
@@ -22,13 +25,12 @@ namespace wrapper::directx12 {
 		value32bit(const directx12::real& value) : real(value) {}
 	};
 	
-	class graphics_command_list final : public wrapper_t<ID3D12GraphicsCommandList4> {
+	class graphics_command_list final : public wrapper_t<ID3D12GraphicsCommandList4>
+	{
 	public:
 		graphics_command_list() = default;
 
 		explicit graphics_command_list(const ComPtr<ID3D12GraphicsCommandList4>& source);
-
-		~graphics_command_list() = default;
 
 		void clear_unordered_access_view(
 			const D3D12_CPU_DESCRIPTOR_HANDLE& cpu_handle_in_non_shader_visible_heap, 

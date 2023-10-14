@@ -11,7 +11,8 @@
 
 #pragma comment(lib, "dxcompiler.lib")
 
-namespace wrapper::directx12::extensions {
+namespace wrapper::directx12::extensions
+{
 
 	inline shader_code compile_from_source_using_dxc(const std::string& source, const std::wstring& filename, 
 		const std::wstring& entry, const std::wstring& version, const std::vector<std::pair<std::wstring, std::wstring>>& macros = {})

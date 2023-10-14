@@ -2,9 +2,11 @@
 
 #include "../utilities.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	struct pixel_format {
+	struct pixel_format
+	{
 	public:
 		pixel_format() = default;
 

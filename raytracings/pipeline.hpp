@@ -2,9 +2,11 @@
 
 #include "shader_table.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	struct raytracing_hit_group {
+	struct raytracing_hit_group
+	{
 		D3D12_HIT_GROUP_TYPE type;
 
 		std::wstring intersection;
@@ -12,16 +14,11 @@ namespace wrapper::directx12 {
 		std::wstring any;
 		
 		std::wstring name;
-
-		raytracing_hit_group() = default;
 	};
 	
-	class raytracing_pipeline_info final {
+	class raytracing_pipeline_info final
+	{
 	public:
-		raytracing_pipeline_info() = default;
-
-		~raytracing_pipeline_info() = default;
-
 		raytracing_pipeline_info& set_raytracing_shader_associations(const std::vector<raytracing_shader_association>& associations);
 		
 		raytracing_pipeline_info& set_raytracing_hit_groups(const std::vector<raytracing_hit_group>& hit_groups);
@@ -63,13 +60,12 @@ namespace wrapper::directx12 {
 		size_t mMaxDepth = 5;
 	};
 
-	class raytracing_pipeline final : public wrapper_t<ID3D12StateObject> {
+	class raytracing_pipeline final : public wrapper_t<ID3D12StateObject>
+	{
 	public:
 		raytracing_pipeline() = default;
 
 		raytracing_pipeline(const ComPtr<ID3D12StateObject>& pipeline);
-
-		~raytracing_pipeline() = default;
 
 		void* shader_identifier(const std::wstring& name) const;
 		

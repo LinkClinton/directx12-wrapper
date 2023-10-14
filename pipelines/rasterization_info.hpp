@@ -2,13 +2,13 @@
 
 #include "../devices/device.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 
-	class rasterization_info final {
+	class rasterization_info final
+	{
 	public:
 		rasterization_info();
-
-		~rasterization_info() = default;
 
 		rasterization_info& set_fill_mode(const D3D12_FILL_MODE& mode);
 

@@ -2,14 +2,12 @@
 
 #include "../resources/buffer.hpp"
 
-namespace wrapper::directx12 {
+namespace wrapper::directx12
+{
 	
-	class raytracing_geometry final {
+	class raytracing_geometry final
+	{
 	public:
-		raytracing_geometry() = default;
-
-		~raytracing_geometry() = default;
-
 		buffer acceleration() const noexcept;
 		
 		static raytracing_geometry create(
@@ -22,20 +20,16 @@ namespace wrapper::directx12 {
 		buffer mScratch;
 	};
 
-	struct raytracing_instance {
+	struct raytracing_instance
+	{
 		raytracing_geometry geometry;
 
 		real transform[3][4];
-
-		raytracing_instance() = default;
 	};
 
-	class raytracing_acceleration final {
+	class raytracing_acceleration final
+	{
 	public:
-		raytracing_acceleration() = default;
-
-		~raytracing_acceleration() = default;
-
 		buffer acceleration() const noexcept;
 
 		static raytracing_acceleration create(
