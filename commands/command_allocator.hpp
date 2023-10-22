@@ -12,6 +12,8 @@ namespace wrapper::directx12
 
 		explicit command_allocator(const ComPtr<ID3D12CommandAllocator>& source);
 
+		void reset() const;
+
 		static command_allocator create(const device& device);
 	};
 	

@@ -29,7 +29,8 @@ wrapper::directx12::raytracing_shader_table::raytracing_shader_table(
 	// first, we will loop associations to build shader record with root signature
 	// the size of shader record is not the final size
 	// because the size of different hit groups or miss shaders should be same
-	for (const auto& association : associations) {
+	for (const auto& association : associations) 
+	{
 		if (!association.root_signature.has_value()) continue;
 
 		const auto shader_record_size = align_to(
@@ -52,14 +53,16 @@ wrapper::directx12::raytracing_shader_table::raytracing_shader_table(
 	else
 		mRayGenerationShaderRecord.size = shader_record_size_without_signature;
 
-	for (const auto& miss_shader : miss_shaders) {
+	for (const auto& miss_shader : miss_shaders)
+	{
 		const auto shader_record_size = mShaderRecords.find(miss_shader) != mShaderRecords.end() ?
 			mShaderRecords[miss_shader].size : shader_record_size_without_signature;
 
 		mMissShadersRecord.size = std::max(mMissShadersRecord.size, shader_record_size);
 	}
 
-	for (const auto& hit_group : hit_groups) {
+	for (const auto& hit_group : hit_groups) 
+	{
 		const auto shader_record_size = mShaderRecords.find(hit_group) != mShaderRecords.end() ?
 			mShaderRecords[hit_group].size : shader_record_size_without_signature;
 
@@ -75,7 +78,8 @@ wrapper::directx12::raytracing_shader_table::raytracing_shader_table(
 
 	mMissShadersRecord.address = shader_record_offset;
 
-	for (const auto& miss_shader : miss_shaders) {
+	for (const auto& miss_shader : miss_shaders)
+	{
 		mShaderRecords[miss_shader] = raytracing_shader_record{ shader_record_offset, mMissShadersRecord.size };
 
 		shader_record_offset += mMissShadersRecord.size;
@@ -85,7 +89,8 @@ wrapper::directx12::raytracing_shader_table::raytracing_shader_table(
 
 	mHitGroupShadersRecord.address = shader_record_offset;
 
-	for (const auto& hit_group : hit_groups) {
+	for (const auto& hit_group : hit_groups) 
+	{
 		mShaderRecords[hit_group] = raytracing_shader_record{ shader_record_offset, mHitGroupShadersRecord.size };
 
 		shader_record_offset += mHitGroupShadersRecord.size;

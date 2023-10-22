@@ -114,6 +114,11 @@ void wrapper::directx12::graphics_command_list::resource_barrier(
 	mWrapperInstance->ResourceBarrier(static_cast<UINT>(barriers.size()), barriers.data());
 }
 
+void wrapper::directx12::graphics_command_list::reset(const command_allocator& allocator) const
+{
+	mWrapperInstance->Reset(allocator.get(), nullptr);
+}
+
 void wrapper::directx12::graphics_command_list::close() const
 {
 	mWrapperInstance->Close();

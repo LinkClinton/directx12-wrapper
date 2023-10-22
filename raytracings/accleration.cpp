@@ -1,5 +1,9 @@
 #include "accleration.hpp"
 
+wrapper::directx12::raytracing_geometry::raytracing_geometry(const buffer& acceleration) : mAcceleration(acceleration)
+{
+}
+
 wrapper::directx12::buffer wrapper::directx12::raytracing_geometry::acceleration() const noexcept
 {
 	return mAcceleration;
@@ -70,6 +74,10 @@ wrapper::directx12::raytracing_geometry wrapper::directx12::raytracing_geometry:
 	return geometry;
 }
 
+wrapper::directx12::raytracing_acceleration::raytracing_acceleration(const buffer& acceleration) : mAcceleration(acceleration)
+{
+}
+
 wrapper::directx12::buffer wrapper::directx12::raytracing_acceleration::acceleration() const noexcept
 {
 	return mAcceleration;
@@ -84,7 +92,8 @@ wrapper::directx12::raytracing_acceleration wrapper::directx12::raytracing_accel
 	
 	std::vector<D3D12_RAYTRACING_INSTANCE_DESC> instances_desc(instances.size());
 
-	for (size_t index = 0; index < instances.size(); index++) {
+	for (size_t index = 0; index < instances.size(); index++) 
+	{
 		auto& desc = instances_desc[index];
 
 		desc.Flags = D3D12_RAYTRACING_INSTANCE_FLAG_FORCE_OPAQUE;

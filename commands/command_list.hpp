@@ -69,6 +69,8 @@ namespace wrapper::directx12
 
 		void resource_barrier(const std::vector<D3D12_RESOURCE_BARRIER>& barriers) const;
 
+		void reset(const command_allocator& allocator) const;
+
 		void close() const;
 		
 		static graphics_command_list create(const device& device, const command_allocator& allocator);

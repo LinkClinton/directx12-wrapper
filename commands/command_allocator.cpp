@@ -4,6 +4,11 @@ wrapper::directx12::command_allocator::command_allocator(const ComPtr<ID3D12Comm
 {
 }
 
+void wrapper::directx12::command_allocator::reset() const
+{
+	mWrapperInstance->Reset();
+}
+
 wrapper::directx12::command_allocator wrapper::directx12::command_allocator::create(const device& device)
 {
 	ComPtr<ID3D12CommandAllocator> allocator;

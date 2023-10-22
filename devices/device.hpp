@@ -42,7 +42,9 @@ namespace wrapper::directx12
 			const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc,
 			const D3D12_CPU_DESCRIPTOR_HANDLE& handle,
 			const resource& resource) const;
-		
+
+		static void enable_debug_layer();
+
 		static device create(const D3D_FEATURE_LEVEL& level);
 
 		static device create(const adapter& adapter, const D3D_FEATURE_LEVEL& level);

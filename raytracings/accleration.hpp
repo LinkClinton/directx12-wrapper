@@ -8,6 +8,10 @@ namespace wrapper::directx12
 	class raytracing_geometry final
 	{
 	public:
+		raytracing_geometry() = default;
+
+		explicit raytracing_geometry(const buffer& acceleration);
+
 		buffer acceleration() const noexcept;
 		
 		static raytracing_geometry create(
@@ -30,6 +34,10 @@ namespace wrapper::directx12
 	class raytracing_acceleration final
 	{
 	public:
+		raytracing_acceleration() = default;
+
+		explicit raytracing_acceleration(const buffer& acceleration);
+
 		buffer acceleration() const noexcept;
 
 		static raytracing_acceleration create(
