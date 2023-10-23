@@ -53,7 +53,7 @@ wrapper::directx12::raytracing_geometry wrapper::directx12::raytracing_geometry:
 		build_info.ResultDataMaxSizeInBytes);
 
 	geometry.mScratch = buffer::create(device, resource_info::common(
-		D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
+		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
 		build_info.ScratchDataSizeInBytes);
 
 	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC acceleration_desc = {};
