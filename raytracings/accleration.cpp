@@ -108,7 +108,7 @@ wrapper::directx12::raytracing_acceleration wrapper::directx12::raytracing_accel
 	acceleration.mCpuInstances = buffer::create(device, resource_info::upload(),
 		instances_desc.size() * sizeof(D3D12_RAYTRACING_INSTANCE_DESC));
 
-	acceleration.mGpuInstances = buffer::create(device, resource_info::common(D3D12_RESOURCE_STATE_COPY_DEST), 
+	acceleration.mGpuInstances = buffer::create(device, resource_info::common(), 
 		instances_desc.size() * sizeof(D3D12_RAYTRACING_INSTANCE_DESC));
 
 	acceleration.mCpuInstances.copy_from_cpu(instances_desc.data(), instances_desc.size() * sizeof(D3D12_RAYTRACING_INSTANCE_DESC));
@@ -138,7 +138,7 @@ wrapper::directx12::raytracing_acceleration wrapper::directx12::raytracing_accel
 		build_info.ResultDataMaxSizeInBytes);
 
 	acceleration.mScratch = buffer::create(device, resource_info::common(
-		D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
+		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
 		build_info.ScratchDataSizeInBytes);
 
 	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC desc = {};

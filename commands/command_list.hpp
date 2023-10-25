@@ -60,9 +60,13 @@ namespace wrapper::directx12
 		void set_compute_descriptor_table(uint32 index, const D3D12_GPU_DESCRIPTOR_HANDLE& base) const;
 		
 		void set_graphics_shader_resource_view(uint32 index, const resource& resource) const;
-		
+
+		void set_compute_shader_resource_view(uint32 index, const resource& resource) const;
+
 		void set_graphics_constant_buffer_view(uint32 index, const buffer& resource) const;
-		
+
+		void set_compute_constant_buffer_view(uint32 index, const buffer& resource) const;
+
 		void set_graphics_constants(uint32 index, const void* data, uint32 count, uint32 offset) const;
 
 		void set_graphics_constants(uint32 index, const std::vector<value32bit>& values) const;
