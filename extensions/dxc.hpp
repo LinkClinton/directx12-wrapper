@@ -62,7 +62,10 @@ namespace wrapper::directx12::extensions
 		auto error = copy_data_to_string(error_code->GetBufferPointer(), error_code->GetBufferSize());
 
 		if (!error.empty() && error.back() == '\n') error.pop_back();
-		if (!error.empty()) directx12::error(error);
+		if (!error.empty())
+		{
+			throw std::exception(error.c_str());
+		}
 
 		auto code = std::vector<byte>(result_code->GetBufferSize());
 
@@ -138,7 +141,10 @@ namespace wrapper::directx12::extensions
 		auto error = copy_data_to_string(error_code->GetBufferPointer(), error_code->GetBufferSize());
 		
 		if (!error.empty() && error.back() == '\n') error.pop_back();
-		if (!error.empty()) directx12::error(error);
+		if (!error.empty())
+		{
+			throw std::exception(error.c_str());
+		}
 
 		auto code = std::vector<byte>(result_code->GetBufferSize());
 

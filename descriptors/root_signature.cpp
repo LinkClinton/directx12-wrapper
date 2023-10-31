@@ -160,7 +160,10 @@ wrapper::directx12::root_signature wrapper::directx12::root_signature::create(co
 		auto error = copy_data_to_string(error_blob->GetBufferPointer(), error_blob->GetBufferSize());
 
 		if (!error.empty() && error.back() == '\n') error.pop_back();
-		if (!error.empty()) directx12::error(error);
+		if (!error.empty()) 
+		{
+			throw std::exception(error.c_str());
+		}
 	}
 	
 	device->CreateRootSignature(0, signature_blob->GetBufferPointer(), signature_blob->GetBufferSize(),

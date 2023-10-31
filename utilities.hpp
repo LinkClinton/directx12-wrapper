@@ -17,21 +17,8 @@
 #undef max
 #undef min
 
-#ifndef __LOG_SPDLOG_IMPLEMENTATION__
-#else
-#pragma warning(disable : 4275)
-#include <spdlog/spdlog.h>
-#endif
-
-#ifdef __LOG_SPDLOG_IMPLEMENTATION__
-#ifdef __LOG_USER_IMPLEMENTATION__
-static_assert(false, "'__LOG_SPDLOG_IMPLEMENTATION__' and '__LOG_USER_IMPLEMENTATION__' can not be defined at the same time.");
-#endif
-#endif
-
 namespace wrapper::directx12
 {
-
 	using Microsoft::WRL::ComPtr;
 
 	using uint64 = unsigned long long;
@@ -56,55 +43,4 @@ namespace wrapper::directx12
 	std::string wide_string_to_multi_bytes_string(const std::wstring& wide_string);
 
 	std::wstring multi_bytes_string_to_wide_string(const std::string& string);
-	
-	template <typename... Args>
-	void debug(const std::string_view& format, const Args& ... args);
-
-	template <typename... Args>
-	void info(const std::string_view& format, const Args& ... args);
-
-	template <typename... Args>
-	void warn(const std::string_view& format, const Args& ... args);
-
-	template <typename... Args>
-	void error(const std::string_view& format, const Args& ... args);
-
-#ifdef __LOG_SPDLOG_IMPLEMENTATION__
-	template <typename... Args>
-	void debug(const std::string_view& format, const Args& ... args) { spdlog::debug(format, args...); }
-
-	template <typename... Args>
-	void info(const std::string_view& format, const Args& ... args) { spdlog::info(format, args...); }
-
-	template <typename... Args>
-	void warn(const std::string_view& format, const Args& ... args) { spdlog::warn(format, args...); }
-
-	template <typename... Args>
-	void error(const std::string_view& format, const Args& ... args) { spdlog::error(format, args...); }
-#else
-	template <typename... Args>
-	void debug(const std::string_view& format, const Args& ... args)
-	{
-		printf(format.data());
-	}
-
-	template <typename... Args>
-	void info(const std::string_view& format, const Args& ... args)
-	{
-		printf(format.data());
-	}
-
-	template <typename... Args>
-	void warn(const std::string_view& format, const Args& ... args)
-	{
-		printf(format.data());
-	}
-
-	template <typename... Args>
-	void error(const std::string_view& format, const Args& ... args)
-	{
-		printf(format.data());
-	}
-#endif
-	
 }
