@@ -97,8 +97,8 @@ wrapper::directx12::raytracing_acceleration wrapper::directx12::raytracing_accel
 		auto& desc = instances_desc[index];
 
 		desc.Flags = D3D12_RAYTRACING_INSTANCE_FLAG_FORCE_OPAQUE;
-		desc.InstanceID = static_cast<UINT>(index);
-		desc.InstanceContributionToHitGroupIndex = static_cast<UINT>(index);
+		desc.InstanceID = static_cast<UINT>(instances[index].identity);
+		desc.InstanceContributionToHitGroupIndex = static_cast<UINT>(instances[index].identity);
 		desc.AccelerationStructure = instances[index].geometry.acceleration()->GetGPUVirtualAddress();
 		desc.InstanceMask = 0xff;
 

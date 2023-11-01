@@ -28,6 +28,8 @@ namespace wrapper::directx12
 	{
 		raytracing_geometry geometry;
 
+		uint32 identity;
+
 		real transform[3][4];
 	};
 
