@@ -9,6 +9,8 @@
 
 #include <dxcapi.h>
 
+#include <iostream>
+
 #pragma comment(lib, "dxcompiler.lib")
 
 namespace wrapper::directx12::extensions
@@ -143,6 +145,8 @@ namespace wrapper::directx12::extensions
 		if (!error.empty() && error.back() == '\n') error.pop_back();
 		if (!error.empty())
 		{
+			std::cerr << "dxc : " << error << std::endl;
+			
 			throw std::exception(error.c_str());
 		}
 
