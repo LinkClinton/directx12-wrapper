@@ -15,9 +15,45 @@
 
 namespace wrapper::directx12::extensions
 {
+	enum class dxc_compile_option : uint32
+	{
+		none = 0,
+		debug = (1 << 0),
+		hlsl2021 = (1 << 1)
+	};
 
-	inline shader_code compile_from_source_using_dxc(const std::string& source, const std::wstring& filename, 
-		const std::wstring& entry, const std::wstring& version, const std::vector<std::pair<std::wstring, std::wstring>>& macros = {})
+	inline dxc_compile_option operator|(dxc_compile_option lhs, dxc_compile_option rhs)
+	{
+		return static_cast<dxc_compile_option>(static_cast<uint32>(lhs) | static_cast<uint32>(rhs));
+	}
+
+	inline dxc_compile_option operator&(dxc_compile_option lhs, dxc_compile_option rhs)
+	{
+		return static_cast<dxc_compile_option>(static_cast<uint32>(lhs) & static_cast<uint32>(rhs));
+	}
+
+	inline std::vector<const wchar_t*> build_compile_arguments_from_compile_option(dxc_compile_option compile_option)
+	{
+		std::vector<const wchar_t*> arguments;
+
+		if ((compile_option & dxc_compile_option::debug) != dxc_compile_option::none)
+		{
+			arguments.push_back(L"-Od");
+		}
+
+		if ((compile_option & dxc_compile_option::hlsl2021) != dxc_compile_option::none)
+		{
+			arguments.push_back(L"-HV 2021");
+		}
+
+		return arguments;
+	}
+
+	inline shader_code compile_from_source_using_dxc(
+		const std::string& source, const std::wstring& filename, 
+		const std::wstring& entry, const std::wstring& version,
+		const dxc_compile_option& compile_option = dxc_compile_option::none,
+		const std::vector<std::pair<std::wstring, std::wstring>>& macros = {})
 	{
 		ComPtr<IDxcIncludeHandler> include;
 		ComPtr<IDxcCompiler> compiler;
@@ -42,11 +78,7 @@ namespace wrapper::directx12::extensions
 		for (const auto& macro : macros)
 			defines.push_back({ macro.first.c_str(), macro.second.c_str() });
 		
-		std::vector<const wchar_t*> arguments = {
-#ifdef _DEBUG
-			L"-Od"
-#endif
-		};
+		std::vector<const wchar_t*> arguments = build_compile_arguments_from_compile_option(compile_option);
 		
 		compiler->Compile(encoding_blob.Get(), filename.c_str(), entry.c_str(),
 			version.c_str(), arguments.data(), static_cast<uint32>(arguments.size()), 
@@ -77,7 +109,9 @@ namespace wrapper::directx12::extensions
 	}
 
 	inline shader_code compile_from_source_using_dxc(const std::string& source, const std::string& filename,
-		const std::string& entry, const std::string& version, const std::vector<std::pair<std::string, std::string>>& macros = {})
+		const std::string& entry, const std::string& version,
+		const dxc_compile_option& compile_option = dxc_compile_option::none,
+		const std::vector<std::pair<std::string, std::string>>& macros = {})
 	{
 		std::vector<std::pair<std::wstring, std::wstring>> wmacros = {};
 
@@ -92,12 +126,15 @@ namespace wrapper::directx12::extensions
 			multi_bytes_string_to_wide_string(filename),
 			multi_bytes_string_to_wide_string(entry),
 			multi_bytes_string_to_wide_string(version),
+			compile_option,
 			wmacros
 		);
 	}
 	
-	inline shader_code compile_from_file_using_dxc(const std::wstring& filename, const std::wstring& entry,
-		const std::wstring& version, const std::vector<std::pair<std::wstring, std::wstring>>& macros = {})
+	inline shader_code compile_from_file_using_dxc(
+		const std::wstring& filename, const std::wstring& entry, const std::wstring& version,
+		const dxc_compile_option& compile_option = dxc_compile_option::none,
+		const std::vector<std::pair<std::wstring, std::wstring>>& macros = {})
 	{
 		ComPtr<IDxcIncludeHandler> include;
 		ComPtr<IDxcCompiler> compiler;
@@ -121,11 +158,7 @@ namespace wrapper::directx12::extensions
 		for (const auto& macro : macros)
 			defines.push_back({ macro.first.c_str(), macro.second.c_str() });
 		
-		std::vector<const wchar_t*> arguments = {
-#ifdef _DEBUG
-			L"-Od"
-#endif
-		};
+		std::vector<const wchar_t*> arguments = build_compile_arguments_from_compile_option(compile_option);
 
 		compiler->Compile(encoding_blob.Get(), filename.c_str(), entry.c_str(),
 			version.c_str(), arguments.data(), static_cast<uint32>(arguments.size()),
@@ -157,8 +190,10 @@ namespace wrapper::directx12::extensions
 		return shader_code(code);
 	}
 	
-	inline shader_code compile_from_file_using_dxc(const std::string& filename, const std::string& entry,
-		const std::string& version, const std::vector<std::pair<std::string, std::string>>& macros = {})
+	inline shader_code compile_from_file_using_dxc(
+		const std::string& filename, const std::string& entry, const std::string& version,
+		const dxc_compile_option& compile_option = dxc_compile_option::none,
+		const std::vector<std::pair<std::string, std::string>>& macros = {})
 	{
 		std::vector<std::pair<std::wstring, std::wstring>> wmacros = {};
 
@@ -172,6 +207,7 @@ namespace wrapper::directx12::extensions
 			multi_bytes_string_to_wide_string(filename),
 			multi_bytes_string_to_wide_string(entry),
 			multi_bytes_string_to_wide_string(version),
+			compile_option,
 			wmacros
 		);
 	}
