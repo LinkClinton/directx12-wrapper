@@ -135,18 +135,18 @@ wrapper::directx12::root_signature::root_signature(const ComPtr<ID3D12RootSignat
 {
 }
 
-wrapper::directx12::root_signature wrapper::directx12::root_signature::create(const device& device, const root_signature_info& info, bool local)
+wrapper::directx12::root_signature wrapper::directx12::root_signature::create(
+	const D3D12_ROOT_SIGNATURE_FLAGS& flags,
+	const device& device, const root_signature_info& info)
 {
 	D3D12_ROOT_SIGNATURE_DESC desc;
 
-	// https://docs.microsoft.com/en-us/windows/win32/api/d3d12/ne-d3d12-d3d12_root_signature_flags
-	// This flag(D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE) cannot be combined with any other root signature flags
-	desc.Flags = local ? D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE : D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	desc.Flags = flags;
 	desc.NumStaticSamplers = static_cast<UINT>(info.samplers().size());
 	desc.NumParameters = static_cast<UINT>(info.parameters().size());
 	desc.pStaticSamplers = info.samplers().data();
 	desc.pParameters = info.parameters().data();
-
+	
 	ComPtr<ID3DBlob> signature_blob = nullptr;
 	ComPtr<ID3DBlob> error_blob = nullptr;
 

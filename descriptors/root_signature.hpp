@@ -41,7 +41,9 @@ namespace wrapper::directx12
 		const std::vector<D3D12_ROOT_PARAMETER>& parameters() const;
 	private:
 		root_signature_info& add_root_parameter(const std::string& name, const D3D12_ROOT_PARAMETER& parameter);
-		
+
+		D3D12_ROOT_SIGNATURE_FLAGS mFlags = D3D12_ROOT_SIGNATURE_FLAG_NONE;
+
 		std::vector<D3D12_STATIC_SAMPLER_DESC> mStaticSamplers;
 		std::vector<D3D12_ROOT_PARAMETER> mRootParameters;
 
@@ -61,7 +63,9 @@ namespace wrapper::directx12
 
 		root_signature(const ComPtr<ID3D12RootSignature>& source);
 		
-		static root_signature create(const device& device, const root_signature_info& info, bool local = false);
+		static root_signature create(
+			const D3D12_ROOT_SIGNATURE_FLAGS& flags, 
+			const device& device, const root_signature_info& info);
 	};
 	
 }

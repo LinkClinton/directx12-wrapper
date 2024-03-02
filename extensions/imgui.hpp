@@ -322,7 +322,9 @@ namespace wrapper::directx12::extensions
 			.add_constants("view", 0, 0, 16)
 			.add_static_sampler("sampler", 0, 0);
 
-		RootSignature = root_signature::create(Device, RootSignatureInfo);
+		RootSignature = root_signature::create(
+			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT, 
+			Device, RootSignatureInfo);
 
 		static const char* vert_shader =
 			"cbuffer vertexBuffer : register(b0) \
